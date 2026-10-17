@@ -3,12 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Brain Train Pro v3.0</title>
+    <title>Trader Brain Suite v5.0</title>
     <meta name="theme-color" content="#0b0f19">
-<meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="manifest" href="data:application/manifest+json,{&quot;name&quot;:&quot;Brain Train Pro&quot;,&quot;short_name&quot;:&quot;BrainTrain&quot;,&quot;start_url&quot;:&quot;.&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;#0b0f19&quot;,&quot;theme_color&quot;:&quot;#0b0f19&quot;}">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <style>
         * {
             box-sizing: border-box;
@@ -30,51 +29,70 @@
             display: flex;
             background: #0f172a;
             border-bottom: 1px solid #1e293b;
-            padding: 8px 12px;
+            padding: 6px 8px;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
             gap: 6px;
         }
         .mode-tabs {
             display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
+            gap: 4px;
+            overflow-x: auto;
+            scrollbar-width: none;
         }
+        .mode-tabs::-webkit-scrollbar { display: none; }
         .tab-btn {
             background: #1e293b;
             color: #94a3b8;
             border: 1px solid #334155;
-            padding: 6px 11px;
+            padding: 6px 9px;
             border-radius: 6px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: 700;
+            white-space: nowrap;
             cursor: pointer;
-            transition: 0.15s;
         }
         .tab-btn.active {
             background: #2563eb;
             color: #ffffff;
             border-color: #3b82f6;
         }
+        .top-right-btns {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        #exit-btn {
+            display: none;
+            background: #dc2626;
+            color: #ffffff;
+            border: 1px solid #f87171;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            white-space: nowrap;
+            cursor: pointer;
+        }
         #sound-btn {
             background: #1e293b;
             color: #38bdf8;
             border: 1px solid #334155;
-            padding: 6px 10px;
+            padding: 6px 8px;
             border-radius: 6px;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
+            white-space: nowrap;
             cursor: pointer;
         }
         #hud {
             display: flex;
             justify-content: space-around;
             align-items: center;
-            padding: 8px 16px;
+            padding: 6px 12px;
             background-color: #1e293b;
             border-bottom: 2px solid #334155;
-            height: 58px;
+            height: 54px;
         }
         .stat-box {
             display: flex;
@@ -85,17 +103,13 @@
             font-size: 10px;
             color: #94a3b8;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
         .stat-val {
-            font-size: 19px;
+            font-size: 17px;
             font-weight: 800;
             color: #38bdf8;
         }
-        #target-val {
-            color: #f43f5e;
-            font-size: 21px;
-        }
+        #target-val { color: #f43f5e; font-size: 19px; }
         #arena {
             flex: 1;
             position: relative;
@@ -105,12 +119,21 @@
             justify-content: center;
             align-items: center;
         }
-        canvas {
-            display: block;
-            width: 100%;
-            height: 100%;
+        canvas { display: block; width: 100%; height: 100%; }
+        #mot-banner {
+            position: absolute;
+            top: 12px;
+            background: rgba(15, 23, 42, 0.92);
+            border: 1px solid #475569;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 800;
+            color: #fbbf24;
+            display: none;
+            pointer-events: none;
+            z-index: 5;
         }
-        /* DOM UI for Memory & Stroop Modes */
         #dom-game {
             display: none;
             width: 100%;
@@ -118,14 +141,24 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 14px;
         }
+        /* Matrix & Dual N-Back */
         #matrix-status {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: 700;
             color: #fbbf24;
-            margin-bottom: 16px;
-            height: 26px;
+            margin-bottom: 10px;
+            height: 24px;
+            text-align: center;
+        }
+        #nback-audio-badge {
+            display: none;
+            font-size: 20px;
+            font-weight: 900;
+            color: #38bdf8;
+            margin-bottom: 10px;
+            height: 28px;
         }
         #matrix-grid {
             display: grid;
@@ -140,128 +173,265 @@
             border: 2px solid #334155;
             border-radius: 8px;
             cursor: pointer;
-            transition: transform 0.1s, background 0.15s;
         }
         .m-cell.lit {
             background: #fbbf24;
             border-color: #fde047;
             box-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
         }
-        .m-cell.correct {
-            background: #10b981;
-            border-color: #34d399;
+        .m-cell.correct { background: #10b981; border-color: #34d399; }
+        .m-cell.wrong { background: #f43f5e; border-color: #fb7185; }
+
+        #nback-controls {
+            display: none;
+            margin-top: 18px;
+            width: 100%;
+            max-width: 360px;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
-        .m-cell.wrong {
-            background: #f43f5e;
-            border-color: #fb7185;
+        .nb-btn {
+            background: #1e293b;
+            color: #f8fafc;
+            border: 2px solid #3b82f6;
+            padding: 14px 10px;
+            font-size: 14px;
+            font-weight: 800;
+            border-radius: 10px;
+            cursor: pointer;
+            text-align: center;
         }
-        /* Stroop UI */
+        .nb-btn:active { transform: scale(0.96); }
+
+        /* Stroop + No-Go UI */
         #stroop-box {
             display: none;
             flex-direction: column;
             align-items: center;
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
+        }
+        #shot-clock-wrap {
+            width: 100%;
+            height: 8px;
+            background: #1e293b;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+        #shot-clock-bar {
+            width: 100%;
+            height: 100%;
+            background: #10b981;
         }
         #stroop-rule {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 800;
-            padding: 8px 20px;
+            padding: 8px 18px;
             border-radius: 20px;
-            margin-bottom: 20px;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            margin-bottom: 12px;
+            letter-spacing: 0.8px;
+            text-align: center;
         }
         #stroop-word {
-            font-size: 64px;
+            font-size: 54px;
             font-weight: 900;
-            margin: 20px 0 40px 0;
+            margin: 12px 0 30px 0;
             letter-spacing: 2px;
-            text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            text-align: center;
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .stroop-btns {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 14px;
+            gap: 12px;
             width: 100%;
         }
         .s-btn {
             background: #1e293b;
             color: #f8fafc;
             border: 2px solid #475569;
-            padding: 18px;
-            font-size: 18px;
+            padding: 16px;
+            font-size: 16px;
             font-weight: 800;
             border-radius: 12px;
             cursor: pointer;
         }
-        .s-btn:active {
-            transform: scale(0.96);
-            background: #334155;
+        .s-btn:active { transform: scale(0.96); background: #334155; }
+
+        /* Task Switching UI (Game 6) */
+        #switch-box {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
         }
+        .switch-arena-grid {
+            width: 100%;
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 14px;
+            overflow: hidden;
+            margin-bottom: 18px;
+        }
+        .sw-zone {
+            height: 105px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 8px;
+            position: relative;
+        }
+        #sw-top {
+            border-bottom: 2px dashed #475569;
+            background: rgba(37, 99, 235, 0.08);
+        }
+        #sw-bottom {
+            background: rgba(16, 185, 129, 0.08);
+        }
+        .sw-zone-label {
+            position: absolute;
+            top: 6px;
+            font-size: 11px;
+            font-weight: 800;
+            color: #94a3b8;
+            letter-spacing: 0.5px;
+        }
+        .sw-card {
+            font-size: 44px;
+            font-weight: 900;
+            color: #f8fafc;
+            margin-top: 12px;
+            letter-spacing: 3px;
+        }
+
+        /* Reverse Span UI (Game 7) */
+        #rev-box {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 360px;
+        }
+        #rev-status {
+            font-size: 15px;
+            font-weight: 700;
+            color: #fbbf24;
+            margin-bottom: 10px;
+        }
+        #rev-display {
+            width: 100%;
+            height: 90px;
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 46px;
+            font-weight: 900;
+            color: #38bdf8;
+            letter-spacing: 6px;
+            margin-bottom: 16px;
+        }
+        .rev-pad {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            width: 100%;
+        }
+        .r-key {
+            background: #1e293b;
+            color: #f8fafc;
+            border: 2px solid #475569;
+            padding: 14px;
+            font-size: 20px;
+            font-weight: 800;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .r-key:active { transform: scale(0.95); background: #3b82f6; }
+
+        /* Overlay & Tier Selectors */
         #overlay {
             position: absolute;
             inset: 0;
-            background: rgba(11, 15, 25, 0.94);
+            background: rgba(11, 15, 25, 0.95);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 10;
-            padding: 24px;
+            padding: 20px;
             text-align: center;
         }
-        h1 {
-            font-size: 26px;
-            margin-bottom: 8px;
-            color: #f8fafc;
+        h1 { font-size: 23px; margin-bottom: 8px; color: #f8fafc; }
+        p { font-size: 14px; color: #cbd5e1; max-width: 410px; margin-bottom: 16px; line-height: 1.5; }
+        .penalty-tag { color: #f43f5e; font-weight: bold; }
+        .bonus-tag { color: #10b981; font-weight: bold; }
+
+        .tier-selector-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
-        p {
-            font-size: 15px;
-            color: #cbd5e1;
-            max-width: 400px;
-            margin-bottom: 24px;
-            line-height: 1.5;
+        .tier-btn {
+            background: #1e293b;
+            color: #94a3b8;
+            border: 1px solid #475569;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
         }
-        .penalty-tag {
-            color: #f43f5e;
-            font-weight: bold;
+        .tier-btn.active {
+            background: #10b981;
+            color: #0b0f19;
+            border-color: #34d399;
         }
         .main-btn {
             background: #2563eb;
             color: white;
             border: none;
-            padding: 14px 36px;
-            font-size: 18px;
+            padding: 14px 34px;
+            font-size: 17px;
             font-weight: 700;
             border-radius: 10px;
             cursor: pointer;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
         }
-        #results {
-            margin-bottom: 20px;
-            font-size: 16px;
-            color: #38bdf8;
-            line-height: 1.8;
-        }
+        #results { margin-bottom: 16px; font-size: 15px; color: #38bdf8; line-height: 1.7; }
     </style>
 </head>
 <body>
 
     <div id="top-nav">
         <div class="mode-tabs">
-            <button class="tab-btn active" id="tab-schulte" onclick="switchMode('schulte')">1. Floating Grid</button>
-            <button class="tab-btn" id="tab-dot" onclick="switchMode('dot')">2. Red Dot Reflex</button>
-            <button class="tab-btn" id="tab-memory" onclick="switchMode('memory')">3. Memory Matrix</button>
-            <button class="tab-btn" id="tab-stroop" onclick="switchMode('stroop')">4. Impulse Stroop</button>
+            <button class="tab-btn active" id="tab-schulte" onclick="switchMode('schulte')">1. Grid</button>
+            <button class="tab-btn" id="tab-dot" onclick="switchMode('dot')">2. MOT</button>
+            <button class="tab-btn" id="tab-memory" onclick="switchMode('memory')">3. Matrix</button>
+            <button class="tab-btn" id="tab-stroop" onclick="switchMode('stroop')">4. No-Go</button>
+            <button class="tab-btn" id="tab-nback" onclick="switchMode('nback')">5. Dual N-Back</button>
+            <button class="tab-btn" id="tab-switch" onclick="switchMode('switch')">6. Switch</button>
+            <button class="tab-btn" id="tab-reverse" onclick="switchMode('reverse')">7. Reverse</button>
         </div>
-        <button id="sound-btn" onclick="toggleSound()">🔊 Sound: ON</button>
+        <div class="top-right-btns">
+            <button id="exit-btn" onclick="exitCurrentGame()">✖ EXIT</button>
+            <button id="sound-btn" onclick="toggleSound()">🔊 ON</button>
+        </div>
     </div>
 
     <div id="hud">
         <div class="stat-box">
             <span class="stat-label" id="label-1">Target</span>
-            <span class="stat-val" id="target-val">1</span>
+            <span class="stat-val" id="target-val">1/25</span>
         </div>
         <div class="stat-box">
             <span class="stat-label" id="label-2">Time</span>
@@ -279,16 +449,23 @@
 
     <div id="arena">
         <canvas id="gameCanvas"></canvas>
+        <div id="mot-banner">MEMORIZE 3 RED DOTS!</div>
 
         <div id="dom-game">
-            <!-- Game 3: Memory Matrix -->
+            <!-- Game 3 & 5: Matrix & Dual N-Back -->
             <div id="matrix-wrap" style="display:none; flex-direction:column; align-items:center;">
                 <div id="matrix-status">Watch the pattern...</div>
+                <div id="nback-audio-badge">🔊 Letter: -</div>
                 <div id="matrix-grid"></div>
+                <div id="nback-controls">
+                    <button class="nb-btn" id="nb-pos-btn" onclick="handleDualNBack('pos')">👁️ POSITION MATCH</button>
+                    <button class="nb-btn" id="nb-aud-btn" onclick="handleDualNBack('aud')">🔊 AUDIO MATCH</button>
+                </div>
             </div>
 
-            <!-- Game 4: Stroop Impulse -->
+            <!-- Game 4: Stroop + No-Go Bomb -->
             <div id="stroop-box">
+                <div id="shot-clock-wrap"><div id="shot-clock-bar"></div></div>
                 <div id="stroop-rule">TAP INK COLOR</div>
                 <div id="stroop-word">RED</div>
                 <div class="stroop-btns">
@@ -298,59 +475,103 @@
                     <button class="s-btn" onclick="handleStroop('YELLOW')">YELLOW</button>
                 </div>
             </div>
+
+            <!-- Game 6: Cognitive Task Switching -->
+            <div id="switch-box">
+                <div class="switch-arena-grid">
+                    <div class="sw-zone" id="sw-top">
+                        <span class="sw-zone-label">⬆️ TOP ZONE: CHECK NUMBER (EVEN / ODD)</span>
+                        <div class="sw-card" id="sw-card-top"></div>
+                    </div>
+                    <div class="sw-zone" id="sw-bottom">
+                        <span class="sw-zone-label">⬇️ BOTTOM ZONE: CHECK LETTER (VOWEL / CONSONANT)</span>
+                        <div class="sw-card" id="sw-card-bottom"></div>
+                    </div>
+                </div>
+                <div class="stroop-btns">
+                    <button class="s-btn" id="sw-btn-left" onclick="handleSwitchTap('LEFT')">EVEN / VOWEL</button>
+                    <button class="s-btn" id="sw-btn-right" onclick="handleSwitchTap('RIGHT')">ODD / CONSONANT</button>
+                </div>
+            </div>
+
+            <!-- Game 7: Reverse Span -->
+            <div id="rev-box">
+                <div id="rev-status">Watch sequence carefully...</div>
+                <div id="rev-display">-</div>
+                <div class="rev-pad">
+                    <button class="r-key" onclick="handleRevKey(1)">1</button>
+                    <button class="r-key" onclick="handleRevKey(2)">2</button>
+                    <button class="r-key" onclick="handleRevKey(3)">3</button>
+                    <button class="r-key" onclick="handleRevKey(4)">4</button>
+                    <button class="r-key" onclick="handleRevKey(5)">5</button>
+                    <button class="r-key" onclick="handleRevKey(6)">6</button>
+                    <button class="r-key" onclick="handleRevKey(7)">7</button>
+                    <button class="r-key" onclick="handleRevKey(8)">8</button>
+                    <button class="r-key" onclick="handleRevKey(9)">9</button>
+                </div>
+            </div>
         </div>
 
         <div id="overlay">
-            <h1 id="title-text">FLOATING SCHULTE</h1>
+            <h1 id="title-text">1. CROWDED SCHULTE GRID</h1>
             <p id="desc-text">
-                1 se 25 tak numbers ko sequence mein tap karein.<br>
-                Har sahi tap par speed badhegi.<br>
+                Numbers tap karne ke baad <b>gayab NAHI honge!</b><br>
+                Bheed ke beech 1 se aakhri number tak sequence mein dhoondhein.<br>
                 <span class="penalty-tag">Galat tap = +2.0s Penalty!</span>
             </p>
+            <div id="grid-tier-select" class="tier-selector-row">
+                <button class="tier-btn active" onclick="setSchulteTier(0)">Lvl 1 (25)</button>
+                <button class="tier-btn" onclick="setSchulteTier(1)">Lvl 2 (35)</button>
+                <button class="tier-btn" onclick="setSchulteTier(2)">Lvl 3 (40)</button>
+                <button class="tier-btn" onclick="setSchulteTier(3)">Lvl 4 (50)</button>
+            </div>
+            <div id="nback-tier-select" class="tier-selector-row" style="display:none;">
+                <button class="tier-btn active" onclick="setNBackLevel(2)">2-Back (Normal)</button>
+                <button class="tier-btn" onclick="setNBackLevel(3)">3-Back (Hard)</button>
+                <button class="tier-btn" onclick="setNBackLevel(4)">4-Back (Extreme)</button>
+            </div>
             <div id="results" style="display:none;"></div>
             <button class="main-btn" id="start-btn">START TRAINING</button>
         </div>
     </div>
 
     <script>
-        // --- SOUND SYNTHESIZER ---
-        let audioCtx = null;
-        let soundEnabled = true;
-
+        // --- SOUND & SPEECH ENGINE ---
+        let audioCtx = null, soundEnabled = true;
         function initAudio() {
             if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
             if (audioCtx.state === 'suspended') audioCtx.resume();
         }
         function toggleSound() {
             soundEnabled = !soundEnabled;
-            document.getElementById('sound-btn').textContent = soundEnabled ? '🔊 Sound: ON' : '🔇 Sound: OFF';
+            document.getElementById('sound-btn').textContent = soundEnabled ? '🔊 ON' : '🔇 OFF';
+        }
+        function speakLetter(letter) {
+            if (!soundEnabled || !('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            const utter = new SpeechSynthesisUtterance(letter.toLowerCase());
+            utter.rate = 1.35;
+            utter.pitch = 1.0;
+            window.speechSynthesis.speak(utter);
         }
         function playHitSound(step = 10, maxSteps = 25) {
             if (!soundEnabled) return;
             initAudio();
-            const now = audioCtx.currentTime;
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
+            const now = audioCtx.currentTime, osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
             const freq = 320 + (Math.min(step, maxSteps) / maxSteps) * 560;
-            osc.type = 'sine';
-            osc.frequency.setValueAtTime(freq, now);
+            osc.type = 'sine'; osc.frequency.setValueAtTime(freq, now);
             osc.frequency.exponentialRampToValueAtTime(freq * 1.25, now + 0.08);
-            gain.gain.setValueAtTime(0.25, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+            gain.gain.setValueAtTime(0.25, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
             osc.connect(gain); gain.connect(audioCtx.destination);
             osc.start(now); osc.stop(now + 0.08);
         }
         function playErrorSound() {
             if (!soundEnabled) return;
             initAudio();
-            const now = audioCtx.currentTime;
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.type = 'sawtooth';
-            osc.frequency.setValueAtTime(140, now);
+            const now = audioCtx.currentTime, osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+            osc.type = 'sawtooth'; osc.frequency.setValueAtTime(140, now);
             osc.frequency.linearRampToValueAtTime(90, now + 0.22);
-            gain.gain.setValueAtTime(0.3, now);
-            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+            gain.gain.setValueAtTime(0.3, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
             osc.connect(gain); gain.connect(audioCtx.destination);
             osc.start(now); osc.stop(now + 0.22);
         }
@@ -358,24 +579,28 @@
             if (!soundEnabled) return;
             initAudio();
             [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
-                const now = audioCtx.currentTime + idx * 0.08;
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(freq, now);
-                gain.gain.setValueAtTime(0.22, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+                const now = audioCtx.currentTime + idx * 0.08, osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+                osc.type = 'triangle'; osc.frequency.setValueAtTime(freq, now);
+                gain.gain.setValueAtTime(0.22, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
                 osc.connect(gain); gain.connect(audioCtx.destination);
                 osc.start(now); osc.stop(now + 0.28);
             });
         }
 
-        // --- GLOBAL GAME STATE ---
+        // --- GLOBAL STATE ---
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
+        const motBanner = document.getElementById('mot-banner');
         const domGame = document.getElementById('dom-game');
         const matrixWrap = document.getElementById('matrix-wrap');
         const stroopBox = document.getElementById('stroop-box');
+        const switchBox = document.getElementById('switch-box');
+        const revBox = document.getElementById('rev-box');
+        const nbackControls = document.getElementById('nback-controls');
+        const nbackAudioBadge = document.getElementById('nback-audio-badge');
+        const tierSelect = document.getElementById('grid-tier-select');
+        const nbackTierSelect = document.getElementById('nback-tier-select');
+        const exitBtn = document.getElementById('exit-btn');
         const targetEl = document.getElementById('target-val');
         const timeEl = document.getElementById('time-val');
         const errorEl = document.getElementById('error-val');
@@ -386,37 +611,42 @@
         const titleEl = document.getElementById('title-text');
         const descEl = document.getElementById('desc-text');
 
-        let currentMode = 'schulte';
-        let isPlaying = false;
-        let animId = null;
-        let startTime = 0;
-        let errors = 0;
-
-        // Canvas Games State
-        let nodes = [];
-        let currentTarget = 1;
-        let penaltyTime = 0;
-        let speedMultiplier = 1;
+        let currentMode = 'schulte', isPlaying = false, animId = null, timerId = null;
+        let startTime = 0, errors = 0, nodes = [], currentTarget = 1, penaltyTime = 0, speedMultiplier = 1;
         let flashColor = null, flashTimer = 0;
-        let redIndex = 0, dotScore = 0, lastJumpTime = 0;
 
-        // Memory Matrix State
-        let memLevel = 1;
-        let memGridSize = 3;
-        let memTargets = [];
-        let memPicked = [];
-        let memLives = 3;
-        let memAcceptInput = false;
+        // 1. Schulte Tiers
+        const SCHULTE_TIERS = [25, 35, 40, 50];
+        let schulteTierIdx = 0;
 
-        // Stroop State
-        let stroopScore = 0;
-        let stroopAnswer = '';
+        // 2. MOT State
+        const MOT_DURATIONS = [5000, 7000, 10000, 12000, 15000, 18000, 21000];
+        let motLevel = 1, motPhase = 'memorize', motPhaseStart = 0, motTrackDuration = 5000, motFound = 0, motLives = 3;
+
+        // 3. Memory Matrix State
+        let memLevel = 1, memGridSize = 3, memTargets = [], memPicked = [], memLives = 3, memAcceptInput = false;
+
+        // 4. Stroop + No-Go Bomb State
+        let stroopScore = 0, stroopAnswer = '', stroopIsNoGo = false, questionStartTime = 0, shotClockLimit = 1800;
         const COLORS = [
             { name: 'RED', hex: '#ef4444' },
             { name: 'BLUE', hex: '#3b82f6' },
             { name: 'GREEN', hex: '#10b981' },
             { name: 'YELLOW', hex: '#eab308' }
         ];
+
+        // 5. Dual N-Back State
+        const NBACK_LETTERS = ['C', 'H', 'K', 'L', 'Q', 'R', 'S', 'T'];
+        let nBackLevel = 2, nbackPosHist = [], nbackAudHist = [], nbackStep = 0, nbackScore = 0;
+        let nbPosPressed = false, nbAudPressed = false;
+
+        // 6. Task Switching State
+        let switchScore = 0, switchIsTop = true, switchNum = 2, switchChar = 'A';
+        const VOWELS = ['A', 'E', 'I', 'O', 'U'];
+        const CONSONANTS = ['B', 'K', 'M', 'R', 'T'];
+
+        // 7. Reverse Span State
+        let revLength = 4, revSeq = [], revUserIdx = 0, revLives = 3, revAcceptInput = false;
 
         function resizeCanvas() {
             canvas.width = canvas.parentElement.clientWidth;
@@ -425,12 +655,53 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
+        function stopAllTimers() {
+            isPlaying = false;
+            if (animId) cancelAnimationFrame(animId);
+            if (timerId) clearTimeout(timerId);
+            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            exitBtn.style.display = 'none';
+            motBanner.style.display = 'none';
+        }
+
+        function exitCurrentGame() {
+            stopAllTimers();
+            switchMode(currentMode);
+        }
+
+        function setSchulteTier(idx) {
+            schulteTierIdx = idx;
+            document.querySelectorAll('#grid-tier-select .tier-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+            targetEl.textContent = `1/${SCHULTE_TIERS[schulteTierIdx]}`;
+            updateBestDisplay();
+        }
+
+        function setNBackLevel(n) {
+            nBackLevel = n;
+            document.querySelectorAll('#nback-tier-select .tier-btn').forEach(b => {
+                b.classList.toggle('active', b.textContent.startsWith(n + '-Back'));
+            });
+            updateBestDisplay();
+        }
+
         function updateBestDisplay() {
+            if (currentMode === 'schulte') {
+                const maxNum = SCHULTE_TIERS[schulteTierIdx];
+                const val = localStorage.getItem('brain_best_time_' + maxNum);
+                bestEl.textContent = val ? val + 's' : '--';
+                return;
+            }
+            if (currentMode === 'nback') {
+                const val = localStorage.getItem('brain_best_nback_' + nBackLevel);
+                bestEl.textContent = val ? val + ' pts' : '--';
+                return;
+            }
             const keys = {
-                schulte: ['brain_best_time', 's'],
-                dot: ['brain_best_dot', ' hits'],
+                dot: ['brain_best_mot', ' lvl'],
                 memory: ['brain_best_mem', ' lvl'],
-                stroop: ['brain_best_stroop', ' pts']
+                stroop: ['brain_best_stroop', ' pts'],
+                switch: ['brain_best_switch', ' pts'],
+                reverse: ['brain_best_rev', ' dig']
             };
             const [k, unit] = keys[currentMode];
             const val = localStorage.getItem(k);
@@ -439,19 +710,24 @@
         updateBestDisplay();
 
         function switchMode(mode) {
-            isPlaying = false;
-            if (animId) cancelAnimationFrame(animId);
+            stopAllTimers();
             currentMode = mode;
 
-            ['schulte', 'dot', 'memory', 'stroop'].forEach(m => {
+            ['schulte', 'dot', 'memory', 'stroop', 'nback', 'switch', 'reverse'].forEach(m => {
                 document.getElementById('tab-' + m).classList.toggle('active', m === mode);
             });
 
             const isCanvas = (mode === 'schulte' || mode === 'dot');
             canvas.style.display = isCanvas ? 'block' : 'none';
             domGame.style.display = isCanvas ? 'none' : 'flex';
-            matrixWrap.style.display = (mode === 'memory') ? 'flex' : 'none';
+            matrixWrap.style.display = (mode === 'memory' || mode === 'nback') ? 'flex' : 'none';
+            nbackControls.style.display = (mode === 'nback') ? 'grid' : 'none';
+            nbackAudioBadge.style.display = (mode === 'nback') ? 'block' : 'none';
             stroopBox.style.display = (mode === 'stroop') ? 'flex' : 'none';
+            switchBox.style.display = (mode === 'switch') ? 'flex' : 'none';
+            revBox.style.display = (mode === 'reverse') ? 'flex' : 'none';
+            tierSelect.style.display = (mode === 'schulte') ? 'flex' : 'none';
+            nbackTierSelect.style.display = (mode === 'nback') ? 'flex' : 'none';
 
             resultsEl.style.display = 'none';
             overlay.style.display = 'flex';
@@ -459,76 +735,537 @@
             errorEl.textContent = '0';
 
             if (mode === 'schulte') {
+                const maxNum = SCHULTE_TIERS[schulteTierIdx];
                 document.getElementById('label-1').textContent = 'Target';
                 document.getElementById('label-2').textContent = 'Time';
                 document.getElementById('label-3').textContent = 'Errors';
-                targetEl.textContent = '1'; timeEl.textContent = '0.0s';
-                titleEl.textContent = '1. FLOATING SCHULTE';
-                descEl.innerHTML = '1 se 25 tak numbers ko sequence mein tap karein.<br>Peripheral vision aur visual search speed ke liye.<br><span class="penalty-tag">Galat tap = +2.0s Penalty!</span>';
+                targetEl.textContent = `1/${maxNum}`; timeEl.textContent = '0.0s';
+                titleEl.textContent = '1. CROWDED SCHULTE GRID';
+                descEl.innerHTML = 'Numbers tap karne ke baad <b>gayab NAHI honge!</b><br>Clear karte hi level <b>25 → 35 → 40 → 50</b> tak badhega.<br><span class="penalty-tag">Galat tap = +2.0s Penalty!</span>';
             } else if (mode === 'dot') {
-                document.getElementById('label-1').textContent = 'Hits';
-                document.getElementById('label-2').textContent = 'Time Left';
-                document.getElementById('label-3').textContent = 'Errors';
-                targetEl.textContent = '0'; timeEl.textContent = '30.0s';
-                titleEl.textContent = '2. RED DOT REFLEX';
-                descEl.innerHTML = '12 moving dots mein se sirf <b>RED DOT</b> ko tap karein!<br>2.2s mein tap nahi kiya toh Red Dot jump kar jayega.<br><span class="penalty-tag">White dot tap = -1 Score!</span>';
+                document.getElementById('label-1').textContent = 'Level';
+                document.getElementById('label-2').textContent = 'Track Time';
+                document.getElementById('label-3').textContent = 'Lives';
+                targetEl.textContent = '1'; timeEl.textContent = '5.0s'; errorEl.textContent = '3 ❤️';
+                titleEl.textContent = '2. ENDURANCE MOT TRACKER';
+                descEl.innerHTML = '2 second ke liye <b>3 RED DOTS</b> dikhenge, phir <b>WHITE</b> hokar ghoomenge!<br>Har level par tracking time <b>5s → 7s → 10s → 15s+</b> badhega!';
             } else if (mode === 'memory') {
                 document.getElementById('label-1').textContent = 'Level';
                 document.getElementById('label-2').textContent = 'Tiles';
                 document.getElementById('label-3').textContent = 'Lives';
                 targetEl.textContent = '1'; timeEl.textContent = '3'; errorEl.textContent = '3 ❤️';
                 titleEl.textContent = '3. MEMORY MATRIX';
-                descEl.innerHTML = 'Yellow tiles 1 second ke liye blink hongi.<br>Unki exact position yaad rakhein aur chhupne ke baad tap karein!<br><span class="penalty-tag">3 Galat rounds = Game Over!</span>';
+                descEl.innerHTML = 'Yellow tiles 1 second ke liye blink hongi.<br>Unki exact position yaad rakhein aur chhupne ke baad tap karein!';
             } else if (mode === 'stroop') {
                 document.getElementById('label-1').textContent = 'Score';
                 document.getElementById('label-2').textContent = 'Time Left';
                 document.getElementById('label-3').textContent = 'Errors';
                 targetEl.textContent = '0'; timeEl.textContent = '45.0s';
-                titleEl.textContent = '4. STROOP IMPULSE CONTROL';
-                descEl.innerHTML = 'Dimag ke autopilot ko rokein! Upar rule dekhein:<br>Agar <b>INK COLOR</b> likha hai toh word ka <b>RANG</b> chunein.<br>Agar <b>WORD MEANING</b> likha hai toh jo <b>LIKHA HAI</b> wo chunein!<br><span class="penalty-tag">Galat tap = -2 Score!</span>';
+                titleEl.textContent = '4. STROOP + NO-GO BOMB';
+                descEl.innerHTML = '<b>INK COLOR</b> = Rang chunein | <b>WORD MEANING</b> = Shabd chunein.<br><span class="penalty-tag">💣 TWIST: Jab "BOMB / NO-GO" aaye toh haath rokein (Click mat karein)!</span><br><span class="bonus-tag">Haath rokne par +4 Discipline Bonus!</span>';
+            } else if (mode === 'nback') {
+                document.getElementById('label-1').textContent = 'Score';
+                document.getElementById('label-2').textContent = 'Step';
+                document.getElementById('label-3').textContent = 'Errors';
+                targetEl.textContent = '0'; timeEl.textContent = '0/22';
+                titleEl.textContent = '5. AUDIO-VISUAL DUAL N-BACK';
+                descEl.innerHTML = 'Har step par <b>Tile blink</b> hogi aur <b>Letter (C, K, T...) ki aawaz</b> aayegi.<br>Agar Position ya Audio <b>N steps pehle</b> se match kare toh neeche button dabayein!';
+            } else if (mode === 'switch') {
+                document.getElementById('label-1').textContent = 'Score';
+                document.getElementById('label-2').textContent = 'Time Left';
+                document.getElementById('label-3').textContent = 'Errors';
+                targetEl.textContent = '0'; timeEl.textContent = '45.0s';
+                titleEl.textContent = '6. COGNITIVE TASK SWITCHING';
+                descEl.innerHTML = 'Agar Card <b>UPAR (Top)</b> aaye -> Number dekhein (<b>EVEN</b> ya <b>ODD</b>).<br>Agar Card <b>NEECHE (Bottom)</b> aaye -> Letter dekhein (<b>VOWEL</b> ya <b>CONSONANT</b>).<br><span class="penalty-tag">Mental gear-shifting speed test!</span>';
+            } else if (mode === 'reverse') {
+                document.getElementById('label-1').textContent = 'Digits';
+                document.getElementById('label-2').textContent = 'Progress';
+                document.getElementById('label-3').textContent = 'Lives';
+                targetEl.textContent = '4'; timeEl.textContent = '0/4'; errorEl.textContent = '3 ❤️';
+                titleEl.textContent = '7. REVERSE SPAN (MANIPULATION)';
+                descEl.innerHTML = 'Numbers ek-ek karke flash honge (jaise: <b>4 → 9 → 2 → 7</b>).<br>Aapko unhe dimag mein palat kar <b>ULTE KRAM (7 → 2 → 9 → 4)</b> mein type karna hai!';
             }
             updateBestDisplay();
         }
 
         function initGame() {
             initAudio();
-            errors = 0;
-            errorEl.textContent = '0';
+            errors = 0; errorEl.textContent = '0';
             overlay.style.display = 'none';
+            exitBtn.style.display = 'block';
             isPlaying = true;
             startTime = performance.now();
 
-            if (currentMode === 'schulte' || currentMode === 'dot') {
-                initCanvasGame();
+            if (currentMode === 'schulte') {
+                initSchulte();
+            } else if (currentMode === 'dot') {
+                motLevel = 1; motLives = 3; errorEl.textContent = '3 ❤️';
+                startMotRound();
             } else if (currentMode === 'memory') {
-                memLevel = 1;
-                memLives = 3;
-                errorEl.textContent = '3 ❤️';
+                memLevel = 1; memLives = 3; errorEl.textContent = '3 ❤️';
                 startMemoryRound();
             } else if (currentMode === 'stroop') {
-                stroopScore = 0;
-                targetEl.textContent = '0';
+                stroopScore = 0; targetEl.textContent = '0';
                 nextStroopQuestion();
                 if (animId) cancelAnimationFrame(animId);
                 stroopLoop();
+            } else if (currentMode === 'nback') {
+                startNBackGame();
+            } else if (currentMode === 'switch') {
+                switchScore = 0; targetEl.textContent = '0';
+                nextSwitchCard();
+                if (animId) cancelAnimationFrame(animId);
+                switchLoop();
+            } else if (currentMode === 'reverse') {
+                revLength = 4; revLives = 3; errorEl.textContent = '3 ❤️';
+                startRevRound();
             }
         }
 
-        // --- GAME 3: MEMORY MATRIX LOGIC ---
+        // --- GAME 6: COGNITIVE TASK SWITCHING ---
+        function nextSwitchCard() {
+            switchIsTop = Math.random() < 0.5;
+            switchNum = Math.floor(Math.random() * 8) + 2; // 2 to 9
+            const isVowel = Math.random() < 0.5;
+            switchChar = isVowel
+                ? VOWELS[Math.floor(Math.random() * VOWELS.length)]
+                : CONSONANTS[Math.floor(Math.random() * CONSONANTS.length)];
+
+            const cardText = `${switchNum}${switchChar}`;
+            document.getElementById('sw-card-top').textContent = switchIsTop ? cardText : '';
+            document.getElementById('sw-card-bottom').textContent = switchIsTop ? '' : cardText;
+            document.getElementById('sw-top').style.background = switchIsTop ? 'rgba(37, 99, 235, 0.22)' : 'rgba(15, 23, 42, 0.4)';
+            document.getElementById('sw-bottom').style.background = !switchIsTop ? 'rgba(16, 185, 129, 0.22)' : 'rgba(15, 23, 42, 0.4)';
+        }
+
+        function handleSwitchTap(side) {
+            if (!isPlaying || currentMode !== 'switch') return;
+            // LEFT button = EVEN (if top) or VOWEL (if bottom)
+            // RIGHT button = ODD (if top) or CONSONANT (if bottom)
+            let correctSide = '';
+            if (switchIsTop) {
+                correctSide = (switchNum % 2 === 0) ? 'LEFT' : 'RIGHT';
+            } else {
+                correctSide = VOWELS.includes(switchChar) ? 'LEFT' : 'RIGHT';
+            }
+
+            if (side === correctSide) {
+                switchScore += 3;
+                playHitSound(Math.min(switchScore, 60), 60);
+            } else {
+                errors++;
+                switchScore = Math.max(0, switchScore - 2);
+                errorEl.textContent = errors;
+                playErrorSound();
+            }
+            targetEl.textContent = switchScore;
+            nextSwitchCard();
+        }
+
+        function switchLoop() {
+            if (!isPlaying || currentMode !== 'switch') return;
+            const remaining = Math.max(0, 45 - ((performance.now() - startTime) / 1000));
+            timeEl.textContent = remaining.toFixed(1) + 's';
+            if (remaining <= 0) { finishGame(); return; }
+            animId = requestAnimationFrame(switchLoop);
+        }
+
+        // --- GAME 7: REVERSE SPAN ---
+        function startRevRound() {
+            revAcceptInput = false;
+            revUserIdx = 0;
+            revSeq = [];
+            for (let i = 0; i < revLength; i++) {
+                let d;
+                do { d = Math.floor(Math.random() * 9) + 1; } while (i > 0 && d === revSeq[i - 1]);
+                revSeq.push(d);
+            }
+            targetEl.textContent = revLength + ' Dig';
+            timeEl.textContent = `0/${revLength}`;
+            document.getElementById('rev-status').textContent = '👀 Watch sequence...';
+            document.getElementById('rev-status').style.color = '#fbbf24';
+            document.getElementById('rev-display').textContent = '-';
+
+            let step = 0;
+            function flashNextDigit() {
+                if (!isPlaying || currentMode !== 'reverse') return;
+                if (step < revLength) {
+                    document.getElementById('rev-display').textContent = revSeq[step];
+                    playHitSound(step + 1, revLength);
+                    step++;
+                    timerId = setTimeout(() => {
+                        document.getElementById('rev-display').textContent = '';
+                        timerId = setTimeout(flashNextDigit, 220);
+                    }, 680);
+                } else {
+                    document.getElementById('rev-status').textContent = '⏪ Enter in REVERSE Order!';
+                    document.getElementById('rev-status').style.color = '#38bdf8';
+                    document.getElementById('rev-display').textContent = '?';
+                    revAcceptInput = true;
+                }
+            }
+            timerId = setTimeout(flashNextDigit, 500);
+        }
+
+        function handleRevKey(num) {
+            if (!isPlaying || currentMode !== 'reverse' || !revAcceptInput) return;
+            const expected = revSeq[revLength - 1 - revUserIdx];
+
+            if (num === expected) {
+                revUserIdx++;
+                timeEl.textContent = `${revUserIdx}/${revLength}`;
+                const enteredStr = revSeq.slice(revLength - revUserIdx).reverse().join('');
+                document.getElementById('rev-display').textContent = enteredStr;
+                playHitSound(revUserIdx, revLength);
+
+                if (revUserIdx === revLength) {
+                    revAcceptInput = false;
+                    document.getElementById('rev-status').textContent = '✅ Perfect! Adding +1 Digit...';
+                    document.getElementById('rev-status').style.color = '#10b981';
+                    revLength++;
+                    timerId = setTimeout(startRevRound, 900);
+                }
+            } else {
+                revAcceptInput = false;
+                playErrorSound();
+                revLives--;
+                errorEl.textContent = revLives + ' ❤️';
+                const correctRev = [...revSeq].reverse().join('');
+                document.getElementById('rev-status').textContent = `❌ Wrong! Reverse was: ${correctRev}`;
+                document.getElementById('rev-status').style.color = '#f43f5e';
+                if (revLives <= 0) timerId = setTimeout(finishGame, 1200);
+                else timerId = setTimeout(startRevRound, 1500);
+            }
+        }
+
+        // --- GAME 5: AUDIO-VISUAL DUAL N-BACK (2/3/4-BACK) ---
+        function startNBackGame() {
+            nbackPosHist = []; nbackAudHist = [];
+            nbackStep = 0; nbackScore = 0;
+            targetEl.textContent = '0';
+            const gridEl = document.getElementById('matrix-grid');
+            gridEl.innerHTML = '';
+            const cellSize = 68;
+            gridEl.style.gridTemplateColumns = `repeat(3, ${cellSize}px)`;
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'm-cell';
+                cell.style.width = cellSize + 'px'; cell.style.height = cellSize + 'px';
+                gridEl.appendChild(cell);
+            }
+            document.getElementById('matrix-status').textContent = `Dual ${nBackLevel}-Back Active`;
+            runNBackStep();
+        }
+
+        function runNBackStep() {
+            if (!isPlaying || currentMode !== 'nback') return;
+            // Check missed matches from previous step
+            if (nbackStep > nBackLevel) {
+                const prevPosMatch = nbackPosHist[nbackStep - 1] === nbackPosHist[nbackStep - 1 - nBackLevel];
+                const prevAudMatch = nbackAudHist[nbackStep - 1] === nbackAudHist[nbackStep - 1 - nBackLevel];
+                if ((prevPosMatch && !nbPosPressed) || (prevAudMatch && !nbAudPressed)) {
+                    errors++; errorEl.textContent = errors;
+                }
+            }
+            if (nbackStep >= 22) { finishGame(); return; }
+
+            nbPosPressed = false; nbAudPressed = false;
+            document.getElementById('nb-pos-btn').style.background = '#1e293b';
+            document.getElementById('nb-aud-btn').style.background = '#1e293b';
+            const cells = document.querySelectorAll('.m-cell');
+            cells.forEach(c => c.className = 'm-cell');
+
+            let nextPos = Math.floor(Math.random() * 9);
+            let nextAud = NBACK_LETTERS[Math.floor(Math.random() * NBACK_LETTERS.length)];
+
+            if (nbackStep >= nBackLevel) {
+                if (Math.random() < 0.32) nextPos = nbackPosHist[nbackStep - nBackLevel];
+                if (Math.random() < 0.32) nextAud = nbackAudHist[nbackStep - nBackLevel];
+            }
+
+            nbackPosHist.push(nextPos);
+            nbackAudHist.push(nextAud);
+            nbackStep++;
+            timeEl.textContent = `${nbackStep}/22`;
+
+            setTimeout(() => {
+                if (!isPlaying || currentMode !== 'nback') return;
+                cells[nextPos].classList.add('lit');
+                nbackAudioBadge.textContent = `🔊 Audio: "${nextAud}"`;
+                speakLetter(nextAud);
+                setTimeout(() => { if (cells[nextPos]) cells[nextPos].classList.remove('lit'); }, 950);
+            }, 150);
+
+            timerId = setTimeout(runNBackStep, 2300);
+        }
+
+        function handleDualNBack(type) {
+            if (!isPlaying || currentMode !== 'nback' || nbackStep <= nBackLevel) return;
+            if (type === 'pos' && !nbPosPressed) {
+                nbPosPressed = true;
+                const match = nbackPosHist[nbackStep - 1] === nbackPosHist[nbackStep - 1 - nBackLevel];
+                const btn = document.getElementById('nb-pos-btn');
+                if (match) {
+                    nbackScore += 5; btn.style.background = '#10b981'; playHitSound(nbackStep, 22);
+                } else {
+                    errors++; nbackScore = Math.max(0, nbackScore - 3);
+                    errorEl.textContent = errors; btn.style.background = '#f43f5e'; playErrorSound();
+                }
+                targetEl.textContent = nbackScore;
+            } else if (type === 'aud' && !nbAudPressed) {
+                nbAudPressed = true;
+                const match = nbackAudHist[nbackStep - 1] === nbackAudHist[nbackStep - 1 - nBackLevel];
+                const btn = document.getElementById('nb-aud-btn');
+                if (match) {
+                    nbackScore += 5; btn.style.background = '#10b981'; playHitSound(nbackStep, 22);
+                } else {
+                    errors++; nbackScore = Math.max(0, nbackScore - 3);
+                    errorEl.textContent = errors; btn.style.background = '#f43f5e'; playErrorSound();
+                }
+                targetEl.textContent = nbackScore;
+            }
+        }
+
+        // --- GAME 4: STROOP + NO-GO BOMB TWIST ---
+        function nextStroopQuestion() {
+            const ruleEl = document.getElementById('stroop-rule');
+            const wordEl = document.getElementById('stroop-word');
+
+            // 25% chance of NO-GO BOMB trap!
+            if (Math.random() < 0.25) {
+                stroopIsNoGo = true;
+                ruleEl.textContent = '🛑 NO-GO TRAP: DO NOT TAP!';
+                ruleEl.style.background = '#dc2626';
+                wordEl.textContent = Math.random() < 0.5 ? '💣 BOMB' : '❌ NO-GO';
+                wordEl.style.color = '#f43f5e';
+                questionStartTime = performance.now();
+                shotClockLimit = 1250; // Hold hand for 1.25s to pass!
+                return;
+            }
+
+            stroopIsNoGo = false;
+            const wordObj = COLORS[Math.floor(Math.random() * COLORS.length)];
+            let inkObj = COLORS[Math.floor(Math.random() * COLORS.length)];
+            if (Math.random() < 0.75 && inkObj.name === wordObj.name) {
+                inkObj = COLORS[(COLORS.indexOf(wordObj) + 1) % COLORS.length];
+            }
+            const askInk = Math.random() < 0.55;
+
+            if (askInk) {
+                ruleEl.textContent = '🎨 TAP INK COLOR (RANG)';
+                ruleEl.style.background = '#7c3aed'; stroopAnswer = inkObj.name;
+            } else {
+                ruleEl.textContent = '📖 TAP WORD MEANING (SHABD)';
+                ruleEl.style.background = '#0284c7'; stroopAnswer = wordObj.name;
+            }
+            wordEl.textContent = wordObj.name; wordEl.style.color = inkObj.hex;
+            questionStartTime = performance.now();
+            shotClockLimit = Math.max(1150, 1850 - (stroopScore * 6));
+        }
+
+        function handleStroop(choice) {
+            if (!isPlaying || currentMode !== 'stroop') return;
+            if (stroopIsNoGo) {
+                // Failed impulse brake! Clicked on BOMB!
+                errors++; stroopScore = Math.max(0, stroopScore - 5);
+                errorEl.textContent = errors; targetEl.textContent = stroopScore;
+                playErrorSound();
+                nextStroopQuestion();
+                return;
+            }
+            if (choice === stroopAnswer) {
+                stroopScore += 3; playHitSound(Math.min(stroopScore, 60), 60);
+            } else {
+                errors++; stroopScore = Math.max(0, stroopScore - 2);
+                errorEl.textContent = errors; playErrorSound();
+            }
+            targetEl.textContent = stroopScore;
+            nextStroopQuestion();
+        }
+
+        function stroopLoop() {
+            if (!isPlaying || currentMode !== 'stroop') return;
+            const now = performance.now();
+            const remaining = Math.max(0, 45 - ((now - startTime) / 1000));
+            timeEl.textContent = remaining.toFixed(1) + 's';
+
+            const qElapsed = now - questionStartTime;
+            const pct = Math.max(0, 100 - (qElapsed / shotClockLimit) * 100);
+            const bar = document.getElementById('shot-clock-bar');
+            bar.style.width = pct + '%';
+            bar.style.background = stroopIsNoGo ? '#f43f5e' : (pct < 35 ? '#fbbf24' : '#10b981');
+
+            if (qElapsed >= shotClockLimit) {
+                if (stroopIsNoGo) {
+                    // Successfully inhibited impulse! +4 Bonus
+                    stroopScore += 4;
+                    targetEl.textContent = stroopScore;
+                    playHitSound(40, 50);
+                } else {
+                    errors++; stroopScore = Math.max(0, stroopScore - 2);
+                    errorEl.textContent = errors; targetEl.textContent = stroopScore;
+                    playErrorSound();
+                }
+                nextStroopQuestion();
+            }
+
+            if (remaining <= 0) { finishGame(); return; }
+            animId = requestAnimationFrame(stroopLoop);
+        }
+
+        // --- GAME 2: ENDURANCE MOT ---
+        function startMotRound() {
+            resizeCanvas(); nodes = []; motFound = 0;
+            const totalDots = Math.min(15, 8 + motLevel);
+            const radius = Math.max(19, Math.min(26, Math.floor(Math.min(canvas.width, canvas.height) / 14)));
+            const speed = 1.45 + (motLevel * 0.22);
+
+            motTrackDuration = MOT_DURATIONS[Math.min(motLevel - 1, MOT_DURATIONS.length - 1)];
+            if (motLevel > MOT_DURATIONS.length) motTrackDuration = 15000 + (motLevel - 5) * 3000;
+
+            for (let i = 0; i < totalDots; i++) {
+                let x, y, overlapping, attempts = 0;
+                do {
+                    overlapping = false;
+                    x = radius + Math.random() * (canvas.width - radius * 2);
+                    y = radius + 45 + Math.random() * (canvas.height - radius * 2 - 45);
+                    for (let other of nodes) {
+                        if (Math.hypot(x - other.x, y - other.y) < radius * 2.3) { overlapping = true; break; }
+                    }
+                    attempts++;
+                } while (overlapping && attempts < 180);
+                const angle = Math.random() * Math.PI * 2;
+                nodes.push({ isTarget: i < 3, picked: false, wrongPick: false, x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r: radius });
+            }
+
+            targetEl.textContent = `Lvl ${motLevel}`;
+            timeEl.textContent = `${(motTrackDuration / 1000).toFixed(0)}s Track`;
+            motPhase = 'memorize'; motPhaseStart = performance.now();
+            motBanner.style.display = 'block';
+            motBanner.textContent = '👀 MEMORIZE 3 RED DOTS (2.0s)';
+            motBanner.style.color = '#ef4444';
+            if (animId) cancelAnimationFrame(animId);
+            motLoop();
+        }
+
+        function motLoop() {
+            if (!isPlaying || currentMode !== 'dot') return;
+            const now = performance.now(), elapsed = now - motPhaseStart;
+            if (motPhase === 'memorize') {
+                const remMem = Math.max(0, (2000 - elapsed) / 1000);
+                motBanner.textContent = `👀 MEMORIZE 3 RED DOTS (${remMem.toFixed(1)}s)`;
+                if (elapsed >= 2000) { motPhase = 'track'; motPhaseStart = now; motBanner.style.color = '#fbbf24'; }
+            } else if (motPhase === 'track') {
+                const remTrack = Math.max(0, (motTrackDuration - elapsed) / 1000);
+                motBanner.textContent = `🔄 TRACK TARGETS: ${remTrack.toFixed(1)}s left`;
+                timeEl.textContent = `${remTrack.toFixed(1)}s`;
+                if (elapsed >= motTrackDuration) {
+                    motPhase = 'pick';
+                    motBanner.textContent = `👆 TAP THE 3 TARGET DOTS! (0/3)`;
+                    motBanner.style.color = '#38bdf8'; timeEl.textContent = `0/3 Found`;
+                }
+            }
+
+            if (motPhase === 'track') {
+                for (let i = 0; i < nodes.length; i++) {
+                    const n = nodes[i]; n.x += n.vx; n.y += n.vy;
+                    if (n.x - n.r < 0) { n.x = n.r; n.vx *= -1; }
+                    if (n.x + n.r > canvas.width) { n.x = canvas.width - n.r; n.vx *= -1; }
+                    if (n.y - n.r < 45) { n.y = 45 + n.r; n.vy *= -1; }
+                    if (n.y + n.r > canvas.height) { n.y = canvas.height - n.r; n.vy *= -1; }
+                    for (let j = i + 1; j < nodes.length; j++) {
+                        const m = nodes[j], dx = m.x - n.x, dy = m.y - n.y, dist = Math.hypot(dx, dy), minDist = n.r + m.r + 2;
+                        if (dist < minDist && dist > 0) {
+                            const overlap = (minDist - dist) / 2, nx = dx / dist, ny = dy / dist;
+                            n.x -= nx * overlap; n.y -= ny * overlap; m.x += nx * overlap; m.y += ny * overlap;
+                            const tvx = n.vx, tvy = n.vy; n.vx = m.vx; n.vy = m.vy; m.vx = tvx; m.vy = tvy;
+                        }
+                    }
+                }
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let n of nodes) {
+                ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+                if (motPhase === 'memorize' && n.isTarget) { ctx.fillStyle = '#ef4444'; ctx.shadowColor = '#ef4444'; ctx.shadowBlur = 15; }
+                else if (n.picked) ctx.fillStyle = '#10b981';
+                else if (n.wrongPick) ctx.fillStyle = '#f43f5e';
+                else if (motPhase === 'reveal' && n.isTarget) ctx.fillStyle = '#ef4444';
+                else ctx.fillStyle = '#f8fafc';
+                ctx.fill(); ctx.shadowBlur = 0;
+            }
+            animId = requestAnimationFrame(motLoop);
+        }
+
+        // --- GAME 1: CROWDED SCHULTE GRID ---
+        function initSchulte() {
+            resizeCanvas(); nodes = []; speedMultiplier = 1;
+            const totalNums = SCHULTE_TIERS[schulteTierIdx];
+            const areaPerNode = (canvas.width * canvas.height) / (totalNums * 3.4);
+            const radius = Math.max(15, Math.min(28, Math.floor(Math.sqrt(areaPerNode) / 1.9)));
+
+            for (let i = 1; i <= totalNums; i++) {
+                let x, y, overlapping, attempts = 0;
+                do {
+                    overlapping = false;
+                    x = radius + Math.random() * (canvas.width - radius * 2);
+                    y = radius + Math.random() * (canvas.height - radius * 2);
+                    for (let other of nodes) {
+                        if (Math.hypot(x - other.x, y - other.y) < radius * 2.15) { overlapping = true; break; }
+                    }
+                    attempts++;
+                } while (overlapping && attempts < 220);
+                const angle = Math.random() * Math.PI * 2, baseSpeed = 0.65 + Math.random() * 0.45;
+                nodes.push({ num: i, x, y, vx: Math.cos(angle) * baseSpeed, vy: Math.sin(angle) * baseSpeed, r: radius, hitFlash: 0 });
+            }
+            currentTarget = 1; penaltyTime = 0; targetEl.textContent = `1/${totalNums}`;
+            if (animId) cancelAnimationFrame(animId);
+            schulteLoop();
+        }
+
+        function schulteLoop() {
+            if (!isPlaying || currentMode !== 'schulte') return;
+            timeEl.textContent = (((performance.now() - startTime) / 1000) + penaltyTime).toFixed(1) + 's';
+            for (let i = 0; i < nodes.length; i++) {
+                const n = nodes[i]; n.x += n.vx * speedMultiplier; n.y += n.vy * speedMultiplier;
+                if (n.x - n.r < 0) { n.x = n.r; n.vx *= -1; }
+                if (n.x + n.r > canvas.width) { n.x = canvas.width - n.r; n.vx *= -1; }
+                if (n.y - n.r < 0) { n.y = n.r; n.vy *= -1; }
+                if (n.y + n.r > canvas.height) { n.y = canvas.height - n.r; n.vy *= -1; }
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const m = nodes[j], dx = m.x - n.x, dy = m.y - n.y, dist = Math.hypot(dx, dy), minDist = n.r + m.r + 2;
+                    if (dist < minDist && dist > 0) {
+                        const overlap = (minDist - dist) / 2, nx = dx / dist, ny = dy / dist;
+                        n.x -= nx * overlap; n.y -= ny * overlap; m.x += nx * overlap; m.y += ny * overlap;
+                        const tvx = n.vx, tvy = n.vy; n.vx = m.vx; n.vy = m.vy; m.vx = tvx; m.vy = tvy;
+                    }
+                }
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (flashTimer > 0) { ctx.fillStyle = flashColor; ctx.fillRect(0, 0, canvas.width, canvas.height); flashTimer--; }
+            for (let n of nodes) {
+                ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+                if (n.hitFlash > 0) { ctx.fillStyle = '#10b981'; ctx.strokeStyle = '#34d399'; n.hitFlash--; }
+                else { ctx.fillStyle = '#1e293b'; ctx.strokeStyle = '#475569'; }
+                ctx.fill(); ctx.lineWidth = 2; ctx.stroke();
+                ctx.fillStyle = '#f8fafc'; ctx.font = `bold ${Math.floor(n.r * 0.76)}px sans-serif`;
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(n.num, n.x, n.y);
+            }
+            animId = requestAnimationFrame(schulteLoop);
+        }
+
+        // --- GAME 3: MEMORY MATRIX ---
         function startMemoryRound() {
-            memAcceptInput = false;
-            memPicked = [];
+            memAcceptInput = false; memPicked = [];
             memGridSize = memLevel <= 2 ? 3 : (memLevel <= 5 ? 4 : 5);
             const numTiles = Math.min(memGridSize * memGridSize - 2, 2 + memLevel);
-
-            targetEl.textContent = memLevel;
-            timeEl.textContent = numTiles + ' tiles';
+            targetEl.textContent = memLevel; timeEl.textContent = numTiles + ' tiles';
             document.getElementById('matrix-status').textContent = 'Memorize Pattern...';
             document.getElementById('matrix-status').style.color = '#fbbf24';
 
             const gridEl = document.getElementById('matrix-grid');
             gridEl.innerHTML = '';
-            const cellSize = Math.min(68, Math.floor((Math.min(window.innerWidth, window.innerHeight - 180) - 60) / memGridSize));
+            const cellSize = Math.min(64, Math.floor((Math.min(window.innerWidth, window.innerHeight - 200) - 50) / memGridSize));
             gridEl.style.gridTemplateColumns = `repeat(${memGridSize}, ${cellSize}px)`;
 
             const totalCells = memGridSize * memGridSize;
@@ -537,277 +1274,151 @@
                 const r = Math.floor(Math.random() * totalCells);
                 if (!memTargets.includes(r)) memTargets.push(r);
             }
-
             for (let i = 0; i < totalCells; i++) {
                 const cell = document.createElement('div');
                 cell.className = 'm-cell';
-                cell.style.width = cellSize + 'px';
-                cell.style.height = cellSize + 'px';
+                cell.style.width = cellSize + 'px'; cell.style.height = cellSize + 'px';
                 if (memTargets.includes(i)) cell.classList.add('lit');
                 cell.onclick = () => handleMemoryTap(i, cell);
                 gridEl.appendChild(cell);
             }
-
-            const flashDuration = Math.max(650, 1200 - (memLevel * 45));
-            setTimeout(() => {
+            timerId = setTimeout(() => {
                 if (!isPlaying || currentMode !== 'memory') return;
                 document.querySelectorAll('.m-cell').forEach(c => c.classList.remove('lit'));
                 document.getElementById('matrix-status').textContent = 'Tap the tiles!';
                 document.getElementById('matrix-status').style.color = '#38bdf8';
                 memAcceptInput = true;
-            }, flashDuration);
+            }, Math.max(600, 1150 - (memLevel * 45)));
         }
 
         function handleMemoryTap(idx, cellEl) {
             if (!memAcceptInput || memPicked.includes(idx)) return;
-
             if (memTargets.includes(idx)) {
-                memPicked.push(idx);
-                cellEl.classList.add('correct');
+                memPicked.push(idx); cellEl.classList.add('correct');
                 playHitSound(memPicked.length, memTargets.length);
-
                 if (memPicked.length === memTargets.length) {
-                    memAcceptInput = false;
-                    document.getElementById('matrix-status').textContent = 'Perfect! Next Level...';
-                    document.getElementById('matrix-status').style.color = '#10b981';
-                    memLevel++;
-                    setTimeout(startMemoryRound, 700);
+                    memAcceptInput = false; memLevel++;
+                    timerId = setTimeout(startMemoryRound, 650);
                 }
             } else {
-                memAcceptInput = false;
-                cellEl.classList.add('wrong');
-                playErrorSound();
-                // Reveal missed tiles
+                memAcceptInput = false; cellEl.classList.add('wrong'); playErrorSound();
                 const allCells = document.querySelectorAll('.m-cell');
                 memTargets.forEach(t => allCells[t].classList.add('lit'));
-                memLives--;
-                errorEl.textContent = memLives + ' ❤️';
-                document.getElementById('matrix-status').textContent = 'Wrong Tile!';
-                document.getElementById('matrix-status').style.color = '#f43f5e';
-
-                if (memLives <= 0) {
-                    setTimeout(finishGame, 900);
-                } else {
-                    setTimeout(startMemoryRound, 1100);
-                }
+                memLives--; errorEl.textContent = memLives + ' ❤️';
+                if (memLives <= 0) timerId = setTimeout(finishGame, 900);
+                else timerId = setTimeout(startMemoryRound, 1100);
             }
-        }
-
-        // --- GAME 4: STROOP IMPULSE LOGIC ---
-        function nextStroopQuestion() {
-            const wordObj = COLORS[Math.floor(Math.random() * COLORS.length)];
-            // Ensure ink color conflicts with word 75% of the time
-            let inkObj = COLORS[Math.floor(Math.random() * COLORS.length)];
-            if (Math.random() < 0.75 && inkObj.name === wordObj.name) {
-                inkObj = COLORS[(COLORS.indexOf(wordObj) + 1) % COLORS.length];
-            }
-
-            const askInk = Math.random() < 0.55; // 55% Ink Color, 45% Word Meaning
-            const ruleEl = document.getElementById('stroop-rule');
-            const wordEl = document.getElementById('stroop-word');
-
-            if (askInk) {
-                ruleEl.textContent = '🎨 TAP INK COLOR (RANG)';
-                ruleEl.style.background = '#7c3aed';
-                ruleEl.style.color = '#fff';
-                stroopAnswer = inkObj.name;
-            } else {
-                ruleEl.textContent = '📖 TAP WORD MEANING (SHABD)';
-                ruleEl.style.background = '#0284c7';
-                ruleEl.style.color = '#fff';
-                stroopAnswer = wordObj.name;
-            }
-
-            wordEl.textContent = wordObj.name;
-            wordEl.style.color = inkObj.hex;
-        }
-
-        function handleStroop(choice) {
-            if (!isPlaying || currentMode !== 'stroop') return;
-            if (choice === stroopAnswer) {
-                stroopScore += 3;
-                playHitSound(Math.min(stroopScore, 60), 60);
-            } else {
-                errors++;
-                stroopScore = Math.max(0, stroopScore - 2);
-                errorEl.textContent = errors;
-                playErrorSound();
-            }
-            targetEl.textContent = stroopScore;
-            nextStroopQuestion();
-        }
-
-        function stroopLoop() {
-            if (!isPlaying || currentMode !== 'stroop') return;
-            const remaining = Math.max(0, 45 - ((performance.now() - startTime) / 1000));
-            timeEl.textContent = remaining.toFixed(1) + 's';
-            if (remaining <= 0) {
-                finishGame();
-                return;
-            }
-            animId = requestAnimationFrame(stroopLoop);
-        }
-
-        // --- GAMES 1 & 2: CANVAS LOGIC ---
-        function initCanvasGame() {
-            resizeCanvas();
-            nodes = [];
-            speedMultiplier = 1;
-            const count = currentMode === 'schulte' ? 25 : 12;
-            const radius = Math.max(22, Math.min(30, Math.floor(Math.min(canvas.width, canvas.height) / 13)));
-
-            for (let i = 1; i <= count; i++) {
-                let x, y, overlapping, attempts = 0;
-                do {
-                    overlapping = false;
-                    x = radius + Math.random() * (canvas.width - radius * 2);
-                    y = radius + Math.random() * (canvas.height - radius * 2);
-                    for (let other of nodes) {
-                        if (Math.hypot(x - other.x, y - other.y) < radius * 2.2) { overlapping = true; break; }
-                    }
-                    attempts++;
-                } while (overlapping && attempts < 150);
-
-                const angle = Math.random() * Math.PI * 2;
-                const baseSpeed = currentMode === 'schulte' ? (0.7 + Math.random() * 0.5) : (1.5 + Math.random() * 0.8);
-                nodes.push({ num: i, x, y, vx: Math.cos(angle) * baseSpeed, vy: Math.sin(angle) * baseSpeed, r: radius, cleared: false });
-            }
-
-            if (currentMode === 'schulte') {
-                currentTarget = 1; penaltyTime = 0; targetEl.textContent = '1';
-            } else {
-                dotScore = 0; redIndex = Math.floor(Math.random() * nodes.length);
-                targetEl.textContent = '0'; lastJumpTime = performance.now();
-            }
-            if (animId) cancelAnimationFrame(animId);
-            gameLoop();
-        }
-
-        function gameLoop() {
-            if (!isPlaying) return;
-            const now = performance.now();
-            if (currentMode === 'schulte') {
-                timeEl.textContent = (((now - startTime) / 1000) + penaltyTime).toFixed(1) + 's';
-            } else {
-                const rem = Math.max(0, 30 - ((now - startTime) / 1000));
-                timeEl.textContent = rem.toFixed(1) + 's';
-                if (now - lastJumpTime > 2200) {
-                    redIndex = Math.floor(Math.random() * nodes.length);
-                    lastJumpTime = now;
-                }
-                if (rem <= 0) { finishGame(); return; }
-            }
-
-            for (let i = 0; i < nodes.length; i++) {
-                const n = nodes[i];
-                if (n.cleared) continue;
-                n.x += n.vx * speedMultiplier; n.y += n.vy * speedMultiplier;
-                if (n.x - n.r < 0) { n.x = n.r; n.vx *= -1; }
-                if (n.x + n.r > canvas.width) { n.x = canvas.width - n.r; n.vx *= -1; }
-                if (n.y - n.r < 0) { n.y = n.r; n.vy *= -1; }
-                if (n.y + n.r > canvas.height) { n.y = canvas.height - n.r; n.vy *= -1; }
-
-                for (let j = i + 1; j < nodes.length; j++) {
-                    const m = nodes[j];
-                    if (m.cleared) continue;
-                    const dx = m.x - n.x, dy = m.y - n.y, dist = Math.hypot(dx, dy), minDist = n.r + m.r + 2;
-                    if (dist < minDist && dist > 0) {
-                        const overlap = (minDist - dist) / 2, nx = dx / dist, ny = dy / dist;
-                        n.x -= nx * overlap; n.y -= ny * overlap; m.x += nx * overlap; m.y += ny * overlap;
-                        const tvx = n.vx, tvy = n.vy; n.vx = m.vx; n.vy = m.vy; m.vx = tvx; m.vy = tvy;
-                    }
-                }
-            }
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            if (flashTimer > 0) { ctx.fillStyle = flashColor; ctx.fillRect(0, 0, canvas.width, canvas.height); flashTimer--; }
-
-            for (let i = 0; i < nodes.length; i++) {
-                const n = nodes[i];
-                if (n.cleared) continue;
-                ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-                if (currentMode === 'schulte') {
-                    ctx.fillStyle = '#1e293b'; ctx.fill();
-                    ctx.lineWidth = 2.5; ctx.strokeStyle = '#475569'; ctx.stroke();
-                    ctx.fillStyle = '#f8fafc'; ctx.font = `bold ${Math.floor(n.r * 0.78)}px sans-serif`;
-                    ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(n.num, n.x, n.y);
-                } else {
-                    const isRed = (i === redIndex);
-                    ctx.fillStyle = isRed ? '#ef4444' : '#f8fafc';
-                    if (isRed) { ctx.shadowColor = '#ef4444'; ctx.shadowBlur = 18; }
-                    ctx.fill(); ctx.shadowBlur = 0;
-                }
-            }
-            animId = requestAnimationFrame(gameLoop);
         }
 
         function handleCanvasInput(e) {
-            if (!isPlaying || (currentMode !== 'schulte' && currentMode !== 'dot')) return;
+            if (!isPlaying) return;
             e.preventDefault();
             const rect = canvas.getBoundingClientRect();
             const cx = e.touches ? e.touches[0].clientX : e.clientX;
             const cy = e.touches ? e.touches[0].clientY : e.clientY;
             const x = cx - rect.left, y = cy - rect.top;
 
-            for (let i = nodes.length - 1; i >= 0; i--) {
-                const n = nodes[i];
-                if (n.cleared) continue;
-                if (Math.hypot(x - n.x, y - n.y) <= n.r + 6) {
-                    if (currentMode === 'schulte') {
+            if (currentMode === 'schulte') {
+                const maxNum = SCHULTE_TIERS[schulteTierIdx];
+                for (let i = nodes.length - 1; i >= 0; i--) {
+                    const n = nodes[i];
+                    if (Math.hypot(x - n.x, y - n.y) <= n.r + 6) {
                         if (n.num === currentTarget) {
-                            playHitSound(currentTarget, 25); n.cleared = true; currentTarget++; speedMultiplier *= 1.04;
-                            flashColor = 'rgba(16, 185, 129, 0.14)'; flashTimer = 4;
-                            if (currentTarget > 25) finishGame(); else targetEl.textContent = currentTarget;
+                            playHitSound(currentTarget, maxNum);
+                            n.hitFlash = 10;
+                            currentTarget++;
+                            speedMultiplier *= 1.022;
+                            flashColor = 'rgba(16, 185, 129, 0.12)'; flashTimer = 3;
+                            if (currentTarget > maxNum) finishGame();
+                            else targetEl.textContent = `${currentTarget}/${maxNum}`;
                         } else {
                             playErrorSound(); errors++; penaltyTime += 2.0; errorEl.textContent = errors;
                             flashColor = 'rgba(244, 63, 94, 0.3)'; flashTimer = 8;
                         }
-                    } else {
-                        if (i === redIndex) {
-                            dotScore++; playHitSound(Math.min(dotScore, 30), 30); targetEl.textContent = dotScore; speedMultiplier *= 1.03;
-                            let nextRed; do { nextRed = Math.floor(Math.random() * nodes.length); } while (nextRed === redIndex);
-                            redIndex = nextRed; lastJumpTime = performance.now();
-                            flashColor = 'rgba(16, 185, 129, 0.12)'; flashTimer = 3;
-                        } else {
-                            playErrorSound(); errors++; dotScore = Math.max(0, dotScore - 1);
-                            targetEl.textContent = dotScore; errorEl.textContent = errors;
-                            flashColor = 'rgba(244, 63, 94, 0.3)'; flashTimer = 8;
-                        }
+                        break;
                     }
-                    break;
+                }
+            } else if (currentMode === 'dot' && motPhase === 'pick') {
+                for (let n of nodes) {
+                    if (n.picked || n.wrongPick) continue;
+                    if (Math.hypot(x - n.x, y - n.y) <= n.r + 8) {
+                        if (n.isTarget) {
+                            n.picked = true; motFound++;
+                            motBanner.textContent = `👆 TAP THE 3 TARGET DOTS! (${motFound}/3)`;
+                            timeEl.textContent = `${motFound}/3 Found`;
+                            playHitSound(motFound, 3);
+                            if (motFound === 3) {
+                                motLevel++; motPhase = 'wait';
+                                motBanner.textContent = `✅ CLEARED! NEXT: ${(MOT_DURATIONS[Math.min(motLevel-1, MOT_DURATIONS.length-1)]/1000)}s TRACK`;
+                                motBanner.style.color = '#10b981';
+                                timerId = setTimeout(startMotRound, 1000);
+                            }
+                        } else {
+                            n.wrongPick = true; playErrorSound();
+                            motLives--; errorEl.textContent = motLives + ' ❤️';
+                            motPhase = 'reveal';
+                            motBanner.textContent = `❌ MISSED TARGET!`;
+                            motBanner.style.color = '#f43f5e';
+                            if (motLives <= 0) timerId = setTimeout(finishGame, 1100);
+                            else timerId = setTimeout(startMotRound, 1300);
+                        }
+                        break;
+                    }
                 }
             }
         }
 
         function finishGame() {
-            isPlaying = false;
-            if (animId) cancelAnimationFrame(animId);
+            stopAllTimers();
             playVictorySound();
             titleEl.textContent = "SESSION COMPLETE";
             resultsEl.style.display = 'block';
 
             if (currentMode === 'schulte') {
+                const maxNum = SCHULTE_TIERS[schulteTierIdx];
                 const finalTime = (((performance.now() - startTime) / 1000) + penaltyTime).toFixed(2);
-                const prev = localStorage.getItem('brain_best_time');
-                if (!prev || parseFloat(finalTime) < parseFloat(prev)) localStorage.setItem('brain_best_time', finalTime);
-                resultsEl.innerHTML = `Total Time: <b>${finalTime}s</b> | Errors: <b>${errors}</b>`;
+                const key = 'brain_best_time_' + maxNum;
+                const prev = localStorage.getItem(key);
+                if (!prev || parseFloat(finalTime) < parseFloat(prev)) localStorage.setItem(key, finalTime);
+                if (schulteTierIdx < SCHULTE_TIERS.length - 1) {
+                    const nextTierNum = SCHULTE_TIERS[schulteTierIdx + 1];
+                    resultsEl.innerHTML = `Cleared <b>1-${maxNum}</b> in <b>${finalTime}s</b> (Errors: ${errors})<br><span style="color:#10b981">🔥 Unlocked Next Tier: 1 to ${nextTierNum}!</span>`;
+                    setSchulteTier(schulteTierIdx + 1);
+                } else {
+                    resultsEl.innerHTML = `EXTREME 1-50 Cleared in <b>${finalTime}s</b> | Errors: <b>${errors}</b>`;
+                }
             } else if (currentMode === 'dot') {
-                const prev = localStorage.getItem('brain_best_dot');
-                if (!prev || dotScore > parseInt(prev)) localStorage.setItem('brain_best_dot', dotScore);
-                resultsEl.innerHTML = `Red Dot Hits: <b>${dotScore}</b> | Wrong Taps: <b>${errors}</b>`;
+                const reached = motLevel - 1;
+                const prev = localStorage.getItem('brain_best_mot');
+                if (!prev || reached > parseInt(prev)) localStorage.setItem('brain_best_mot', reached);
+                resultsEl.innerHTML = `Endurance MOT Cleared: <b>Level ${reached}</b>`;
             } else if (currentMode === 'memory') {
                 const reached = memLevel - 1;
                 const prev = localStorage.getItem('brain_best_mem');
                 if (!prev || reached > parseInt(prev)) localStorage.setItem('brain_best_mem', reached);
-                resultsEl.innerHTML = `Max Memory Level Cleared: <b>Level ${reached}</b>`;
+                resultsEl.innerHTML = `Memory Matrix Cleared: <b>Level ${reached}</b>`;
             } else if (currentMode === 'stroop') {
                 const prev = localStorage.getItem('brain_best_stroop');
                 if (!prev || stroopScore > parseInt(prev)) localStorage.setItem('brain_best_stroop', stroopScore);
-                resultsEl.innerHTML = `Impulse Control Score: <b>${stroopScore} pts</b> | Mistakes: <b>${errors}</b>`;
+                resultsEl.innerHTML = `No-Go Impulse Score: <b>${stroopScore} pts</b> | Mistakes: <b>${errors}</b>`;
+            } else if (currentMode === 'nback') {
+                const key = 'brain_best_nback_' + nBackLevel;
+                const prev = localStorage.getItem(key);
+                if (!prev || nbackScore > parseInt(prev)) localStorage.setItem(key, nbackScore);
+                resultsEl.innerHTML = `Dual ${nBackLevel}-Back Score: <b>${nbackScore} pts</b> | Mistakes: <b>${errors}</b>`;
+            } else if (currentMode === 'switch') {
+                const prev = localStorage.getItem('brain_best_switch');
+                if (!prev || switchScore > parseInt(prev)) localStorage.setItem('brain_best_switch', switchScore);
+                resultsEl.innerHTML = `Task Switch Score: <b>${switchScore} pts</b> | Mistakes: <b>${errors}</b>`;
+            } else if (currentMode === 'reverse') {
+                const reached = revLength - 1;
+                const prev = localStorage.getItem('brain_best_rev');
+                if (!prev || reached > parseInt(prev)) localStorage.setItem('brain_best_rev', reached);
+                resultsEl.innerHTML = `Max Reverse Span Cleared: <b>${reached} Digits</b>`;
             }
 
             updateBestDisplay();
-            startBtn.textContent = "PLAY AGAIN";
+            startBtn.textContent = "PLAY NEXT ROUND";
             overlay.style.display = 'flex';
         }
 
