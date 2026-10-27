@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trader Brain Suite v5.0</title>
+    <title>Trader Brain Suite v6.2</title>
     <meta name="theme-color" content="#0b0f19">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="manifest" href="./manifest.json">
+    <link rel="manifest" href="./manifest.json">
     <style>
         * {
             box-sizing: border-box;
@@ -16,6 +16,7 @@
             padding: 0;
             user-select: none;
             -webkit-user-select: none;
+            touch-action: manipulation;
             font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
         }
         body {
@@ -27,6 +28,8 @@
             overflow: hidden;
         }
         #top-nav {
+            position: relative;
+            z-index: 30;
             display: flex;
             background: #0f172a;
             border-bottom: 1px solid #1e293b;
@@ -46,7 +49,7 @@
             background: #1e293b;
             color: #94a3b8;
             border: 1px solid #334155;
-            padding: 6px 9px;
+            padding: 7px 10px;
             border-radius: 6px;
             font-size: 11px;
             font-weight: 700;
@@ -87,6 +90,8 @@
             cursor: pointer;
         }
         #hud {
+            position: relative;
+            z-index: 25;
             display: flex;
             justify-content: space-around;
             align-items: center;
@@ -143,6 +148,7 @@
             justify-content: center;
             align-items: center;
             padding: 14px;
+            z-index: 10;
         }
         /* Matrix & Dual N-Back */
         #matrix-status {
@@ -214,11 +220,12 @@
         }
         #shot-clock-wrap {
             width: 100%;
-            height: 8px;
+            height: 10px;
             background: #1e293b;
-            border-radius: 4px;
+            border-radius: 5px;
             overflow: hidden;
             margin-bottom: 16px;
+            border: 1px solid #334155;
         }
         #shot-clock-bar {
             width: 100%;
@@ -235,9 +242,9 @@
             text-align: center;
         }
         #stroop-word {
-            font-size: 54px;
+            font-size: 52px;
             font-weight: 900;
-            margin: 12px 0 30px 0;
+            margin: 12px 0 28px 0;
             letter-spacing: 2px;
             text-align: center;
             min-height: 70px;
@@ -311,7 +318,7 @@
             letter-spacing: 3px;
         }
 
-        /* Reverse Span UI (Game 7) */
+        /* Reverse / Starting Span UI (Game 7) */
         #rev-box {
             display: none;
             flex-direction: column;
@@ -324,20 +331,21 @@
             font-weight: 700;
             color: #fbbf24;
             margin-bottom: 10px;
+            text-align: center;
         }
         #rev-display {
             width: 100%;
-            height: 90px;
+            height: 85px;
             background: #1e293b;
             border: 2px solid #334155;
             border-radius: 12px;
             display: flex;
             justify-content: center;
             align-items: center;
-            font-size: 46px;
+            font-size: 42px;
             font-weight: 900;
             color: #38bdf8;
-            letter-spacing: 6px;
+            letter-spacing: 5px;
             margin-bottom: 16px;
         }
         .rev-pad {
@@ -362,17 +370,17 @@
         #overlay {
             position: absolute;
             inset: 0;
-            background: rgba(11, 15, 25, 0.95);
+            background: rgba(11, 15, 25, 0.96);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 10;
+            z-index: 20;
             padding: 20px;
             text-align: center;
         }
-        h1 { font-size: 23px; margin-bottom: 8px; color: #f8fafc; }
-        p { font-size: 14px; color: #cbd5e1; max-width: 410px; margin-bottom: 16px; line-height: 1.5; }
+        h1 { font-size: 22px; margin-bottom: 8px; color: #f8fafc; }
+        p { font-size: 14px; color: #cbd5e1; max-width: 420px; margin-bottom: 16px; line-height: 1.5; }
         .penalty-tag { color: #f43f5e; font-weight: bold; }
         .bonus-tag { color: #10b981; font-weight: bold; }
 
@@ -402,12 +410,14 @@
             background: #2563eb;
             color: white;
             border: none;
-            padding: 14px 34px;
+            padding: 14px 36px;
             font-size: 17px;
-            font-weight: 700;
+            font-weight: 800;
             border-radius: 10px;
             cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
         }
+        .main-btn:active { transform: scale(0.96); }
         #results { margin-bottom: 16px; font-size: 15px; color: #38bdf8; line-height: 1.7; }
     </style>
 </head>
@@ -415,17 +425,18 @@
 
     <div id="top-nav">
         <div class="mode-tabs">
-            <button class="tab-btn active" id="tab-schulte" onclick="switchMode('schulte')">1. Grid</button>
-            <button class="tab-btn" id="tab-dot" onclick="switchMode('dot')">2. MOT</button>
-            <button class="tab-btn" id="tab-memory" onclick="switchMode('memory')">3. Matrix</button>
-            <button class="tab-btn" id="tab-stroop" onclick="switchMode('stroop')">4. No-Go</button>
-            <button class="tab-btn" id="tab-nback" onclick="switchMode('nback')">5. Dual N-Back</button>
-            <button class="tab-btn" id="tab-switch" onclick="switchMode('switch')">6. Switch</button>
-            <button class="tab-btn" id="tab-reverse" onclick="switchMode('reverse')">7. Reverse</button>
+            <button type="button" class="tab-btn active" id="tab-schulte" onclick="switchMode('schulte')">1. Grid</button>
+            <button type="button" class="tab-btn" id="tab-dot" onclick="switchMode('dot')">2. MOT</button>
+            <button type="button" class="tab-btn" id="tab-memory" onclick="switchMode('memory')">3. Matrix</button>
+            <button type="button" class="tab-btn" id="tab-stroop" onclick="switchMode('stroop')">4. No-Go</button>
+            <button type="button" class="tab-btn" id="tab-nback" onclick="switchMode('nback')">5. Dual N-Back</button>
+            <button type="button" class="tab-btn" id="tab-switch" onclick="switchMode('switch')">6. Switch</button>
+            <button type="button" class="tab-btn" id="tab-reverse" onclick="switchMode('reverse')">7. Span</button>
+            <button type="button" class="tab-btn" id="tab-target" onclick="switchMode('target')">8. Target Hunt</button>
         </div>
         <div class="top-right-btns">
-            <button id="exit-btn" onclick="exitCurrentGame()">✖ EXIT</button>
-            <button id="sound-btn" onclick="toggleSound()">🔊 ON</button>
+            <button type="button" id="exit-btn" onclick="exitCurrentGame()">✖ EXIT</button>
+            <button type="button" id="sound-btn" onclick="toggleSound()">🔊 ON</button>
         </div>
     </div>
 
@@ -459,8 +470,8 @@
                 <div id="nback-audio-badge">🔊 Letter: -</div>
                 <div id="matrix-grid"></div>
                 <div id="nback-controls">
-                    <button class="nb-btn" id="nb-pos-btn" onclick="handleDualNBack('pos')">👁️ POSITION MATCH</button>
-                    <button class="nb-btn" id="nb-aud-btn" onclick="handleDualNBack('aud')">🔊 AUDIO MATCH</button>
+                    <button type="button" class="nb-btn" id="nb-pos-btn" onclick="handleDualNBack('pos')">👁️ POSITION MATCH</button>
+                    <button type="button" class="nb-btn" id="nb-aud-btn" onclick="handleDualNBack('aud')">🔊 AUDIO MATCH</button>
                 </div>
             </div>
 
@@ -470,10 +481,10 @@
                 <div id="stroop-rule">TAP INK COLOR</div>
                 <div id="stroop-word">RED</div>
                 <div class="stroop-btns">
-                    <button class="s-btn" onclick="handleStroop('RED')">RED</button>
-                    <button class="s-btn" onclick="handleStroop('BLUE')">BLUE</button>
-                    <button class="s-btn" onclick="handleStroop('GREEN')">GREEN</button>
-                    <button class="s-btn" onclick="handleStroop('YELLOW')">YELLOW</button>
+                    <button type="button" class="s-btn" onclick="handleStroop('RED')">RED</button>
+                    <button type="button" class="s-btn" onclick="handleStroop('BLUE')">BLUE</button>
+                    <button type="button" class="s-btn" onclick="handleStroop('GREEN')">GREEN</button>
+                    <button type="button" class="s-btn" onclick="handleStroop('YELLOW')">YELLOW</button>
                 </div>
             </div>
 
@@ -490,25 +501,25 @@
                     </div>
                 </div>
                 <div class="stroop-btns">
-                    <button class="s-btn" id="sw-btn-left" onclick="handleSwitchTap('LEFT')">EVEN / VOWEL</button>
-                    <button class="s-btn" id="sw-btn-right" onclick="handleSwitchTap('RIGHT')">ODD / CONSONANT</button>
+                    <button type="button" class="s-btn" id="sw-btn-left" onclick="handleSwitchTap('LEFT')">EVEN / VOWEL</button>
+                    <button type="button" class="s-btn" id="sw-btn-right" onclick="handleSwitchTap('RIGHT')">ODD / CONSONANT</button>
                 </div>
             </div>
 
-            <!-- Game 7: Reverse Span -->
+            <!-- Game 7: Reverse / Starting Span -->
             <div id="rev-box">
                 <div id="rev-status">Watch sequence carefully...</div>
                 <div id="rev-display">-</div>
                 <div class="rev-pad">
-                    <button class="r-key" onclick="handleRevKey(1)">1</button>
-                    <button class="r-key" onclick="handleRevKey(2)">2</button>
-                    <button class="r-key" onclick="handleRevKey(3)">3</button>
-                    <button class="r-key" onclick="handleRevKey(4)">4</button>
-                    <button class="r-key" onclick="handleRevKey(5)">5</button>
-                    <button class="r-key" onclick="handleRevKey(6)">6</button>
-                    <button class="r-key" onclick="handleRevKey(7)">7</button>
-                    <button class="r-key" onclick="handleRevKey(8)">8</button>
-                    <button class="r-key" onclick="handleRevKey(9)">9</button>
+                    <button type="button" class="r-key" onclick="handleRevKey(1)">1</button>
+                    <button type="button" class="r-key" onclick="handleRevKey(2)">2</button>
+                    <button type="button" class="r-key" onclick="handleRevKey(3)">3</button>
+                    <button type="button" class="r-key" onclick="handleRevKey(4)">4</button>
+                    <button type="button" class="r-key" onclick="handleRevKey(5)">5</button>
+                    <button type="button" class="r-key" onclick="handleRevKey(6)">6</button>
+                    <button type="button" class="r-key" onclick="handleRevKey(7)">7</button>
+                    <button type="button" class="r-key" onclick="handleRevKey(8)">8</button>
+                    <button type="button" class="r-key" onclick="handleRevKey(9)">9</button>
                 </div>
             </div>
         </div>
@@ -520,19 +531,38 @@
                 Bheed ke beech 1 se aakhri number tak sequence mein dhoondhein.<br>
                 <span class="penalty-tag">Galat tap = +2.0s Penalty!</span>
             </p>
+
+            <!-- Game 1 Selector -->
             <div id="grid-tier-select" class="tier-selector-row">
-                <button class="tier-btn active" onclick="setSchulteTier(0)">Lvl 1 (25)</button>
-                <button class="tier-btn" onclick="setSchulteTier(1)">Lvl 2 (35)</button>
-                <button class="tier-btn" onclick="setSchulteTier(2)">Lvl 3 (40)</button>
-                <button class="tier-btn" onclick="setSchulteTier(3)">Lvl 4 (50)</button>
+                <button type="button" class="tier-btn active" onclick="setSchulteTier(0)">Lvl 1 (25)</button>
+                <button type="button" class="tier-btn" onclick="setSchulteTier(1)">Lvl 2 (35)</button>
+                <button type="button" class="tier-btn" onclick="setSchulteTier(2)">Lvl 3 (40)</button>
+                <button type="button" class="tier-btn" onclick="setSchulteTier(3)">Lvl 4 (50)</button>
             </div>
+
+            <!-- Game 4 (No-Go) Difficulty Selector -->
+            <div id="stroop-tier-select" class="tier-selector-row" style="display:none;">
+                <button type="button" class="tier-btn active" onclick="setStroopTier(0)">Beginner (3.5s)</button>
+                <button type="button" class="tier-btn" onclick="setStroopTier(1)">Mid (2.5s)</button>
+                <button type="button" class="tier-btn" onclick="setStroopTier(2)">Hard (1.8s)</button>
+                <button type="button" class="tier-btn" onclick="setStroopTier(3)">Very Hard (1.3s)</button>
+            </div>
+
+            <!-- Game 5 (Dual N-Back) Selector -->
             <div id="nback-tier-select" class="tier-selector-row" style="display:none;">
-                <button class="tier-btn active" onclick="setNBackLevel(2)">2-Back (Normal)</button>
-                <button class="tier-btn" onclick="setNBackLevel(3)">3-Back (Hard)</button>
-                <button class="tier-btn" onclick="setNBackLevel(4)">4-Back (Extreme)</button>
+                <button type="button" class="tier-btn active" onclick="setNBackLevel(2)">2-Back (Normal)</button>
+                <button type="button" class="tier-btn" onclick="setNBackLevel(3)">3-Back (Hard)</button>
+                <button type="button" class="tier-btn" onclick="setNBackLevel(4)">4-Back (Extreme)</button>
             </div>
+
+            <!-- Game 7 (Span Order) Selector -->
+            <div id="rev-mode-select" class="tier-selector-row" style="display:none;">
+                <button type="button" class="tier-btn" id="rev-btn-forward" onclick="setRevMode('forward')">▶ Starting Order (1→2)</button>
+                <button type="button" class="tier-btn active" id="rev-btn-reverse" onclick="setRevMode('reverse')">◀ Reverse Order (2→1)</button>
+            </div>
+
             <div id="results" style="display:none;"></div>
-            <button class="main-btn" id="start-btn">START TRAINING</button>
+            <button type="button" class="main-btn" id="start-btn" onclick="initGame()">START TRAINING</button>
         </div>
     </div>
 
@@ -540,52 +570,62 @@
         // --- SOUND & SPEECH ENGINE ---
         let audioCtx = null, soundEnabled = true;
         function initAudio() {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            } catch (e) {}
         }
         function toggleSound() {
             soundEnabled = !soundEnabled;
             document.getElementById('sound-btn').textContent = soundEnabled ? '🔊 ON' : '🔇 OFF';
         }
-        function speakLetter(letter) {
+        function speakText(text) {
             if (!soundEnabled || !('speechSynthesis' in window)) return;
-            window.speechSynthesis.cancel();
-            const utter = new SpeechSynthesisUtterance(letter.toLowerCase());
-            utter.rate = 1.35;
-            utter.pitch = 1.0;
-            window.speechSynthesis.speak(utter);
+            try {
+                window.speechSynthesis.cancel();
+                const utter = new SpeechSynthesisUtterance(String(text).split('').join(' '));
+                utter.rate = 1.25;
+                utter.pitch = 1.0;
+                window.speechSynthesis.speak(utter);
+            } catch (e) {}
         }
         function playHitSound(step = 10, maxSteps = 25) {
             if (!soundEnabled) return;
-            initAudio();
-            const now = audioCtx.currentTime, osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-            const freq = 320 + (Math.min(step, maxSteps) / maxSteps) * 560;
-            osc.type = 'sine'; osc.frequency.setValueAtTime(freq, now);
-            osc.frequency.exponentialRampToValueAtTime(freq * 1.25, now + 0.08);
-            gain.gain.setValueAtTime(0.25, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(now); osc.stop(now + 0.08);
+            try {
+                initAudio();
+                const now = audioCtx.currentTime, osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+                const freq = 320 + (Math.min(step, maxSteps) / maxSteps) * 560;
+                osc.type = 'sine'; osc.frequency.setValueAtTime(freq, now);
+                osc.frequency.exponentialRampToValueAtTime(freq * 1.25, now + 0.08);
+                gain.gain.setValueAtTime(0.25, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(now); osc.stop(now + 0.08);
+            } catch (e) {}
         }
         function playErrorSound() {
             if (!soundEnabled) return;
-            initAudio();
-            const now = audioCtx.currentTime, osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-            osc.type = 'sawtooth'; osc.frequency.setValueAtTime(140, now);
-            osc.frequency.linearRampToValueAtTime(90, now + 0.22);
-            gain.gain.setValueAtTime(0.3, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
-            osc.connect(gain); gain.connect(audioCtx.destination);
-            osc.start(now); osc.stop(now + 0.22);
+            try {
+                initAudio();
+                const now = audioCtx.currentTime, osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+                osc.type = 'sawtooth'; osc.frequency.setValueAtTime(140, now);
+                osc.frequency.linearRampToValueAtTime(90, now + 0.22);
+                gain.gain.setValueAtTime(0.3, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.start(now); osc.stop(now + 0.22);
+            } catch (e) {}
         }
         function playVictorySound() {
             if (!soundEnabled) return;
-            initAudio();
-            [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
-                const now = audioCtx.currentTime + idx * 0.08, osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-                osc.type = 'triangle'; osc.frequency.setValueAtTime(freq, now);
-                gain.gain.setValueAtTime(0.22, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
-                osc.connect(gain); gain.connect(audioCtx.destination);
-                osc.start(now); osc.stop(now + 0.28);
-            });
+            try {
+                initAudio();
+                [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
+                    const now = audioCtx.currentTime + idx * 0.08, osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+                    osc.type = 'triangle'; osc.frequency.setValueAtTime(freq, now);
+                    gain.gain.setValueAtTime(0.22, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.28);
+                    osc.connect(gain); gain.connect(audioCtx.destination);
+                    osc.start(now); osc.stop(now + 0.28);
+                });
+            } catch (e) {}
         }
 
         // --- GLOBAL STATE ---
@@ -600,7 +640,9 @@
         const nbackControls = document.getElementById('nback-controls');
         const nbackAudioBadge = document.getElementById('nback-audio-badge');
         const tierSelect = document.getElementById('grid-tier-select');
+        const stroopTierSelect = document.getElementById('stroop-tier-select');
         const nbackTierSelect = document.getElementById('nback-tier-select');
+        const revModeSelect = document.getElementById('rev-mode-select');
         const exitBtn = document.getElementById('exit-btn');
         const targetEl = document.getElementById('target-val');
         const timeEl = document.getElementById('time-val');
@@ -627,8 +669,15 @@
         // 3. Memory Matrix State
         let memLevel = 1, memGridSize = 3, memTargets = [], memPicked = [], memLives = 3, memAcceptInput = false;
 
-        // 4. Stroop + No-Go Bomb State
-        let stroopScore = 0, stroopAnswer = '', stroopIsNoGo = false, questionStartTime = 0, shotClockLimit = 1800;
+        // 4. Stroop + No-Go Bomb State (Beginner -> Mid -> Hard -> Very Hard)
+        const STROOP_TIERS = [
+            { name: 'Beginner', baseTime: 3500, minTime: 2200, holdTime: 1700, decay: 30 },
+            { name: 'Mid', baseTime: 2500, minTime: 1600, holdTime: 1450, decay: 25 },
+            { name: 'Hard', baseTime: 1800, minTime: 1200, holdTime: 1250, decay: 20 },
+            { name: 'Very Hard', baseTime: 1300, minTime: 950, holdTime: 1050, decay: 15 }
+        ];
+        let stroopTierIdx = 0;
+        let stroopScore = 0, stroopHits = 0, stroopAnswer = '', stroopIsNoGo = false, questionStartTime = 0, shotClockLimit = 3500;
         const COLORS = [
             { name: 'RED', hex: '#ef4444' },
             { name: 'BLUE', hex: '#3b82f6' },
@@ -646,12 +695,16 @@
         const VOWELS = ['A', 'E', 'I', 'O', 'U'];
         const CONSONANTS = ['B', 'K', 'M', 'R', 'T'];
 
-        // 7. Reverse Span State
-        let revLength = 4, revSeq = [], revUserIdx = 0, revLives = 3, revAcceptInput = false;
+        // 7. Reverse / Starting Span State (Starts at 2 Digits!)
+        let revDirection = 'reverse'; // 'forward' or 'reverse'
+        let revLength = 2, revSeq = [], revUserIdx = 0, revLives = 3, revAcceptInput = false;
+
+        // 8. Target Hunt State
+        let targetHuntScore = 0, targetHuntHits = 0, currentHuntTarget = '', huntDuration = 60;
 
         function resizeCanvas() {
-            canvas.width = canvas.parentElement.clientWidth;
-            canvas.height = canvas.parentElement.clientHeight;
+            canvas.width = canvas.parentElement.clientWidth || window.innerWidth;
+            canvas.height = canvas.parentElement.clientHeight || (window.innerHeight - 110);
         }
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
@@ -660,7 +713,9 @@
             isPlaying = false;
             if (animId) cancelAnimationFrame(animId);
             if (timerId) clearTimeout(timerId);
-            if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+            if ('speechSynthesis' in window) {
+                try { window.speechSynthesis.cancel(); } catch (e) {}
+            }
             exitBtn.style.display = 'none';
             motBanner.style.display = 'none';
         }
@@ -677,6 +732,12 @@
             updateBestDisplay();
         }
 
+        function setStroopTier(idx) {
+            stroopTierIdx = idx;
+            document.querySelectorAll('#stroop-tier-select .tier-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
+            updateBestDisplay();
+        }
+
         function setNBackLevel(n) {
             nBackLevel = n;
             document.querySelectorAll('#nback-tier-select .tier-btn').forEach(b => {
@@ -685,28 +746,48 @@
             updateBestDisplay();
         }
 
+        function setRevMode(dir) {
+            revDirection = dir;
+            document.getElementById('rev-btn-forward').classList.toggle('active', dir === 'forward');
+            document.getElementById('rev-btn-reverse').classList.toggle('active', dir === 'reverse');
+            updateBestDisplay();
+        }
+
         function updateBestDisplay() {
-            if (currentMode === 'schulte') {
-                const maxNum = SCHULTE_TIERS[schulteTierIdx];
-                const val = localStorage.getItem('brain_best_time_' + maxNum);
-                bestEl.textContent = val ? val + 's' : '--';
-                return;
+            try {
+                if (currentMode === 'schulte') {
+                    const maxNum = SCHULTE_TIERS[schulteTierIdx];
+                    const val = localStorage.getItem('brain_best_time_' + maxNum);
+                    bestEl.textContent = val ? val + 's' : '--';
+                    return;
+                }
+                if (currentMode === 'stroop') {
+                    const val = localStorage.getItem('brain_best_stroop_' + stroopTierIdx);
+                    bestEl.textContent = val ? val + ' pts' : '--';
+                    return;
+                }
+                if (currentMode === 'nback') {
+                    const val = localStorage.getItem('brain_best_nback_' + nBackLevel);
+                    bestEl.textContent = val ? val + ' pts' : '--';
+                    return;
+                }
+                if (currentMode === 'reverse') {
+                    const val = localStorage.getItem('brain_best_rev_' + revDirection);
+                    bestEl.textContent = val ? val + ' dig' : '--';
+                    return;
+                }
+                const keys = {
+                    dot: ['brain_best_mot', ' lvl'],
+                    memory: ['brain_best_mem', ' lvl'],
+                    switch: ['brain_best_switch', ' pts'],
+                    target: ['brain_best_target', ' pts']
+                };
+                const [k, unit] = keys[currentMode];
+                const val = localStorage.getItem(k);
+                bestEl.textContent = val ? val + unit : '--';
+            } catch (e) {
+                bestEl.textContent = '--';
             }
-            if (currentMode === 'nback') {
-                const val = localStorage.getItem('brain_best_nback_' + nBackLevel);
-                bestEl.textContent = val ? val + ' pts' : '--';
-                return;
-            }
-            const keys = {
-                dot: ['brain_best_mot', ' lvl'],
-                memory: ['brain_best_mem', ' lvl'],
-                stroop: ['brain_best_stroop', ' pts'],
-                switch: ['brain_best_switch', ' pts'],
-                reverse: ['brain_best_rev', ' dig']
-            };
-            const [k, unit] = keys[currentMode];
-            const val = localStorage.getItem(k);
-            bestEl.textContent = val ? val + unit : '--';
         }
         updateBestDisplay();
 
@@ -714,11 +795,12 @@
             stopAllTimers();
             currentMode = mode;
 
-            ['schulte', 'dot', 'memory', 'stroop', 'nback', 'switch', 'reverse'].forEach(m => {
-                document.getElementById('tab-' + m).classList.toggle('active', m === mode);
+            ['schulte', 'dot', 'memory', 'stroop', 'nback', 'switch', 'reverse', 'target'].forEach(m => {
+                const btn = document.getElementById('tab-' + m);
+                if (btn) btn.classList.toggle('active', m === mode);
             });
 
-            const isCanvas = (mode === 'schulte' || mode === 'dot');
+            const isCanvas = (mode === 'schulte' || mode === 'dot' || mode === 'target');
             canvas.style.display = isCanvas ? 'block' : 'none';
             domGame.style.display = isCanvas ? 'none' : 'flex';
             matrixWrap.style.display = (mode === 'memory' || mode === 'nback') ? 'flex' : 'none';
@@ -727,8 +809,11 @@
             stroopBox.style.display = (mode === 'stroop') ? 'flex' : 'none';
             switchBox.style.display = (mode === 'switch') ? 'flex' : 'none';
             revBox.style.display = (mode === 'reverse') ? 'flex' : 'none';
+
             tierSelect.style.display = (mode === 'schulte') ? 'flex' : 'none';
+            stroopTierSelect.style.display = (mode === 'stroop') ? 'flex' : 'none';
             nbackTierSelect.style.display = (mode === 'nback') ? 'flex' : 'none';
+            revModeSelect.style.display = (mode === 'reverse') ? 'flex' : 'none';
 
             resultsEl.style.display = 'none';
             overlay.style.display = 'flex';
@@ -763,7 +848,7 @@
                 document.getElementById('label-3').textContent = 'Errors';
                 targetEl.textContent = '0'; timeEl.textContent = '45.0s';
                 titleEl.textContent = '4. STROOP + NO-GO BOMB';
-                descEl.innerHTML = '<b>INK COLOR</b> = Rang chunein | <b>WORD MEANING</b> = Shabd chunein.<br><span class="penalty-tag">💣 TWIST: Jab "BOMB / NO-GO" aaye toh haath rokein (Click mat karein)!</span><br><span class="bonus-tag">Haath rokne par +4 Discipline Bonus!</span>';
+                descEl.innerHTML = '<b>Beginner (3.5s)</b> se shuru karein! Jaise-jaise aap sahi tap karenge, time dheere-dheere kam hoga.<br><span class="penalty-tag">💣 Jab "BOMB / NO-GO" aaye toh haath rokein!</span>';
             } else if (mode === 'nback') {
                 document.getElementById('label-1').textContent = 'Score';
                 document.getElementById('label-2').textContent = 'Step';
@@ -777,19 +862,27 @@
                 document.getElementById('label-3').textContent = 'Errors';
                 targetEl.textContent = '0'; timeEl.textContent = '45.0s';
                 titleEl.textContent = '6. COGNITIVE TASK SWITCHING';
-                descEl.innerHTML = 'Agar Card <b>UPAR (Top)</b> aaye -> Number dekhein (<b>EVEN</b> ya <b>ODD</b>).<br>Agar Card <b>NEECHE (Bottom)</b> aaye -> Letter dekhein (<b>VOWEL</b> ya <b>CONSONANT</b>).<br><span class="penalty-tag">Mental gear-shifting speed test!</span>';
+                descEl.innerHTML = 'Agar Card <b>UPAR (Top)</b> aaye -> Number dekhein (<b>EVEN [2,4,6,8]</b> ya <b>ODD [1,3,5,7,9]</b>).<br>Agar Card <b>NEECHE (Bottom)</b> aaye -> Letter dekhein (<b>VOWEL [A,E,I,O,U]</b> ya <b>CONSONANT</b>).';
             } else if (mode === 'reverse') {
                 document.getElementById('label-1').textContent = 'Digits';
                 document.getElementById('label-2').textContent = 'Progress';
                 document.getElementById('label-3').textContent = 'Lives';
-                targetEl.textContent = '4'; timeEl.textContent = '0/4'; errorEl.textContent = '3 ❤️';
-                titleEl.textContent = '7. REVERSE SPAN (MANIPULATION)';
-                descEl.innerHTML = 'Numbers ek-ek karke flash honge (jaise: <b>4 → 9 → 2 → 7</b>).<br>Aapko unhe dimag mein palat kar <b>ULTE KRAM (7 → 2 → 9 → 4)</b> mein type karna hai!';
+                targetEl.textContent = '2 Dig'; timeEl.textContent = '0/2'; errorEl.textContent = '3 ❤️';
+                titleEl.textContent = '7. NUMBER SPAN (2 TO 10+ DIGITS)';
+                descEl.innerHTML = 'Beginner <b>2 Numbers</b> se shuru hoga aur har level par +1 number badhega!<br>Neeche chunein: <b>Starting Order (Seedha)</b> ya <b>Reverse Order (Ulta)</b>.';
+            } else if (mode === 'target') {
+                document.getElementById('label-1').textContent = 'Find Target';
+                document.getElementById('label-2').textContent = 'Time Left';
+                document.getElementById('label-3').textContent = 'Errors';
+                targetEl.textContent = '--'; timeEl.textContent = '60.0s'; errorEl.textContent = '0';
+                titleEl.textContent = '8. DYNAMIC TARGET HUNT';
+                descEl.innerHTML = 'App aapko ek <b>Number ya Word (jaise 73, 9K, BUY)</b> bolega aur upar dikhayega.<br>Move hote huye circles ke beech us target ko dhoondh kar tap karein!';
             }
             updateBestDisplay();
         }
 
         function initGame() {
+            if (isPlaying) return;
             initAudio();
             errors = 0; errorEl.textContent = '0';
             overlay.style.display = 'none';
@@ -806,7 +899,7 @@
                 memLevel = 1; memLives = 3; errorEl.textContent = '3 ❤️';
                 startMemoryRound();
             } else if (currentMode === 'stroop') {
-                stroopScore = 0; targetEl.textContent = '0';
+                stroopScore = 0; stroopHits = 0; targetEl.textContent = '0';
                 nextStroopQuestion();
                 if (animId) cancelAnimationFrame(animId);
                 stroopLoop();
@@ -818,15 +911,148 @@
                 if (animId) cancelAnimationFrame(animId);
                 switchLoop();
             } else if (currentMode === 'reverse') {
-                revLength = 4; revLives = 3; errorEl.textContent = '3 ❤️';
+                revLength = 2; // Starts at Beginner 2 numbers!
+                revLives = 3; errorEl.textContent = '3 ❤️';
                 startRevRound();
+            } else if (currentMode === 'target') {
+                initTargetHunt();
             }
+        }
+
+        // --- GAME 8: DYNAMIC TARGET HUNT ---
+        function generateHuntLabel(levelHits) {
+            if (levelHits >= 4 && Math.random() < 0.45) {
+                const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+                if (Math.random() < 0.5) {
+                    const n = Math.floor(Math.random() * 9) + 1;
+                    const c = chars[Math.floor(Math.random() * chars.length)];
+                    return `${n}${c}`;
+                } else {
+                    const words = ['BUY', 'PUT', 'WIN', 'MAX', 'PRO', 'TOP', 'ASK', 'BID'];
+                    return words[Math.floor(Math.random() * words.length)];
+                }
+            }
+            return String(Math.floor(Math.random() * 89) + 11);
+        }
+
+        function spawnHuntNode(existingNodes, levelHits) {
+            const totalExpected = existingNodes.length + 1;
+            const areaPerNode = (canvas.width * canvas.height) / (Math.max(18, totalExpected) * 3.4);
+            const radius = Math.max(18, Math.min(27, Math.floor(Math.sqrt(areaPerNode) / 1.85)));
+
+            let x, y, label, overlapping, attempts = 0;
+            do {
+                overlapping = false;
+                label = generateHuntLabel(levelHits);
+                x = radius + Math.random() * (canvas.width - radius * 2);
+                y = radius + 45 + Math.random() * (canvas.height - radius * 2 - 45);
+                for (let other of existingNodes) {
+                    if (other.num === label || Math.hypot(x - other.x, y - other.y) < radius * 2.1) {
+                        overlapping = true;
+                        break;
+                    }
+                }
+                attempts++;
+            } while (overlapping && attempts < 200);
+
+            const angle = Math.random() * Math.PI * 2;
+            const baseSpeed = 0.85 + Math.random() * 0.65;
+            return {
+                num: label,
+                x, y,
+                vx: Math.cos(angle) * baseSpeed,
+                vy: Math.sin(angle) * baseSpeed,
+                r: radius,
+                hitFlash: 0
+            };
+        }
+
+        function initTargetHunt() {
+            resizeCanvas();
+            nodes = [];
+            speedMultiplier = 1;
+            targetHuntScore = 0;
+            targetHuntHits = 0;
+
+            for (let i = 0; i < 16; i++) {
+                nodes.push(spawnHuntNode(nodes, 0));
+            }
+
+            motBanner.style.display = 'block';
+            pickNewHuntTarget();
+            if (animId) cancelAnimationFrame(animId);
+            targetHuntLoop();
+        }
+
+        function pickNewHuntTarget() {
+            if (nodes.length === 0) return;
+            const randomNode = nodes[Math.floor(Math.random() * nodes.length)];
+            currentHuntTarget = randomNode.num;
+            targetEl.textContent = currentHuntTarget;
+            motBanner.textContent = `🎯 FIND & TAP: "${currentHuntTarget}" (Score: ${targetHuntScore})`;
+            motBanner.style.color = '#38bdf8';
+            speakText(currentHuntTarget);
+        }
+
+        function targetHuntLoop() {
+            if (!isPlaying || currentMode !== 'target') return;
+            const now = performance.now();
+            const remaining = Math.max(0, huntDuration - ((now - startTime) / 1000));
+            timeEl.textContent = remaining.toFixed(1) + 's';
+
+            for (let i = 0; i < nodes.length; i++) {
+                const n = nodes[i];
+                n.x += n.vx * speedMultiplier;
+                n.y += n.vy * speedMultiplier;
+                if (n.x - n.r < 0) { n.x = n.r; n.vx *= -1; }
+                if (n.x + n.r > canvas.width) { n.x = canvas.width - n.r; n.vx *= -1; }
+                if (n.y - n.r < 45) { n.y = 45 + n.r; n.vy *= -1; }
+                if (n.y + n.r > canvas.height) { n.y = canvas.height - n.r; n.vy *= -1; }
+
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const m = nodes[j], dx = m.x - n.x, dy = m.y - n.y, dist = Math.hypot(dx, dy), minDist = n.r + m.r + 2;
+                    if (dist < minDist && dist > 0) {
+                        const overlap = (minDist - dist) / 2, nx = dx / dist, ny = dy / dist;
+                        n.x -= nx * overlap; n.y -= ny * overlap; m.x += nx * overlap; m.y += ny * overlap;
+                        const tvx = n.vx, tvy = n.vy; n.vx = m.vx; n.vy = m.vy; m.vx = tvx; m.vy = tvy;
+                    }
+                }
+            }
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (flashTimer > 0) { ctx.fillStyle = flashColor; ctx.fillRect(0, 0, canvas.width, canvas.height); flashTimer--; }
+
+            for (let n of nodes) {
+                ctx.beginPath();
+                ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+                if (n.hitFlash > 0) {
+                    ctx.fillStyle = '#10b981';
+                    ctx.strokeStyle = '#34d399';
+                    n.hitFlash--;
+                } else {
+                    ctx.fillStyle = '#1e293b';
+                    ctx.strokeStyle = '#475569';
+                }
+                ctx.fill();
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                ctx.fillStyle = '#f8fafc';
+                const fontSize = String(n.num).length > 2 ? Math.floor(n.r * 0.58) : Math.floor(n.r * 0.74);
+                ctx.font = `bold ${fontSize}px sans-serif`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(n.num, n.x, n.y);
+            }
+
+            if (remaining <= 0) { finishGame(); return; }
+            animId = requestAnimationFrame(targetHuntLoop);
         }
 
         // --- GAME 6: COGNITIVE TASK SWITCHING ---
         function nextSwitchCard() {
             switchIsTop = Math.random() < 0.5;
-            switchNum = Math.floor(Math.random() * 8) + 2; // 2 to 9
+            switchNum = Math.floor(Math.random() * 8) + 2;
             const isVowel = Math.random() < 0.5;
             switchChar = isVowel
                 ? VOWELS[Math.floor(Math.random() * VOWELS.length)]
@@ -841,8 +1067,6 @@
 
         function handleSwitchTap(side) {
             if (!isPlaying || currentMode !== 'switch') return;
-            // LEFT button = EVEN (if top) or VOWEL (if bottom)
-            // RIGHT button = ODD (if top) or CONSONANT (if bottom)
             let correctSide = '';
             if (switchIsTop) {
                 correctSide = (switchNum % 2 === 0) ? 'LEFT' : 'RIGHT';
@@ -871,7 +1095,7 @@
             animId = requestAnimationFrame(switchLoop);
         }
 
-        // --- GAME 7: REVERSE SPAN ---
+        // --- GAME 7: STARTING / REVERSE SPAN (STARTS AT 2 NUMBERS!) ---
         function startRevRound() {
             revAcceptInput = false;
             revUserIdx = 0;
@@ -883,7 +1107,7 @@
             }
             targetEl.textContent = revLength + ' Dig';
             timeEl.textContent = `0/${revLength}`;
-            document.getElementById('rev-status').textContent = '👀 Watch sequence...';
+            document.getElementById('rev-status').textContent = `👀 Watch ${revLength} numbers...`;
             document.getElementById('rev-status').style.color = '#fbbf24';
             document.getElementById('rev-display').textContent = '-';
 
@@ -896,10 +1120,14 @@
                     step++;
                     timerId = setTimeout(() => {
                         document.getElementById('rev-display').textContent = '';
-                        timerId = setTimeout(flashNextDigit, 220);
-                    }, 680);
+                        timerId = setTimeout(flashNextDigit, 240);
+                    }, 750);
                 } else {
-                    document.getElementById('rev-status').textContent = '⏪ Enter in REVERSE Order!';
+                    if (revDirection === 'forward') {
+                        document.getElementById('rev-status').textContent = '▶ Type in STARTING Order (Seedha)!';
+                    } else {
+                        document.getElementById('rev-status').textContent = '◀ Type in REVERSE Order (Ulta)!';
+                    }
                     document.getElementById('rev-status').style.color = '#38bdf8';
                     document.getElementById('rev-display').textContent = '?';
                     revAcceptInput = true;
@@ -910,36 +1138,45 @@
 
         function handleRevKey(num) {
             if (!isPlaying || currentMode !== 'reverse' || !revAcceptInput) return;
-            const expected = revSeq[revLength - 1 - revUserIdx];
+
+            const expected = (revDirection === 'forward')
+                ? revSeq[revUserIdx]
+                : revSeq[revLength - 1 - revUserIdx];
 
             if (num === expected) {
                 revUserIdx++;
                 timeEl.textContent = `${revUserIdx}/${revLength}`;
-                const enteredStr = revSeq.slice(revLength - revUserIdx).reverse().join('');
+
+                let enteredStr = '';
+                if (revDirection === 'forward') {
+                    enteredStr = revSeq.slice(0, revUserIdx).join('');
+                } else {
+                    enteredStr = revSeq.slice(revLength - revUserIdx).reverse().join('');
+                }
                 document.getElementById('rev-display').textContent = enteredStr;
                 playHitSound(revUserIdx, revLength);
 
                 if (revUserIdx === revLength) {
                     revAcceptInput = false;
-                    document.getElementById('rev-status').textContent = '✅ Perfect! Adding +1 Digit...';
+                    document.getElementById('rev-status').textContent = `✅ Level Cleared! Next: ${revLength + 1} Numbers...`;
                     document.getElementById('rev-status').style.color = '#10b981';
                     revLength++;
-                    timerId = setTimeout(startRevRound, 900);
+                    timerId = setTimeout(startRevRound, 950);
                 }
             } else {
                 revAcceptInput = false;
                 playErrorSound();
                 revLives--;
                 errorEl.textContent = revLives + ' ❤️';
-                const correctRev = [...revSeq].reverse().join('');
-                document.getElementById('rev-status').textContent = `❌ Wrong! Reverse was: ${correctRev}`;
+                const correctAns = (revDirection === 'forward') ? revSeq.join('') : [...revSeq].reverse().join('');
+                document.getElementById('rev-status').textContent = `❌ Galat! Sahi answer tha: ${correctAns}`;
                 document.getElementById('rev-status').style.color = '#f43f5e';
-                if (revLives <= 0) timerId = setTimeout(finishGame, 1200);
+                if (revLives <= 0) timerId = setTimeout(finishGame, 1300);
                 else timerId = setTimeout(startRevRound, 1500);
             }
         }
 
-        // --- GAME 5: AUDIO-VISUAL DUAL N-BACK (2/3/4-BACK) ---
+        // --- GAME 5: AUDIO-VISUAL DUAL N-BACK ---
         function startNBackGame() {
             nbackPosHist = []; nbackAudHist = [];
             nbackStep = 0; nbackScore = 0;
@@ -960,7 +1197,6 @@
 
         function runNBackStep() {
             if (!isPlaying || currentMode !== 'nback') return;
-            // Check missed matches from previous step
             if (nbackStep > nBackLevel) {
                 const prevPosMatch = nbackPosHist[nbackStep - 1] === nbackPosHist[nbackStep - 1 - nBackLevel];
                 const prevAudMatch = nbackAudHist[nbackStep - 1] === nbackAudHist[nbackStep - 1 - nBackLevel];
@@ -991,9 +1227,9 @@
 
             setTimeout(() => {
                 if (!isPlaying || currentMode !== 'nback') return;
-                cells[nextPos].classList.add('lit');
+                if (cells[nextPos]) cells[nextPos].classList.add('lit');
                 nbackAudioBadge.textContent = `🔊 Audio: "${nextAud}"`;
-                speakLetter(nextAud);
+                speakText(nextAud);
                 setTimeout(() => { if (cells[nextPos]) cells[nextPos].classList.remove('lit'); }, 950);
             }, 150);
 
@@ -1027,20 +1263,23 @@
             }
         }
 
-        // --- GAME 4: STROOP + NO-GO BOMB TWIST ---
+        // --- GAME 4: STROOP + NO-GO BOMB (PROGRESSIVE BEGINNER TO VERY HARD) ---
         function nextStroopQuestion() {
+            const tier = STROOP_TIERS[stroopTierIdx];
             const ruleEl = document.getElementById('stroop-rule');
             const wordEl = document.getElementById('stroop-word');
 
-            // 25% chance of NO-GO BOMB trap!
+            // Gradually reduce time as player gets more hits in the round
+            const currentLimit = Math.max(tier.minTime, tier.baseTime - (stroopHits * tier.decay));
+
             if (Math.random() < 0.25) {
                 stroopIsNoGo = true;
-                ruleEl.textContent = '🛑 NO-GO TRAP: DO NOT TAP!';
+                ruleEl.textContent = `🛑 [${tier.name}] NO-GO TRAP: DO NOT TAP!`;
                 ruleEl.style.background = '#dc2626';
                 wordEl.textContent = Math.random() < 0.5 ? '💣 BOMB' : '❌ NO-GO';
                 wordEl.style.color = '#f43f5e';
                 questionStartTime = performance.now();
-                shotClockLimit = 1250; // Hold hand for 1.25s to pass!
+                shotClockLimit = tier.holdTime;
                 return;
             }
 
@@ -1053,21 +1292,23 @@
             const askInk = Math.random() < 0.55;
 
             if (askInk) {
-                ruleEl.textContent = '🎨 TAP INK COLOR (RANG)';
-                ruleEl.style.background = '#7c3aed'; stroopAnswer = inkObj.name;
+                ruleEl.textContent = `🎨 [${tier.name} - ${(currentLimit/1000).toFixed(1)}s] TAP INK COLOR (RANG)`;
+                ruleEl.style.background = '#7c3aed';
+                stroopAnswer = inkObj.name;
             } else {
-                ruleEl.textContent = '📖 TAP WORD MEANING (SHABD)';
-                ruleEl.style.background = '#0284c7'; stroopAnswer = wordObj.name;
+                ruleEl.textContent = `📖 [${tier.name} - ${(currentLimit/1000).toFixed(1)}s] TAP WORD MEANING (SHABD)`;
+                ruleEl.style.background = '#0284c7';
+                stroopAnswer = wordObj.name;
             }
-            wordEl.textContent = wordObj.name; wordEl.style.color = inkObj.hex;
+            wordEl.textContent = wordObj.name;
+            wordEl.style.color = inkObj.hex;
             questionStartTime = performance.now();
-            shotClockLimit = Math.max(1150, 1850 - (stroopScore * 6));
+            shotClockLimit = currentLimit;
         }
 
         function handleStroop(choice) {
             if (!isPlaying || currentMode !== 'stroop') return;
             if (stroopIsNoGo) {
-                // Failed impulse brake! Clicked on BOMB!
                 errors++; stroopScore = Math.max(0, stroopScore - 5);
                 errorEl.textContent = errors; targetEl.textContent = stroopScore;
                 playErrorSound();
@@ -1075,10 +1316,14 @@
                 return;
             }
             if (choice === stroopAnswer) {
-                stroopScore += 3; playHitSound(Math.min(stroopScore, 60), 60);
+                stroopHits++;
+                stroopScore += 3;
+                playHitSound(Math.min(stroopScore, 60), 60);
             } else {
-                errors++; stroopScore = Math.max(0, stroopScore - 2);
-                errorEl.textContent = errors; playErrorSound();
+                errors++;
+                stroopScore = Math.max(0, stroopScore - 2);
+                errorEl.textContent = errors;
+                playErrorSound();
             }
             targetEl.textContent = stroopScore;
             nextStroopQuestion();
@@ -1098,13 +1343,15 @@
 
             if (qElapsed >= shotClockLimit) {
                 if (stroopIsNoGo) {
-                    // Successfully inhibited impulse! +4 Bonus
+                    stroopHits++;
                     stroopScore += 4;
                     targetEl.textContent = stroopScore;
                     playHitSound(40, 50);
                 } else {
-                    errors++; stroopScore = Math.max(0, stroopScore - 2);
-                    errorEl.textContent = errors; targetEl.textContent = stroopScore;
+                    errors++;
+                    stroopScore = Math.max(0, stroopScore - 2);
+                    errorEl.textContent = errors;
+                    targetEl.textContent = stroopScore;
                     playErrorSound();
                 }
                 nextStroopQuestion();
@@ -1311,12 +1558,12 @@
             }
         }
 
+        // --- CANVAS INPUT HANDLER (POINTER EVENTS PREVENT DOUBLE-FIRE) ---
         function handleCanvasInput(e) {
             if (!isPlaying) return;
-            e.preventDefault();
             const rect = canvas.getBoundingClientRect();
-            const cx = e.touches ? e.touches[0].clientX : e.clientX;
-            const cy = e.touches ? e.touches[0].clientY : e.clientY;
+            const cx = (e.touches && e.touches[0]) ? e.touches[0].clientX : e.clientX;
+            const cy = (e.touches && e.touches[0]) ? e.touches[0].clientY : e.clientY;
             const x = cx - rect.left, y = cy - rect.top;
 
             if (currentMode === 'schulte') {
@@ -1366,6 +1613,38 @@
                         break;
                     }
                 }
+            } else if (currentMode === 'target') {
+                for (let i = nodes.length - 1; i >= 0; i--) {
+                    const n = nodes[i];
+                    if (Math.hypot(x - n.x, y - n.y) <= n.r + 7) {
+                        if (String(n.num) === String(currentHuntTarget)) {
+                            targetHuntHits++;
+                            targetHuntScore += 10;
+                            n.hitFlash = 12;
+                            playHitSound(Math.min(targetHuntHits, 30), 30);
+                            speedMultiplier *= 1.035;
+                            flashColor = 'rgba(16, 185, 129, 0.14)'; flashTimer = 4;
+
+                            let newLabel;
+                            do {
+                                newLabel = generateHuntLabel(targetHuntHits);
+                            } while (nodes.some(item => item.num === newLabel));
+                            n.num = newLabel;
+
+                            if (targetHuntHits % 2 === 0 && nodes.length < 36) {
+                                nodes.push(spawnHuntNode(nodes, targetHuntHits));
+                            }
+                            pickNewHuntTarget();
+                        } else {
+                            playErrorSound();
+                            errors++;
+                            targetHuntScore = Math.max(0, targetHuntScore - 4);
+                            errorEl.textContent = errors;
+                            flashColor = 'rgba(244, 63, 94, 0.3)'; flashTimer = 8;
+                        }
+                        break;
+                    }
+                }
             }
         }
 
@@ -1375,64 +1654,85 @@
             titleEl.textContent = "SESSION COMPLETE";
             resultsEl.style.display = 'block';
 
-            if (currentMode === 'schulte') {
-                const maxNum = SCHULTE_TIERS[schulteTierIdx];
-                const finalTime = (((performance.now() - startTime) / 1000) + penaltyTime).toFixed(2);
-                const key = 'brain_best_time_' + maxNum;
-                const prev = localStorage.getItem(key);
-                if (!prev || parseFloat(finalTime) < parseFloat(prev)) localStorage.setItem(key, finalTime);
-                if (schulteTierIdx < SCHULTE_TIERS.length - 1) {
-                    const nextTierNum = SCHULTE_TIERS[schulteTierIdx + 1];
-                    resultsEl.innerHTML = `Cleared <b>1-${maxNum}</b> in <b>${finalTime}s</b> (Errors: ${errors})<br><span style="color:#10b981">🔥 Unlocked Next Tier: 1 to ${nextTierNum}!</span>`;
-                    setSchulteTier(schulteTierIdx + 1);
-                } else {
-                    resultsEl.innerHTML = `EXTREME 1-50 Cleared in <b>${finalTime}s</b> | Errors: <b>${errors}</b>`;
+            try {
+                if (currentMode === 'schulte') {
+                    const maxNum = SCHULTE_TIERS[schulteTierIdx];
+                    const finalTime = (((performance.now() - startTime) / 1000) + penaltyTime).toFixed(2);
+                    const key = 'brain_best_time_' + maxNum;
+                    const prev = localStorage.getItem(key);
+                    if (!prev || parseFloat(finalTime) < parseFloat(prev)) localStorage.setItem(key, finalTime);
+                    if (schulteTierIdx < SCHULTE_TIERS.length - 1) {
+                        const nextTierNum = SCHULTE_TIERS[schulteTierIdx + 1];
+                        resultsEl.innerHTML = `Cleared <b>1-${maxNum}</b> in <b>${finalTime}s</b> (Errors: ${errors})<br><span style="color:#10b981">🔥 Unlocked Next Tier: 1 to ${nextTierNum}!</span>`;
+                        setSchulteTier(schulteTierIdx + 1);
+                    } else {
+                        resultsEl.innerHTML = `EXTREME 1-50 Cleared in <b>${finalTime}s</b> | Errors: <b>${errors}</b>`;
+                    }
+                } else if (currentMode === 'dot') {
+                    const reached = motLevel - 1;
+                    const prev = localStorage.getItem('brain_best_mot');
+                    if (!prev || reached > parseInt(prev)) localStorage.setItem('brain_best_mot', reached);
+                    resultsEl.innerHTML = `Endurance MOT Cleared: <b>Level ${reached}</b>`;
+                } else if (currentMode === 'memory') {
+                    const reached = memLevel - 1;
+                    const prev = localStorage.getItem('brain_best_mem');
+                    if (!prev || reached > parseInt(prev)) localStorage.setItem('brain_best_mem', reached);
+                    resultsEl.innerHTML = `Memory Matrix Cleared: <b>Level ${reached}</b>`;
+                } else if (currentMode === 'stroop') {
+                    const tierName = STROOP_TIERS[stroopTierIdx].name;
+                    const key = 'brain_best_stroop_' + stroopTierIdx;
+                    const prev = localStorage.getItem(key);
+                    if (!prev || stroopScore > parseInt(prev)) localStorage.setItem(key, stroopScore);
+
+                    if (stroopScore >= 25 && stroopTierIdx < STROOP_TIERS.length - 1) {
+                        const nextName = STROOP_TIERS[stroopTierIdx + 1].name;
+                        resultsEl.innerHTML = `[${tierName}] Score: <b>${stroopScore} pts</b> (Mistakes: ${errors})<br><span style="color:#10b981">🔥 Level Up! Next Round: ${nextName} Mode!</span>`;
+                        setStroopTier(stroopTierIdx + 1);
+                    } else {
+                        resultsEl.innerHTML = `[${tierName}] Score: <b>${stroopScore} pts</b> | Mistakes: <b>${errors}</b>`;
+                    }
+                } else if (currentMode === 'nback') {
+                    const key = 'brain_best_nback_' + nBackLevel;
+                    const prev = localStorage.getItem(key);
+                    if (!prev || nbackScore > parseInt(prev)) localStorage.setItem('brain_best_nback_' + nBackLevel, nbackScore);
+                    resultsEl.innerHTML = `Dual ${nBackLevel}-Back Score: <b>${nbackScore} pts</b> | Mistakes: <b>${errors}</b>`;
+                } else if (currentMode === 'switch') {
+                    const prev = localStorage.getItem('brain_best_switch');
+                    if (!prev || switchScore > parseInt(prev)) localStorage.setItem('brain_best_switch', switchScore);
+                    resultsEl.innerHTML = `Task Switch Score: <b>${switchScore} pts</b> | Mistakes: <b>${errors}</b>`;
+                } else if (currentMode === 'reverse') {
+                    const reached = revLength - 1;
+                    const key = 'brain_best_rev_' + revDirection;
+                    const prev = localStorage.getItem(key);
+                    if (!prev || reached > parseInt(prev)) localStorage.setItem(key, reached);
+                    const modeLabel = revDirection === 'forward' ? 'Starting Order' : 'Reverse Order';
+                    resultsEl.innerHTML = `Max ${modeLabel} Cleared: <b>${reached} Numbers</b>`;
+                } else if (currentMode === 'target') {
+                    const prev = localStorage.getItem('brain_best_target');
+                    if (!prev || targetHuntScore > parseInt(prev)) localStorage.setItem('brain_best_target', targetHuntScore);
+                    resultsEl.innerHTML = `Target Hunt Score: <b>${targetHuntScore} pts</b> (${targetHuntHits} Hits) | Mistakes: <b>${errors}</b>`;
                 }
-            } else if (currentMode === 'dot') {
-                const reached = motLevel - 1;
-                const prev = localStorage.getItem('brain_best_mot');
-                if (!prev || reached > parseInt(prev)) localStorage.setItem('brain_best_mot', reached);
-                resultsEl.innerHTML = `Endurance MOT Cleared: <b>Level ${reached}</b>`;
-            } else if (currentMode === 'memory') {
-                const reached = memLevel - 1;
-                const prev = localStorage.getItem('brain_best_mem');
-                if (!prev || reached > parseInt(prev)) localStorage.setItem('brain_best_mem', reached);
-                resultsEl.innerHTML = `Memory Matrix Cleared: <b>Level ${reached}</b>`;
-            } else if (currentMode === 'stroop') {
-                const prev = localStorage.getItem('brain_best_stroop');
-                if (!prev || stroopScore > parseInt(prev)) localStorage.setItem('brain_best_stroop', stroopScore);
-                resultsEl.innerHTML = `No-Go Impulse Score: <b>${stroopScore} pts</b> | Mistakes: <b>${errors}</b>`;
-            } else if (currentMode === 'nback') {
-                const key = 'brain_best_nback_' + nBackLevel;
-                const prev = localStorage.getItem(key);
-                if (!prev || nbackScore > parseInt(prev)) localStorage.setItem(key, nbackScore);
-                resultsEl.innerHTML = `Dual ${nBackLevel}-Back Score: <b>${nbackScore} pts</b> | Mistakes: <b>${errors}</b>`;
-            } else if (currentMode === 'switch') {
-                const prev = localStorage.getItem('brain_best_switch');
-                if (!prev || switchScore > parseInt(prev)) localStorage.setItem('brain_best_switch', switchScore);
-                resultsEl.innerHTML = `Task Switch Score: <b>${switchScore} pts</b> | Mistakes: <b>${errors}</b>`;
-            } else if (currentMode === 'reverse') {
-                const reached = revLength - 1;
-                const prev = localStorage.getItem('brain_best_rev');
-                if (!prev || reached > parseInt(prev)) localStorage.setItem('brain_best_rev', reached);
-                resultsEl.innerHTML = `Max Reverse Span Cleared: <b>${reached} Digits</b>`;
-            }
+            } catch (e) {}
 
             updateBestDisplay();
             startBtn.textContent = "PLAY NEXT ROUND";
             overlay.style.display = 'flex';
         }
 
-        canvas.addEventListener('mousedown', handleCanvasInput);
-        canvas.addEventListener('touchstart', handleCanvasInput, { passive: false });
-        startBtn.addEventListener('click', initGame);
-    </script>
-<script>
+        // Use pointerdown so mobile & desktop clicks never conflict or block
+        canvas.addEventListener('pointerdown', handleCanvasInput);
+
+        // Clear any stuck old Service Worker caches so updates work immediately
+        if ('caches' in window) {
+            caches.keys().then(names => {
+                for (let name of names) caches.delete(name);
+            });
+        }
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('./sw.js').then(reg => {
-                    console.log('Premium App Engine Registered!');
-                });
+                    reg.update();
+                }).catch(() => {});
             });
         }
     </script>
