@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Trader Brain Suite v6.2</title>
-    <meta name="theme-color" content="#0b0f19">
+    <title>Brain Train Pro v7.0</title>
+    <meta name="theme-color" content="#130924">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -20,73 +20,376 @@
             font-family: 'Segoe UI', Roboto, Helvetica, sans-serif;
         }
         body {
-            background-color: #0b0f19;
+            background: radial-gradient(circle at top, #1e1035 0%, #0d071a 60%, #080510 100%);
             color: #f8fafc;
             display: flex;
             flex-direction: column;
             height: 100vh;
             overflow: hidden;
         }
-        #top-nav {
-            position: relative;
-            z-index: 30;
+
+        /* ================= HOME DASHBOARD VIEW ================= */
+        #home-screen {
             display: flex;
-            background: #0f172a;
-            border-bottom: 1px solid #1e293b;
-            padding: 6px 8px;
+            flex-direction: column;
+            height: 100vh;
+            width: 100%;
+            max-width: 540px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+        .app-header {
+            padding: 14px 16px 8px 16px;
+            display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 6px;
         }
-        .mode-tabs {
-            display: flex;
-            gap: 4px;
-            overflow-x: auto;
-            scrollbar-width: none;
+        .brand-title {
+            font-size: 24px;
+            font-weight: 900;
+            font-style: italic;
+            letter-spacing: 1.5px;
+            background: linear-gradient(90deg, #67e8f9, #c084fc, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            filter: drop-shadow(0 0 12px rgba(192, 132, 252, 0.55));
         }
-        .mode-tabs::-webkit-scrollbar { display: none; }
-        .tab-btn {
-            background: #1e293b;
-            color: #94a3b8;
-            border: 1px solid #334155;
-            padding: 7px 10px;
-            border-radius: 6px;
-            font-size: 11px;
-            font-weight: 700;
-            white-space: nowrap;
-            cursor: pointer;
-        }
-        .tab-btn.active {
-            background: #2563eb;
-            color: #ffffff;
-            border-color: #3b82f6;
-        }
-        .top-right-btns {
-            display: flex;
-            gap: 5px;
-            align-items: center;
-        }
-        #exit-btn {
-            display: none;
-            background: #dc2626;
-            color: #ffffff;
-            border: 1px solid #f87171;
-            padding: 6px 10px;
-            border-radius: 6px;
+        .sound-pill {
+            background: rgba(30, 20, 55, 0.85);
+            color: #67e8f9;
+            border: 1px solid #6b21a8;
+            padding: 6px 11px;
+            border-radius: 20px;
             font-size: 11px;
             font-weight: 800;
-            white-space: nowrap;
             cursor: pointer;
         }
-        #sound-btn {
-            background: #1e293b;
-            color: #38bdf8;
-            border: 1px solid #334155;
-            padding: 6px 8px;
-            border-radius: 6px;
+
+        /* Top 3 Scoreboard Pills (Like Image) */
+        .top-stats-row {
+            display: grid;
+            grid-template-columns: 1.35fr 0.9fr 1fr;
+            gap: 8px;
+            padding: 4px 14px 12px 14px;
+        }
+        .stat-pill {
+            background: rgba(38, 24, 68, 0.85);
+            border: 1px solid rgba(168, 85, 247, 0.35);
+            border-radius: 16px;
+            padding: 7px 10px;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
+        }
+        .pill-icon {
+            font-size: 16px;
+        }
+        .pill-info {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        .pill-title {
             font-size: 11px;
-            font-weight: bold;
+            font-weight: 800;
+            color: #f1f5f9;
             white-space: nowrap;
+        }
+        .mini-prog-bg {
+            width: 100%;
+            height: 5px;
+            background: #140c24;
+            border-radius: 4px;
+            margin-top: 4px;
+            overflow: hidden;
+        }
+        .mini-prog-fill {
+            height: 100%;
+            width: 40%;
+            background: linear-gradient(90deg, #ec4899, #f59e0b);
+            border-radius: 4px;
+        }
+
+        /* Main Scrollable Content Area */
+        #hub-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 4px 14px 20px 14px;
+            scrollbar-width: none;
+        }
+        #hub-content::-webkit-scrollbar { display: none; }
+
+        /* 2-Column Game Cards Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .game-card {
+            background: rgba(24, 15, 44, 0.9);
+            border-radius: 18px;
+            padding: 8px;
+            border: 2px solid rgba(192, 132, 252, 0.45);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45), 0 0 12px rgba(168, 85, 247, 0.15);
+            cursor: pointer;
+            transition: transform 0.12s, border-color 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        .game-card:active {
+            transform: scale(0.96);
+            border-color: #f472b6;
+        }
+        .card-art {
+            width: 100%;
+            height: 105px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .card-best-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            background: rgba(15, 23, 42, 0.85);
+            color: #38bdf8;
+            border: 1px solid rgba(56, 189, 248, 0.4);
+            font-size: 9px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 8px;
+            z-index: 2;
+        }
+        .card-title {
+            font-size: 13px;
+            font-weight: 900;
+            color: #ffffff;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+        }
+        .card-sub {
+            font-size: 11px;
+            color: #cbd5e1;
+            margin-top: 2px;
+        }
+
+        /* Custom Mini Art Styles for Cards */
+        .art-mot {
+            background: #0d1322;
+            background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .art-grid {
+            background: linear-gradient(135deg, #f97316 0%, #ec4899 55%, #a855f7 100%);
+        }
+        .art-matrix {
+            background: #141829;
+        }
+        .art-nogo {
+            background: radial-gradient(circle, #0f292a 0%, #09131c 100%);
+        }
+        .art-nback {
+            background: radial-gradient(circle, #1e1b4b 0%, #0f172a 100%);
+        }
+        .art-switch {
+            background: linear-gradient(180deg, rgba(37,99,235,0.25) 50%, rgba(16,185,129,0.25) 50%);
+        }
+        .art-span {
+            background: #131629;
+        }
+        .art-hunt {
+            background: radial-gradient(circle, #2e1065 0%, #090d16 100%);
+        }
+
+        .mini-dot {
+            width: 11px; height: 11px; border-radius: 50%; background: #fff; position: absolute;
+        }
+        .mini-dot.red {
+            background: #ef4444; box-shadow: 0 0 12px #ef4444; width: 13px; height: 13px;
+        }
+        .mini-tiles-wrap {
+            display: flex; flex-wrap: wrap; gap: 4px; padding: 10px; justify-content: center;
+        }
+        .mini-num-tile {
+            background: #fff; color: #0f172a; font-weight: 900; font-size: 10px;
+            padding: 3px 5px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .mini-3x3 {
+            display: grid; grid-template-columns: repeat(4, 16px); gap: 4px;
+        }
+        .mini-cell {
+            width: 16px; height: 16px; background: #262b40; border-radius: 3px;
+        }
+        .mini-cell.lit {
+            background: #fde047; box-shadow: 0 0 8px #facc15;
+        }
+        .neon-tap-badge {
+            border: 2px solid #22c55e; color: #4ade80; padding: 4px 10px; border-radius: 8px;
+            font-size: 11px; font-weight: 900; box-shadow: 0 0 10px rgba(34,197,94,0.4);
+            transform: rotate(-8deg);
+        }
+        .neon-bomb-badge {
+            border: 2px solid #f97316; color: #fb923c; padding: 4px 10px; border-radius: 8px;
+            font-size: 11px; font-weight: 900; box-shadow: 0 0 10px rgba(249,115,22,0.4);
+            transform: rotate(8deg); margin-top: 8px;
+        }
+
+        /* Progress (Track Record) & Leaderboard Panels */
+        .panel-box {
+            background: rgba(24, 15, 44, 0.92);
+            border: 1px solid rgba(192, 132, 252, 0.35);
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+        .panel-heading {
+            font-size: 15px;
+            font-weight: 900;
+            color: #e879f9;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+        .sum-card {
+            background: rgba(15, 10, 30, 0.8);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 8px;
+            text-align: center;
+        }
+        .sum-val { font-size: 18px; font-weight: 900; color: #38bdf8; }
+        .sum-lbl { font-size: 10px; color: #94a3b8; text-transform: uppercase; }
+
+        .log-row, .lb-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 9px 6px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            font-size: 12px;
+        }
+        .log-row:last-child, .lb-row:last-child { border-bottom: none; }
+        .rank-tag {
+            font-size: 10px;
+            font-weight: 800;
+            padding: 2px 7px;
+            border-radius: 10px;
+            background: #3b0764;
+            color: #e9d5ff;
+        }
+
+        /* Bottom Navigation Bar + LEVEL Bar (Like Image) */
+        .bottom-dock {
+            background: linear-gradient(180deg, #1b1136 0%, #100921 100%);
+            border-top: 1px solid rgba(192, 132, 252, 0.3);
+            padding: 6px 12px 10px 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .nav-icons-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            width: 100%;
+            margin-bottom: 6px;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            padding: 4px 0;
+            position: relative;
+        }
+        .nav-item.active {
+            color: #facc15;
+        }
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            width: 36px;
+            height: 3px;
+            background: #f472b6;
+            border-radius: 3px;
+        }
+        .nav-ico { font-size: 18px; margin-bottom: 2px; }
+        .level-footer {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .level-title {
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: #ffffff;
+            margin-bottom: 4px;
+        }
+        .level-bar-bg {
+            width: 65%;
+            height: 6px;
+            background: #261742;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+        .level-bar-fill {
+            height: 100%;
+            width: 50%;
+            background: linear-gradient(90deg, #facc15, #f97316, #ec4899, #a855f7);
+            border-radius: 6px;
+        }
+
+        /* ================= GAME ARENA VIEW ================= */
+        #game-screen {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
+            width: 100%;
+        }
+        #game-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #0f172a;
+            padding: 8px 12px;
+            border-bottom: 1px solid #1e293b;
+            z-index: 30;
+        }
+        #active-game-title {
+            font-size: 14px;
+            font-weight: 900;
+            color: #e879f9;
+            letter-spacing: 0.5px;
+        }
+        .home-exit-btn {
+            background: #dc2626;
+            color: #fff;
+            border: 1px solid #f87171;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 800;
             cursor: pointer;
         }
         #hud {
@@ -100,22 +403,11 @@
             border-bottom: 2px solid #334155;
             height: 54px;
         }
-        .stat-box {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .stat-label {
-            font-size: 10px;
-            color: #94a3b8;
-            text-transform: uppercase;
-        }
-        .stat-val {
-            font-size: 17px;
-            font-weight: 800;
-            color: #38bdf8;
-        }
+        .stat-box { display: flex; flex-direction: column; align-items: center; }
+        .stat-label { font-size: 10px; color: #94a3b8; text-transform: uppercase; }
+        .stat-val { font-size: 17px; font-weight: 800; color: #38bdf8; }
         #target-val { color: #f43f5e; font-size: 19px; }
+
         #arena {
             flex: 1;
             position: relative;
@@ -150,223 +442,38 @@
             padding: 14px;
             z-index: 10;
         }
-        /* Matrix & Dual N-Back */
-        #matrix-status {
-            font-size: 16px;
-            font-weight: 700;
-            color: #fbbf24;
-            margin-bottom: 10px;
-            height: 24px;
-            text-align: center;
-        }
-        #nback-audio-badge {
-            display: none;
-            font-size: 20px;
-            font-weight: 900;
-            color: #38bdf8;
-            margin-bottom: 10px;
-            height: 28px;
-        }
-        #matrix-grid {
-            display: grid;
-            gap: 10px;
-            background: #1e293b;
-            padding: 14px;
-            border-radius: 14px;
-            border: 2px solid #334155;
-        }
-        .m-cell {
-            background: #0f172a;
-            border: 2px solid #334155;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        .m-cell.lit {
-            background: #fbbf24;
-            border-color: #fde047;
-            box-shadow: 0 0 15px rgba(251, 191, 36, 0.6);
-        }
+        #matrix-status { font-size: 16px; font-weight: 700; color: #fbbf24; margin-bottom: 10px; height: 24px; text-align: center; }
+        #nback-audio-badge { display: none; font-size: 20px; font-weight: 900; color: #38bdf8; margin-bottom: 10px; height: 28px; }
+        #matrix-grid { display: grid; gap: 10px; background: #1e293b; padding: 14px; border-radius: 14px; border: 2px solid #334155; }
+        .m-cell { background: #0f172a; border: 2px solid #334155; border-radius: 8px; cursor: pointer; }
+        .m-cell.lit { background: #fbbf24; border-color: #fde047; box-shadow: 0 0 15px rgba(251, 191, 36, 0.6); }
         .m-cell.correct { background: #10b981; border-color: #34d399; }
         .m-cell.wrong { background: #f43f5e; border-color: #fb7185; }
 
-        #nback-controls {
-            display: none;
-            margin-top: 18px;
-            width: 100%;
-            max-width: 360px;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
-        .nb-btn {
-            background: #1e293b;
-            color: #f8fafc;
-            border: 2px solid #3b82f6;
-            padding: 14px 10px;
-            font-size: 14px;
-            font-weight: 800;
-            border-radius: 10px;
-            cursor: pointer;
-            text-align: center;
-        }
-        .nb-btn:active { transform: scale(0.96); }
+        #nback-controls { display: none; margin-top: 18px; width: 100%; max-width: 360px; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .nb-btn { background: #1e293b; color: #f8fafc; border: 2px solid #3b82f6; padding: 14px 10px; font-size: 14px; font-weight: 800; border-radius: 10px; cursor: pointer; text-align: center; }
 
-        /* Stroop + No-Go UI */
-        #stroop-box {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 400px;
-        }
-        #shot-clock-wrap {
-            width: 100%;
-            height: 10px;
-            background: #1e293b;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-bottom: 16px;
-            border: 1px solid #334155;
-        }
-        #shot-clock-bar {
-            width: 100%;
-            height: 100%;
-            background: #10b981;
-        }
-        #stroop-rule {
-            font-size: 14px;
-            font-weight: 800;
-            padding: 8px 18px;
-            border-radius: 20px;
-            margin-bottom: 12px;
-            letter-spacing: 0.8px;
-            text-align: center;
-        }
-        #stroop-word {
-            font-size: 52px;
-            font-weight: 900;
-            margin: 12px 0 28px 0;
-            letter-spacing: 2px;
-            text-align: center;
-            min-height: 70px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .stroop-btns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            width: 100%;
-        }
-        .s-btn {
-            background: #1e293b;
-            color: #f8fafc;
-            border: 2px solid #475569;
-            padding: 16px;
-            font-size: 16px;
-            font-weight: 800;
-            border-radius: 12px;
-            cursor: pointer;
-        }
-        .s-btn:active { transform: scale(0.96); background: #334155; }
+        #stroop-box { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 400px; }
+        #shot-clock-wrap { width: 100%; height: 10px; background: #1e293b; border-radius: 5px; overflow: hidden; margin-bottom: 16px; border: 1px solid #334155; }
+        #shot-clock-bar { width: 100%; height: 100%; background: #10b981; }
+        #stroop-rule { font-size: 14px; font-weight: 800; padding: 8px 18px; border-radius: 20px; margin-bottom: 12px; text-align: center; }
+        #stroop-word { font-size: 52px; font-weight: 900; margin: 12px 0 28px 0; min-height: 70px; display: flex; align-items: center; justify-content: center; }
+        .stroop-btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; }
+        .s-btn { background: #1e293b; color: #f8fafc; border: 2px solid #475569; padding: 16px; font-size: 16px; font-weight: 800; border-radius: 12px; cursor: pointer; }
 
-        /* Task Switching UI (Game 6) */
-        #switch-box {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 400px;
-        }
-        .switch-arena-grid {
-            width: 100%;
-            background: #0f172a;
-            border: 2px solid #334155;
-            border-radius: 14px;
-            overflow: hidden;
-            margin-bottom: 18px;
-        }
-        .sw-zone {
-            height: 105px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 8px;
-            position: relative;
-        }
-        #sw-top {
-            border-bottom: 2px dashed #475569;
-            background: rgba(37, 99, 235, 0.08);
-        }
-        #sw-bottom {
-            background: rgba(16, 185, 129, 0.08);
-        }
-        .sw-zone-label {
-            position: absolute;
-            top: 6px;
-            font-size: 11px;
-            font-weight: 800;
-            color: #94a3b8;
-            letter-spacing: 0.5px;
-        }
-        .sw-card {
-            font-size: 44px;
-            font-weight: 900;
-            color: #f8fafc;
-            margin-top: 12px;
-            letter-spacing: 3px;
-        }
+        #switch-box { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 400px; }
+        .switch-arena-grid { width: 100%; background: #0f172a; border: 2px solid #334155; border-radius: 14px; overflow: hidden; margin-bottom: 18px; }
+        .sw-zone { height: 105px; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 8px; position: relative; }
+        #sw-top { border-bottom: 2px dashed #475569; }
+        .sw-zone-label { position: absolute; top: 6px; font-size: 11px; font-weight: 800; color: #94a3b8; }
+        .sw-card { font-size: 44px; font-weight: 900; color: #f8fafc; margin-top: 12px; letter-spacing: 3px; }
 
-        /* Reverse / Starting Span UI (Game 7) */
-        #rev-box {
-            display: none;
-            flex-direction: column;
-            align-items: center;
-            width: 100%;
-            max-width: 360px;
-        }
-        #rev-status {
-            font-size: 15px;
-            font-weight: 700;
-            color: #fbbf24;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        #rev-display {
-            width: 100%;
-            height: 85px;
-            background: #1e293b;
-            border: 2px solid #334155;
-            border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 42px;
-            font-weight: 900;
-            color: #38bdf8;
-            letter-spacing: 5px;
-            margin-bottom: 16px;
-        }
-        .rev-pad {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 10px;
-            width: 100%;
-        }
-        .r-key {
-            background: #1e293b;
-            color: #f8fafc;
-            border: 2px solid #475569;
-            padding: 14px;
-            font-size: 20px;
-            font-weight: 800;
-            border-radius: 10px;
-            cursor: pointer;
-        }
-        .r-key:active { transform: scale(0.95); background: #3b82f6; }
+        #rev-box { display: none; flex-direction: column; align-items: center; width: 100%; max-width: 360px; }
+        #rev-status { font-size: 15px; font-weight: 700; color: #fbbf24; margin-bottom: 10px; text-align: center; }
+        #rev-display { width: 100%; height: 85px; background: #1e293b; border: 2px solid #334155; border-radius: 12px; display: flex; justify-content: center; align-items: center; font-size: 42px; font-weight: 900; color: #38bdf8; letter-spacing: 5px; margin-bottom: 16px; }
+        .rev-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
+        .r-key { background: #1e293b; color: #f8fafc; border: 2px solid #475569; padding: 14px; font-size: 20px; font-weight: 800; border-radius: 10px; cursor: pointer; }
 
-        /* Overlay & Tier Selectors */
         #overlay {
             position: absolute;
             inset: 0;
@@ -383,186 +490,372 @@
         p { font-size: 14px; color: #cbd5e1; max-width: 420px; margin-bottom: 16px; line-height: 1.5; }
         .penalty-tag { color: #f43f5e; font-weight: bold; }
         .bonus-tag { color: #10b981; font-weight: bold; }
-
-        .tier-selector-row {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 18px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .tier-btn {
-            background: #1e293b;
-            color: #94a3b8;
-            border: 1px solid #475569;
-            padding: 8px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-        .tier-btn.active {
-            background: #10b981;
-            color: #0b0f19;
-            border-color: #34d399;
-        }
-        .main-btn {
-            background: #2563eb;
-            color: white;
-            border: none;
-            padding: 14px 36px;
-            font-size: 17px;
-            font-weight: 800;
-            border-radius: 10px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
-        }
-        .main-btn:active { transform: scale(0.96); }
+        .tier-selector-row { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; justify-content: center; }
+        .tier-btn { background: #1e293b; color: #94a3b8; border: 1px solid #475569; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
+        .tier-btn.active { background: #10b981; color: #0b0f19; border-color: #34d399; }
+        .overlay-btn-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+        .main-btn { background: linear-gradient(90deg, #2563eb, #7c3aed); color: white; border: none; padding: 14px 28px; font-size: 16px; font-weight: 800; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4); }
+        .sec-btn { background: #1e293b; color: #cbd5e1; border: 1px solid #475569; padding: 14px 20px; font-size: 15px; font-weight: 800; border-radius: 12px; cursor: pointer; }
         #results { margin-bottom: 16px; font-size: 15px; color: #38bdf8; line-height: 1.7; }
     </style>
 </head>
 <body>
 
-    <div id="top-nav">
-        <div class="mode-tabs">
-            <button type="button" class="tab-btn active" id="tab-schulte" onclick="switchMode('schulte')">1. Grid</button>
-            <button type="button" class="tab-btn" id="tab-dot" onclick="switchMode('dot')">2. MOT</button>
-            <button type="button" class="tab-btn" id="tab-memory" onclick="switchMode('memory')">3. Matrix</button>
-            <button type="button" class="tab-btn" id="tab-stroop" onclick="switchMode('stroop')">4. No-Go</button>
-            <button type="button" class="tab-btn" id="tab-nback" onclick="switchMode('nback')">5. Dual N-Back</button>
-            <button type="button" class="tab-btn" id="tab-switch" onclick="switchMode('switch')">6. Switch</button>
-            <button type="button" class="tab-btn" id="tab-reverse" onclick="switchMode('reverse')">7. Span</button>
-            <button type="button" class="tab-btn" id="tab-target" onclick="switchMode('target')">8. Target Hunt</button>
+    <!-- ================= PREMIUM HOME SCREEN ================= -->
+    <div id="home-screen">
+        <div class="app-header">
+            <div class="brand-title">BRAIN TRAIN PRO</div>
+            <button type="button" class="sound-pill" id="home-sound-btn" onclick="toggleSound()">🔊 Sound: ON</button>
         </div>
-        <div class="top-right-btns">
-            <button type="button" id="exit-btn" onclick="exitCurrentGame()">✖ EXIT</button>
-            <button type="button" id="sound-btn" onclick="toggleSound()">🔊 ON</button>
+
+        <!-- Top 3 Scoreboard Pills -->
+        <div class="top-stats-row">
+            <div class="stat-pill" onclick="switchHubTab('progress')" style="cursor:pointer;">
+                <span class="pill-icon">📅</span>
+                <div class="pill-info">
+                    <span class="pill-title" id="daily-prog-text">Daily: 0/5</span>
+                    <div class="mini-prog-bg"><div class="mini-prog-fill" id="daily-prog-bar"></div></div>
+                </div>
+            </div>
+            <div class="stat-pill" onclick="switchHubTab('leaderboard')" style="cursor:pointer;">
+                <span class="pill-icon">🏆</span>
+                <div class="pill-info">
+                    <span class="pill-title" id="rank-pill-text">Rank #1</span>
+                </div>
+            </div>
+            <div class="stat-pill">
+                <span class="pill-icon">⭐</span>
+                <div class="pill-info">
+                    <span class="pill-title" id="xp-pill-text">XP: 0</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dynamic Hub Content (Games Grid / Track Record / Leaderboard / Guide) -->
+        <div id="hub-content">
+
+            <!-- TAB 1: 2-COLUMN GAMES GRID -->
+            <div id="hub-tab-games" class="games-grid">
+                <!-- Card 1: Focus Track (MOT) -->
+                <div class="game-card" onclick="openGame('dot')">
+                    <div class="card-art art-mot">
+                        <span class="card-best-badge" id="card-best-dot">Best: --</span>
+                        <div class="mini-dot" style="top:22px; left:28px;"></div>
+                        <div class="mini-dot" style="top:65px; left:35px;"></div>
+                        <div class="mini-dot" style="top:30px; right:30px;"></div>
+                        <div class="mini-dot" style="bottom:20px; right:25px;"></div>
+                        <div class="mini-dot red" style="top:35px; left:52%;"></div>
+                        <div class="mini-dot red" style="bottom:22px; left:42%;"></div>
+                    </div>
+                    <div class="card-title">FOCUS TRACK</div>
+                    <div class="card-sub">Track 3 Red Dots!</div>
+                </div>
+
+                <!-- Card 2: Float-N-Find (Crowded Grid) -->
+                <div class="game-card" onclick="openGame('schulte')">
+                    <div class="card-art art-grid">
+                        <span class="card-best-badge" id="card-best-schulte">Best: --</span>
+                        <div class="mini-tiles-wrap">
+                            <span class="mini-num-tile" style="color:#ef4444;">1</span>
+                            <span class="mini-num-tile">33</span>
+                            <span class="mini-num-tile">24</span>
+                            <span class="mini-num-tile">16</span>
+                            <span class="mini-num-tile">6</span>
+                            <span class="mini-num-tile">29</span>
+                            <span class="mini-num-tile">12</span>
+                            <span class="mini-num-tile">35</span>
+                            <span class="mini-num-tile">8</span>
+                            <span class="mini-num-tile">19</span>
+                        </div>
+                    </div>
+                    <div class="card-title">FLOAT-N-FIND</div>
+                    <div class="card-sub">Hit 1 to 50!</div>
+                </div>
+
+                <!-- Card 3: Memory Matrix -->
+                <div class="game-card" onclick="openGame('memory')">
+                    <div class="card-art art-matrix">
+                        <span class="card-best-badge" id="card-best-memory">Best: --</span>
+                        <div class="mini-3x3">
+                            <div class="mini-cell"></div><div class="mini-cell lit"></div><div class="mini-cell"></div><div class="mini-cell lit"></div>
+                            <div class="mini-cell"></div><div class="mini-cell"></div><div class="mini-cell lit"></div><div class="mini-cell"></div>
+                            <div class="mini-cell lit"></div><div class="mini-cell lit"></div><div class="mini-cell"></div><div class="mini-cell lit"></div>
+                        </div>
+                    </div>
+                    <div class="card-title">MEMORY MATRIX</div>
+                    <div class="card-sub">Spot & Recall!</div>
+                </div>
+
+                <!-- Card 4: Reaction No-Go Bomb -->
+                <div class="game-card" onclick="openGame('stroop')">
+                    <div class="card-art art-nogo">
+                        <span class="card-best-badge" id="card-best-stroop">Best: --</span>
+                        <div style="display:flex; flex-direction:column; align-items:center;">
+                            <div class="neon-tap-badge">TAP COLOR</div>
+                            <div class="neon-bomb-badge">💣 NO-GO</div>
+                        </div>
+                    </div>
+                    <div class="card-title">IMPULSE NO-GO</div>
+                    <div class="card-sub">Speed & Brake Test!</div>
+                </div>
+
+                <!-- Card 5: Target Hunt (Number Orbit) -->
+                <div class="game-card" onclick="openGame('target')">
+                    <div class="card-art art-hunt">
+                        <span class="card-best-badge" id="card-best-target">Best: --</span>
+                        <div style="font-size:11px; color:#cbd5e1; line-height:1.4; font-weight:800;">
+                            12 &nbsp; <span style="color:#ef4444; font-size:15px;">73</span> &nbsp; 37<br>
+                            33 &nbsp; <span style="color:#38bdf8;">BUY</span> &nbsp; 26 &nbsp; 6<br>
+                            9K &nbsp; 18 &nbsp; 40 &nbsp; 21
+                        </div>
+                    </div>
+                    <div class="card-title">TARGET HUNTER</div>
+                    <div class="card-sub">Voice + Fast Finding!</div>
+                </div>
+
+                <!-- Card 6: Dual N-Back -->
+                <div class="game-card" onclick="openGame('nback')">
+                    <div class="card-art art-nback">
+                        <span class="card-best-badge" id="card-best-nback">Best: --</span>
+                        <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
+                            <span style="font-size:18px; font-weight:900; color:#38bdf8;">🔊 "K" + 👁️</span>
+                            <span style="font-size:10px; background:#2563eb; padding:3px 8px; border-radius:6px; font-weight:800;">2/3/4-BACK RAM</span>
+                        </div>
+                    </div>
+                    <div class="card-title">DUAL N-BACK</div>
+                    <div class="card-sub">Audio + Visual RAM!</div>
+                </div>
+
+                <!-- Card 7: Task Switch -->
+                <div class="game-card" onclick="openGame('switch')">
+                    <div class="card-art art-switch">
+                        <span class="card-best-badge" id="card-best-switch">Best: --</span>
+                        <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
+                            <span style="font-size:16px; font-weight:900; color:#fff;">⬆️ 8B</span>
+                            <span style="font-size:16px; font-weight:900; color:#fde047;">⬇️ 3K</span>
+                        </div>
+                    </div>
+                    <div class="card-title">TASK SWITCH</div>
+                    <div class="card-sub">Even/Odd vs Vowel!</div>
+                </div>
+
+                <!-- Card 8: Reverse & Starting Span -->
+                <div class="game-card" onclick="openGame('reverse')">
+                    <div class="card-art art-span">
+                        <span class="card-best-badge" id="card-best-reverse">Best: --</span>
+                        <div style="font-size:18px; font-weight:900; color:#a855f7; letter-spacing:2px;">
+                            4 → 9 ⇄ 9 → 4
+                        </div>
+                    </div>
+                    <div class="card-title">NUMBER SPAN</div>
+                    <div class="card-sub">Forward & Reverse!</div>
+                </div>
+            </div>
+
+            <!-- TAB 2: PROGRESS (LIVE TRACK RECORD) -->
+            <div id="hub-tab-progress" style="display:none;">
+                <div class="panel-box">
+                    <div class="panel-heading">
+                        <span>📊 YOUR COGNITIVE TRACK RECORD</span>
+                        <button type="button" onclick="clearTrackHistory()" style="background:#334155; color:#cbd5e1; border:none; padding:4px 8px; border-radius:6px; font-size:10px; cursor:pointer;">Reset Log</button>
+                    </div>
+                    <div class="summary-grid">
+                        <div class="sum-card">
+                            <div class="sum-val" id="tot-sessions-val">0</div>
+                            <div class="sum-lbl">Total Runs</div>
+                        </div>
+                        <div class="sum-card">
+                            <div class="sum-val" id="today-sessions-val">0</div>
+                            <div class="sum-lbl">Today's Runs</div>
+                        </div>
+                        <div class="sum-card">
+                            <div class="sum-val" id="tot-xp-val">0</div>
+                            <div class="sum-lbl">Total XP</div>
+                        </div>
+                    </div>
+                    <div id="history-list"></div>
+                </div>
+            </div>
+
+            <!-- TAB 3: LEADERBOARD (PERSONAL BEST SCOREBOARD) -->
+            <div id="hub-tab-leaderboard" style="display:none;">
+                <div class="panel-box">
+                    <div class="panel-heading">
+                        <span>🏆 PERSONAL BEST SCOREBOARD</span>
+                        <span class="rank-tag" id="lb-tier-badge">PRO TRADER</span>
+                    </div>
+                    <div id="scoreboard-list"></div>
+                </div>
+            </div>
+
+            <!-- TAB 4: TRADER RULES & BRAIN GUIDE -->
+            <div id="hub-tab-guide" style="display:none;">
+                <div class="panel-box">
+                    <div class="panel-heading"><span>⚡ TRADER WARMUP PROTOCOL</span></div>
+                    <p style="font-size:13px; color:#cbd5e1; margin-bottom:10px;">
+                        Market open hone se 10 minute pehle roz <b>5 Sessions (Daily Progress 5/5)</b> complete karein:
+                    </p>
+                    <div class="log-row"><span><b>1. Focus Track (MOT)</b></span><span style="color:#38bdf8;">Multi-chart tracking</span></div>
+                    <div class="log-row"><span><b>2. Float-N-Find</b></span><span style="color:#38bdf8;">Peripheral scanner</span></div>
+                    <div class="log-row"><span><b>3. Impulse No-Go</b></span><span style="color:#f43f5e;">Stop FOMO over-clicking</span></div>
+                    <div class="log-row"><span><b>4. Dual N-Back</b></span><span style="color:#10b981;">Working memory RAM</span></div>
+                    <div class="log-row"><span><b>5. Task Switch / Span</b></span><span style="color:#facc15;">Fast regime shifting</span></div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Bottom Navigation Bar + LEVEL Bar -->
+        <div class="bottom-dock">
+            <div class="nav-icons-row">
+                <div class="nav-item active" id="nav-games" onclick="switchHubTab('games')">
+                    <span class="nav-ico">🎮</span>
+                    <span>Games</span>
+                </div>
+                <div class="nav-item" id="nav-progress" onclick="switchHubTab('progress')">
+                    <span class="nav-ico">📊</span>
+                    <span>Progress</span>
+                </div>
+                <div class="nav-item" id="nav-leaderboard" onclick="switchHubTab('leaderboard')">
+                    <span class="nav-ico">🏆</span>
+                    <span>Scoreboard</span>
+                </div>
+                <div class="nav-item" id="nav-guide" onclick="switchHubTab('guide')">
+                    <span class="nav-ico">⚡</span>
+                    <span>Protocol</span>
+                </div>
+            </div>
+            <div class="level-footer">
+                <div class="level-title" id="bottom-level-text">LEVEL 1</div>
+                <div class="level-bar-bg">
+                    <div class="level-bar-fill" id="bottom-level-bar"></div>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div id="hud">
-        <div class="stat-box">
-            <span class="stat-label" id="label-1">Target</span>
-            <span class="stat-val" id="target-val">1/25</span>
+    <!-- ================= ACTIVE GAME ARENA SCREEN ================= -->
+    <div id="game-screen">
+        <div id="game-top-bar">
+            <span id="active-game-title">1. CROWDED GRID</span>
+            <button type="button" class="home-exit-btn" onclick="backToHome()">🏠 HOME</button>
         </div>
-        <div class="stat-box">
-            <span class="stat-label" id="label-2">Time</span>
-            <span class="stat-val" id="time-val">0.0s</span>
-        </div>
-        <div class="stat-box">
-            <span class="stat-label" id="label-3">Errors</span>
-            <span class="stat-val" id="error-val">0</span>
-        </div>
-        <div class="stat-box">
-            <span class="stat-label">Best</span>
-            <span class="stat-val" id="best-val">--</span>
-        </div>
-    </div>
 
-    <div id="arena">
-        <canvas id="gameCanvas"></canvas>
-        <div id="mot-banner">MEMORIZE 3 RED DOTS!</div>
-
-        <div id="dom-game">
-            <!-- Game 3 & 5: Matrix & Dual N-Back -->
-            <div id="matrix-wrap" style="display:none; flex-direction:column; align-items:center;">
-                <div id="matrix-status">Watch the pattern...</div>
-                <div id="nback-audio-badge">🔊 Letter: -</div>
-                <div id="matrix-grid"></div>
-                <div id="nback-controls">
-                    <button type="button" class="nb-btn" id="nb-pos-btn" onclick="handleDualNBack('pos')">👁️ POSITION MATCH</button>
-                    <button type="button" class="nb-btn" id="nb-aud-btn" onclick="handleDualNBack('aud')">🔊 AUDIO MATCH</button>
-                </div>
+        <div id="hud">
+            <div class="stat-box">
+                <span class="stat-label" id="label-1">Target</span>
+                <span class="stat-val" id="target-val">1/25</span>
             </div>
-
-            <!-- Game 4: Stroop + No-Go Bomb -->
-            <div id="stroop-box">
-                <div id="shot-clock-wrap"><div id="shot-clock-bar"></div></div>
-                <div id="stroop-rule">TAP INK COLOR</div>
-                <div id="stroop-word">RED</div>
-                <div class="stroop-btns">
-                    <button type="button" class="s-btn" onclick="handleStroop('RED')">RED</button>
-                    <button type="button" class="s-btn" onclick="handleStroop('BLUE')">BLUE</button>
-                    <button type="button" class="s-btn" onclick="handleStroop('GREEN')">GREEN</button>
-                    <button type="button" class="s-btn" onclick="handleStroop('YELLOW')">YELLOW</button>
-                </div>
+            <div class="stat-box">
+                <span class="stat-label" id="label-2">Time</span>
+                <span class="stat-val" id="time-val">0.0s</span>
             </div>
+            <div class="stat-box">
+                <span class="stat-label" id="label-3">Errors</span>
+                <span class="stat-val" id="error-val">0</span>
+            </div>
+            <div class="stat-box">
+                <span class="stat-label">Best</span>
+                <span class="stat-val" id="best-val">--</span>
+            </div>
+        </div>
 
-            <!-- Game 6: Cognitive Task Switching -->
-            <div id="switch-box">
-                <div class="switch-arena-grid">
-                    <div class="sw-zone" id="sw-top">
-                        <span class="sw-zone-label">⬆️ TOP ZONE: CHECK NUMBER (EVEN / ODD)</span>
-                        <div class="sw-card" id="sw-card-top"></div>
-                    </div>
-                    <div class="sw-zone" id="sw-bottom">
-                        <span class="sw-zone-label">⬇️ BOTTOM ZONE: CHECK LETTER (VOWEL / CONSONANT)</span>
-                        <div class="sw-card" id="sw-card-bottom"></div>
+        <div id="arena">
+            <canvas id="gameCanvas"></canvas>
+            <div id="mot-banner">MEMORIZE 3 RED DOTS!</div>
+
+            <div id="dom-game">
+                <div id="matrix-wrap" style="display:none; flex-direction:column; align-items:center;">
+                    <div id="matrix-status">Watch the pattern...</div>
+                    <div id="nback-audio-badge">🔊 Letter: -</div>
+                    <div id="matrix-grid"></div>
+                    <div id="nback-controls">
+                        <button type="button" class="nb-btn" id="nb-pos-btn" onclick="handleDualNBack('pos')">👁️ POSITION MATCH</button>
+                        <button type="button" class="nb-btn" id="nb-aud-btn" onclick="handleDualNBack('aud')">🔊 AUDIO MATCH</button>
                     </div>
                 </div>
-                <div class="stroop-btns">
-                    <button type="button" class="s-btn" id="sw-btn-left" onclick="handleSwitchTap('LEFT')">EVEN / VOWEL</button>
-                    <button type="button" class="s-btn" id="sw-btn-right" onclick="handleSwitchTap('RIGHT')">ODD / CONSONANT</button>
+
+                <div id="stroop-box">
+                    <div id="shot-clock-wrap"><div id="shot-clock-bar"></div></div>
+                    <div id="stroop-rule">TAP INK COLOR</div>
+                    <div id="stroop-word">RED</div>
+                    <div class="stroop-btns">
+                        <button type="button" class="s-btn" onclick="handleStroop('RED')">RED</button>
+                        <button type="button" class="s-btn" onclick="handleStroop('BLUE')">BLUE</button>
+                        <button type="button" class="s-btn" onclick="handleStroop('GREEN')">GREEN</button>
+                        <button type="button" class="s-btn" onclick="handleStroop('YELLOW')">YELLOW</button>
+                    </div>
+                </div>
+
+                <div id="switch-box">
+                    <div class="switch-arena-grid">
+                        <div class="sw-zone" id="sw-top">
+                            <span class="sw-zone-label">⬆️ TOP ZONE: CHECK NUMBER (EVEN / ODD)</span>
+                            <div class="sw-card" id="sw-card-top"></div>
+                        </div>
+                        <div class="sw-zone" id="sw-bottom">
+                            <span class="sw-zone-label">⬇️ BOTTOM ZONE: CHECK LETTER (VOWEL / CONSONANT)</span>
+                            <div class="sw-card" id="sw-card-bottom"></div>
+                        </div>
+                    </div>
+                    <div class="stroop-btns">
+                        <button type="button" class="s-btn" id="sw-btn-left" onclick="handleSwitchTap('LEFT')">EVEN / VOWEL</button>
+                        <button type="button" class="s-btn" id="sw-btn-right" onclick="handleSwitchTap('RIGHT')">ODD / CONSONANT</button>
+                    </div>
+                </div>
+
+                <div id="rev-box">
+                    <div id="rev-status">Watch sequence carefully...</div>
+                    <div id="rev-display">-</div>
+                    <div class="rev-pad">
+                        <button type="button" class="r-key" onclick="handleRevKey(1)">1</button>
+                        <button type="button" class="r-key" onclick="handleRevKey(2)">2</button>
+                        <button type="button" class="r-key" onclick="handleRevKey(3)">3</button>
+                        <button type="button" class="r-key" onclick="handleRevKey(4)">4</button>
+                        <button type="button" class="r-key" onclick="handleRevKey(5)">5</button>
+                        <button type="button" class="r-key" onclick="handleRevKey(6)">6</button>
+                        <button type="button" class="r-key" onclick="handleRevKey(7)">7</button>
+                        <button type="button" class="r-key" onclick="handleRevKey(8)">8</button>
+                        <button type="button" class="r-key" onclick="handleRevKey(9)">9</button>
+                    </div>
                 </div>
             </div>
 
-            <!-- Game 7: Reverse / Starting Span -->
-            <div id="rev-box">
-                <div id="rev-status">Watch sequence carefully...</div>
-                <div id="rev-display">-</div>
-                <div class="rev-pad">
-                    <button type="button" class="r-key" onclick="handleRevKey(1)">1</button>
-                    <button type="button" class="r-key" onclick="handleRevKey(2)">2</button>
-                    <button type="button" class="r-key" onclick="handleRevKey(3)">3</button>
-                    <button type="button" class="r-key" onclick="handleRevKey(4)">4</button>
-                    <button type="button" class="r-key" onclick="handleRevKey(5)">5</button>
-                    <button type="button" class="r-key" onclick="handleRevKey(6)">6</button>
-                    <button type="button" class="r-key" onclick="handleRevKey(7)">7</button>
-                    <button type="button" class="r-key" onclick="handleRevKey(8)">8</button>
-                    <button type="button" class="r-key" onclick="handleRevKey(9)">9</button>
+            <div id="overlay">
+                <h1 id="title-text">1. CROWDED SCHULTE GRID</h1>
+                <p id="desc-text">Numbers tap karne ke baad gayab NAHI honge!</p>
+
+                <div id="grid-tier-select" class="tier-selector-row">
+                    <button type="button" class="tier-btn active" onclick="setSchulteTier(0)">Lvl 1 (25)</button>
+                    <button type="button" class="tier-btn" onclick="setSchulteTier(1)">Lvl 2 (35)</button>
+                    <button type="button" class="tier-btn" onclick="setSchulteTier(2)">Lvl 3 (40)</button>
+                    <button type="button" class="tier-btn" onclick="setSchulteTier(3)">Lvl 4 (50)</button>
+                </div>
+
+                <div id="stroop-tier-select" class="tier-selector-row" style="display:none;">
+                    <button type="button" class="tier-btn active" onclick="setStroopTier(0)">Beginner (3.5s)</button>
+                    <button type="button" class="tier-btn" onclick="setStroopTier(1)">Mid (2.5s)</button>
+                    <button type="button" class="tier-btn" onclick="setStroopTier(2)">Hard (1.8s)</button>
+                    <button type="button" class="tier-btn" onclick="setStroopTier(3)">Very Hard (1.3s)</button>
+                </div>
+
+                <div id="nback-tier-select" class="tier-selector-row" style="display:none;">
+                    <button type="button" class="tier-btn active" onclick="setNBackLevel(2)">2-Back (Normal)</button>
+                    <button type="button" class="tier-btn" onclick="setNBackLevel(3)">3-Back (Hard)</button>
+                    <button type="button" class="tier-btn" onclick="setNBackLevel(4)">4-Back (Extreme)</button>
+                </div>
+
+                <div id="rev-mode-select" class="tier-selector-row" style="display:none;">
+                    <button type="button" class="tier-btn" id="rev-btn-forward" onclick="setRevMode('forward')">▶ Starting Order (1→2)</button>
+                    <button type="button" class="tier-btn active" id="rev-btn-reverse" onclick="setRevMode('reverse')">◀ Reverse Order (2→1)</button>
+                </div>
+
+                <div id="results" style="display:none;"></div>
+                <div class="overlay-btn-row">
+                    <button type="button" class="main-btn" id="start-btn" onclick="initGame()">START TRAINING</button>
+                    <button type="button" class="sec-btn" onclick="backToHome()">🏠 HOME</button>
                 </div>
             </div>
-        </div>
-
-        <div id="overlay">
-            <h1 id="title-text">1. CROWDED SCHULTE GRID</h1>
-            <p id="desc-text">
-                Numbers tap karne ke baad <b>gayab NAHI honge!</b><br>
-                Bheed ke beech 1 se aakhri number tak sequence mein dhoondhein.<br>
-                <span class="penalty-tag">Galat tap = +2.0s Penalty!</span>
-            </p>
-
-            <!-- Game 1 Selector -->
-            <div id="grid-tier-select" class="tier-selector-row">
-                <button type="button" class="tier-btn active" onclick="setSchulteTier(0)">Lvl 1 (25)</button>
-                <button type="button" class="tier-btn" onclick="setSchulteTier(1)">Lvl 2 (35)</button>
-                <button type="button" class="tier-btn" onclick="setSchulteTier(2)">Lvl 3 (40)</button>
-                <button type="button" class="tier-btn" onclick="setSchulteTier(3)">Lvl 4 (50)</button>
-            </div>
-
-            <!-- Game 4 (No-Go) Difficulty Selector -->
-            <div id="stroop-tier-select" class="tier-selector-row" style="display:none;">
-                <button type="button" class="tier-btn active" onclick="setStroopTier(0)">Beginner (3.5s)</button>
-                <button type="button" class="tier-btn" onclick="setStroopTier(1)">Mid (2.5s)</button>
-                <button type="button" class="tier-btn" onclick="setStroopTier(2)">Hard (1.8s)</button>
-                <button type="button" class="tier-btn" onclick="setStroopTier(3)">Very Hard (1.3s)</button>
-            </div>
-
-            <!-- Game 5 (Dual N-Back) Selector -->
-            <div id="nback-tier-select" class="tier-selector-row" style="display:none;">
-                <button type="button" class="tier-btn active" onclick="setNBackLevel(2)">2-Back (Normal)</button>
-                <button type="button" class="tier-btn" onclick="setNBackLevel(3)">3-Back (Hard)</button>
-                <button type="button" class="tier-btn" onclick="setNBackLevel(4)">4-Back (Extreme)</button>
-            </div>
-
-            <!-- Game 7 (Span Order) Selector -->
-            <div id="rev-mode-select" class="tier-selector-row" style="display:none;">
-                <button type="button" class="tier-btn" id="rev-btn-forward" onclick="setRevMode('forward')">▶ Starting Order (1→2)</button>
-                <button type="button" class="tier-btn active" id="rev-btn-reverse" onclick="setRevMode('reverse')">◀ Reverse Order (2→1)</button>
-            </div>
-
-            <div id="results" style="display:none;"></div>
-            <button type="button" class="main-btn" id="start-btn" onclick="initGame()">START TRAINING</button>
         </div>
     </div>
 
@@ -577,7 +870,7 @@
         }
         function toggleSound() {
             soundEnabled = !soundEnabled;
-            document.getElementById('sound-btn').textContent = soundEnabled ? '🔊 ON' : '🔇 OFF';
+            document.getElementById('home-sound-btn').textContent = soundEnabled ? '🔊 Sound: ON' : '🔇 Sound: OFF';
         }
         function speakText(text) {
             if (!soundEnabled || !('speechSynthesis' in window)) return;
@@ -585,7 +878,6 @@
                 window.speechSynthesis.cancel();
                 const utter = new SpeechSynthesisUtterance(String(text).split('').join(' '));
                 utter.rate = 1.25;
-                utter.pitch = 1.0;
                 window.speechSynthesis.speak(utter);
             } catch (e) {}
         }
@@ -628,7 +920,170 @@
             } catch (e) {}
         }
 
-        // --- GLOBAL STATE ---
+        // --- XP, RANK, DAILY PROGRESS & TRACK RECORD ENGINE ---
+        function getTodayKey() {
+            const d = new Date();
+            return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
+        }
+
+        function recordSession(gameName, resultLabel, errorsCount, xpEarned) {
+            try {
+                let totalXp = parseInt(localStorage.getItem('brain_total_xp') || '0') + xpEarned;
+                localStorage.setItem('brain_total_xp', totalXp);
+
+                const todayKey = getTodayKey();
+                let savedDate = localStorage.getItem('brain_daily_date');
+                let dailyCount = parseInt(localStorage.getItem('brain_daily_count') || '0');
+                if (savedDate !== todayKey) {
+                    dailyCount = 1;
+                    localStorage.setItem('brain_daily_date', todayKey);
+                } else {
+                    dailyCount++;
+                }
+                localStorage.setItem('brain_daily_count', dailyCount);
+
+                let history = JSON.parse(localStorage.getItem('brain_track_history') || '[]');
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                history.unshift({
+                    game: gameName,
+                    res: resultLabel,
+                    err: errorsCount,
+                    xp: xpEarned,
+                    time: `${now.toLocaleDateString([], {day:'2-digit', month:'short'})} ${timeStr}`
+                });
+                if (history.length > 25) history = history.slice(0, 25);
+                localStorage.setItem('brain_track_history', JSON.stringify(history));
+            } catch (e) {}
+            refreshHomeDashboard();
+        }
+
+        function clearTrackHistory() {
+            localStorage.removeItem('brain_track_history');
+            refreshHomeDashboard();
+        }
+
+        function refreshHomeDashboard() {
+            try {
+                const totalXp = parseInt(localStorage.getItem('brain_total_xp') || '0');
+                const todayKey = getTodayKey();
+                const savedDate = localStorage.getItem('brain_daily_date');
+                const dailyCount = (savedDate === todayKey) ? parseInt(localStorage.getItem('brain_daily_count') || '0') : 0;
+
+                // Level & Progress Bar (500 XP per level)
+                const level = Math.floor(totalXp / 500) + 1;
+                const levelXp = totalXp % 500;
+                const levelPct = Math.min(100, Math.round((levelXp / 500) * 100));
+
+                // Rank # based on Level
+                const rankNum = Math.max(1, 10 - Math.floor(level / 2));
+                const tierNames = ['ROOKIE', 'SCALPER', 'SWING PRO', 'SNIPER', 'GRANDMASTER'];
+                const tierBadge = tierNames[Math.min(tierNames.length - 1, Math.floor((level - 1) / 2))];
+
+                document.getElementById('xp-pill-text').textContent = `XP: ${totalXp}`;
+                document.getElementById('rank-pill-text').textContent = `Rank #${rankNum}`;
+                document.getElementById('daily-prog-text').textContent = `Daily: ${dailyCount}/5`;
+                document.getElementById('daily-prog-bar').style.width = `${Math.min(100, (dailyCount / 5) * 100)}%`;
+
+                document.getElementById('bottom-level-text').textContent = `LEVEL ${level}`;
+                document.getElementById('bottom-level-bar').style.width = `${Math.max(12, levelPct)}%`;
+                document.getElementById('lb-tier-badge').textContent = `${tierBadge} (LVL ${level})`;
+
+                // Card Badges
+                const bDot = localStorage.getItem('brain_best_mot');
+                document.getElementById('card-best-dot').textContent = bDot ? `Lvl ${bDot}` : 'New';
+
+                const bGrid = localStorage.getItem('brain_best_time_25');
+                document.getElementById('card-best-schulte').textContent = bGrid ? `${bGrid}s` : 'New';
+
+                const bMem = localStorage.getItem('brain_best_mem');
+                document.getElementById('card-best-memory').textContent = bMem ? `Lvl ${bMem}` : 'New';
+
+                const bStroop = localStorage.getItem('brain_best_stroop_0');
+                document.getElementById('card-best-stroop').textContent = bStroop ? `${bStroop} pts` : 'New';
+
+                const bTarget = localStorage.getItem('brain_best_target');
+                document.getElementById('card-best-target').textContent = bTarget ? `${bTarget} pts` : 'New';
+
+                const bNback = localStorage.getItem('brain_best_nback_2');
+                document.getElementById('card-best-nback').textContent = bNback ? `${bNback} pts` : 'New';
+
+                const bSwitch = localStorage.getItem('brain_best_switch');
+                document.getElementById('card-best-switch').textContent = bSwitch ? `${bSwitch} pts` : 'New';
+
+                const bRev = localStorage.getItem('brain_best_rev_reverse');
+                document.getElementById('card-best-reverse').textContent = bRev ? `${bRev} Dig` : 'New';
+
+                // Populate Progress (Track Record) Tab
+                const history = JSON.parse(localStorage.getItem('brain_track_history') || '[]');
+                document.getElementById('tot-sessions-val').textContent = history.length;
+                document.getElementById('today-sessions-val').textContent = dailyCount;
+                document.getElementById('tot-xp-val').textContent = totalXp;
+
+                const histEl = document.getElementById('history-list');
+                if (history.length === 0) {
+                    histEl.innerHTML = `<div style="text-align:center; color:#94a3b8; padding:16px; font-size:13px;">Abhi tak koi session record nahi hua hai. Koi bhi game khel kar apna Track Record shuru karein!</div>`;
+                } else {
+                    histEl.innerHTML = history.map(item => `
+                        <div class="log-row">
+                            <div>
+                                <div style="font-weight:800; color:#f8fafc;">${item.game}</div>
+                                <div style="font-size:10px; color:#94a3b8;">${item.time} • Errors: ${item.err}</div>
+                            </div>
+                            <div style="text-align:right;">
+                                <div style="font-weight:800; color:#38bdf8;">${item.res}</div>
+                                <div style="font-size:10px; color:#10b981;">+${item.xp} XP</div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+
+                // Populate Scoreboard (Leaderboard) Tab
+                const boardItems = [
+                    { name: '1. Focus Track (MOT)', val: bDot ? `Level ${bDot}` : '--' },
+                    { name: '2. Float-N-Find (1-25)', val: bGrid ? `${bGrid}s` : '--' },
+                    { name: '2b. Float-N-Find (1-50)', val: localStorage.getItem('brain_best_time_50') ? `${localStorage.getItem('brain_best_time_50')}s` : '--' },
+                    { name: '3. Memory Matrix', val: bMem ? `Level ${bMem}` : '--' },
+                    { name: '4. Impulse No-Go (Beg)', val: bStroop ? `${bStroop} pts` : '--' },
+                    { name: '4b. Impulse No-Go (Hard)', val: localStorage.getItem('brain_best_stroop_2') ? `${localStorage.getItem('brain_best_stroop_2')} pts` : '--' },
+                    { name: '5. Target Hunter', val: bTarget ? `${bTarget} pts` : '--' },
+                    { name: '6. Dual 2-Back RAM', val: bNback ? `${bNback} pts` : '--' },
+                    { name: '7. Task Switching', val: bSwitch ? `${bSwitch} pts` : '--' },
+                    { name: '8. Number Span (Reverse)', val: bRev ? `${bRev} Digits` : '--' },
+                    { name: '8b. Number Span (Starting)', val: localStorage.getItem('brain_best_rev_forward') ? `${localStorage.getItem('brain_best_rev_forward')} Digits` : '--' }
+                ];
+                document.getElementById('scoreboard-list').innerHTML = boardItems.map(b => `
+                    <div class="lb-row">
+                        <span style="font-weight:700; color:#e2e8f0;">${b.name}</span>
+                        <span style="font-weight:900; color:#facc15;">${b.val}</span>
+                    </div>
+                `).join('');
+            } catch (e) {}
+        }
+
+        function switchHubTab(tabName) {
+            ['games', 'progress', 'leaderboard', 'guide'].forEach(t => {
+                document.getElementById('hub-tab-' + t).style.display = (t === tabName) ? (t === 'games' ? 'grid' : 'block') : 'none';
+                document.getElementById('nav-' + t).classList.toggle('active', t === tabName);
+            });
+            refreshHomeDashboard();
+        }
+
+        function openGame(mode) {
+            document.getElementById('home-screen').style.display = 'none';
+            document.getElementById('game-screen').style.display = 'flex';
+            switchMode(mode);
+            resizeCanvas();
+        }
+
+        function backToHome() {
+            stopAllTimers();
+            document.getElementById('game-screen').style.display = 'none';
+            document.getElementById('home-screen').style.display = 'flex';
+            refreshHomeDashboard();
+        }
+
+        // --- GLOBAL GAME ENGINE STATE ---
         const canvas = document.getElementById('gameCanvas');
         const ctx = canvas.getContext('2d');
         const motBanner = document.getElementById('mot-banner');
@@ -643,7 +1098,6 @@
         const stroopTierSelect = document.getElementById('stroop-tier-select');
         const nbackTierSelect = document.getElementById('nback-tier-select');
         const revModeSelect = document.getElementById('rev-mode-select');
-        const exitBtn = document.getElementById('exit-btn');
         const targetEl = document.getElementById('target-val');
         const timeEl = document.getElementById('time-val');
         const errorEl = document.getElementById('error-val');
@@ -658,18 +1112,14 @@
         let startTime = 0, errors = 0, nodes = [], currentTarget = 1, penaltyTime = 0, speedMultiplier = 1;
         let flashColor = null, flashTimer = 0;
 
-        // 1. Schulte Tiers
         const SCHULTE_TIERS = [25, 35, 40, 50];
         let schulteTierIdx = 0;
 
-        // 2. MOT State
         const MOT_DURATIONS = [5000, 7000, 10000, 12000, 15000, 18000, 21000];
         let motLevel = 1, motPhase = 'memorize', motPhaseStart = 0, motTrackDuration = 5000, motFound = 0, motLives = 3;
 
-        // 3. Memory Matrix State
         let memLevel = 1, memGridSize = 3, memTargets = [], memPicked = [], memLives = 3, memAcceptInput = false;
 
-        // 4. Stroop + No-Go Bomb State (Beginner -> Mid -> Hard -> Very Hard)
         const STROOP_TIERS = [
             { name: 'Beginner', baseTime: 3500, minTime: 2200, holdTime: 1700, decay: 30 },
             { name: 'Mid', baseTime: 2500, minTime: 1600, holdTime: 1450, decay: 25 },
@@ -685,21 +1135,17 @@
             { name: 'YELLOW', hex: '#eab308' }
         ];
 
-        // 5. Dual N-Back State
         const NBACK_LETTERS = ['C', 'H', 'K', 'L', 'Q', 'R', 'S', 'T'];
         let nBackLevel = 2, nbackPosHist = [], nbackAudHist = [], nbackStep = 0, nbackScore = 0;
         let nbPosPressed = false, nbAudPressed = false;
 
-        // 6. Task Switching State
         let switchScore = 0, switchIsTop = true, switchNum = 2, switchChar = 'A';
         const VOWELS = ['A', 'E', 'I', 'O', 'U'];
         const CONSONANTS = ['B', 'K', 'M', 'R', 'T'];
 
-        // 7. Reverse / Starting Span State (Starts at 2 Digits!)
-        let revDirection = 'reverse'; // 'forward' or 'reverse'
+        let revDirection = 'reverse';
         let revLength = 2, revSeq = [], revUserIdx = 0, revLives = 3, revAcceptInput = false;
 
-        // 8. Target Hunt State
         let targetHuntScore = 0, targetHuntHits = 0, currentHuntTarget = '', huntDuration = 60;
 
         function resizeCanvas() {
@@ -707,7 +1153,6 @@
             canvas.height = canvas.parentElement.clientHeight || (window.innerHeight - 110);
         }
         window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
 
         function stopAllTimers() {
             isPlaying = false;
@@ -716,13 +1161,7 @@
             if ('speechSynthesis' in window) {
                 try { window.speechSynthesis.cancel(); } catch (e) {}
             }
-            exitBtn.style.display = 'none';
             motBanner.style.display = 'none';
-        }
-
-        function exitCurrentGame() {
-            stopAllTimers();
-            switchMode(currentMode);
         }
 
         function setSchulteTier(idx) {
@@ -789,16 +1228,10 @@
                 bestEl.textContent = '--';
             }
         }
-        updateBestDisplay();
 
         function switchMode(mode) {
             stopAllTimers();
             currentMode = mode;
-
-            ['schulte', 'dot', 'memory', 'stroop', 'nback', 'switch', 'reverse', 'target'].forEach(m => {
-                const btn = document.getElementById('tab-' + m);
-                if (btn) btn.classList.toggle('active', m === mode);
-            });
 
             const isCanvas = (mode === 'schulte' || mode === 'dot' || mode === 'target');
             canvas.style.display = isCanvas ? 'block' : 'none';
@@ -822,60 +1255,68 @@
 
             if (mode === 'schulte') {
                 const maxNum = SCHULTE_TIERS[schulteTierIdx];
+                document.getElementById('active-game-title').textContent = 'FLOAT-N-FIND GRID';
                 document.getElementById('label-1').textContent = 'Target';
                 document.getElementById('label-2').textContent = 'Time';
                 document.getElementById('label-3').textContent = 'Errors';
                 targetEl.textContent = `1/${maxNum}`; timeEl.textContent = '0.0s';
-                titleEl.textContent = '1. CROWDED SCHULTE GRID';
-                descEl.innerHTML = 'Numbers tap karne ke baad <b>gayab NAHI honge!</b><br>Clear karte hi level <b>25 → 35 → 40 → 50</b> tak badhega.<br><span class="penalty-tag">Galat tap = +2.0s Penalty!</span>';
+                titleEl.textContent = 'FLOAT-N-FIND GRID';
+                descEl.innerHTML = 'Numbers tap karne ke baad <b>gayab NAHI honge!</b><br>Clear karte hi level <b>25 → 35 → 40 → 50</b> tak badhega.';
             } else if (mode === 'dot') {
+                document.getElementById('active-game-title').textContent = 'FOCUS TRACK (MOT)';
                 document.getElementById('label-1').textContent = 'Level';
                 document.getElementById('label-2').textContent = 'Track Time';
                 document.getElementById('label-3').textContent = 'Lives';
                 targetEl.textContent = '1'; timeEl.textContent = '5.0s'; errorEl.textContent = '3 ❤️';
-                titleEl.textContent = '2. ENDURANCE MOT TRACKER';
+                titleEl.textContent = 'FOCUS TRACK (MOT)';
                 descEl.innerHTML = '2 second ke liye <b>3 RED DOTS</b> dikhenge, phir <b>WHITE</b> hokar ghoomenge!<br>Har level par tracking time <b>5s → 7s → 10s → 15s+</b> badhega!';
             } else if (mode === 'memory') {
+                document.getElementById('active-game-title').textContent = 'MEMORY MATRIX';
                 document.getElementById('label-1').textContent = 'Level';
                 document.getElementById('label-2').textContent = 'Tiles';
                 document.getElementById('label-3').textContent = 'Lives';
                 targetEl.textContent = '1'; timeEl.textContent = '3'; errorEl.textContent = '3 ❤️';
-                titleEl.textContent = '3. MEMORY MATRIX';
+                titleEl.textContent = 'MEMORY MATRIX';
                 descEl.innerHTML = 'Yellow tiles 1 second ke liye blink hongi.<br>Unki exact position yaad rakhein aur chhupne ke baad tap karein!';
             } else if (mode === 'stroop') {
+                document.getElementById('active-game-title').textContent = 'IMPULSE NO-GO';
                 document.getElementById('label-1').textContent = 'Score';
                 document.getElementById('label-2').textContent = 'Time Left';
                 document.getElementById('label-3').textContent = 'Errors';
                 targetEl.textContent = '0'; timeEl.textContent = '45.0s';
-                titleEl.textContent = '4. STROOP + NO-GO BOMB';
-                descEl.innerHTML = '<b>Beginner (3.5s)</b> se shuru karein! Jaise-jaise aap sahi tap karenge, time dheere-dheere kam hoga.<br><span class="penalty-tag">💣 Jab "BOMB / NO-GO" aaye toh haath rokein!</span>';
+                titleEl.textContent = 'IMPULSE NO-GO BOMB';
+                descEl.innerHTML = '<b>Beginner (3.5s)</b> se shuru karein! Jaise-jaise aap sahi tap karenge, time kam hoga.<br><span class="penalty-tag">💣 Jab "BOMB / NO-GO" aaye toh haath rokein!</span>';
             } else if (mode === 'nback') {
+                document.getElementById('active-game-title').textContent = 'DUAL N-BACK RAM';
                 document.getElementById('label-1').textContent = 'Score';
                 document.getElementById('label-2').textContent = 'Step';
                 document.getElementById('label-3').textContent = 'Errors';
                 targetEl.textContent = '0'; timeEl.textContent = '0/22';
-                titleEl.textContent = '5. AUDIO-VISUAL DUAL N-BACK';
-                descEl.innerHTML = 'Har step par <b>Tile blink</b> hogi aur <b>Letter (C, K, T...) ki aawaz</b> aayegi.<br>Agar Position ya Audio <b>N steps pehle</b> se match kare toh neeche button dabayein!';
+                titleEl.textContent = 'AUDIO-VISUAL DUAL N-BACK';
+                descEl.innerHTML = 'Har step par <b>Tile blink</b> hogi aur <b>Letter (C, K, T...) ki aawaz</b> aayegi.<br>Agar Position ya Audio <b>N steps pehle</b> se match kare toh button dabayein!';
             } else if (mode === 'switch') {
+                document.getElementById('active-game-title').textContent = 'TASK SWITCHING';
                 document.getElementById('label-1').textContent = 'Score';
                 document.getElementById('label-2').textContent = 'Time Left';
                 document.getElementById('label-3').textContent = 'Errors';
                 targetEl.textContent = '0'; timeEl.textContent = '45.0s';
-                titleEl.textContent = '6. COGNITIVE TASK SWITCHING';
-                descEl.innerHTML = 'Agar Card <b>UPAR (Top)</b> aaye -> Number dekhein (<b>EVEN [2,4,6,8]</b> ya <b>ODD [1,3,5,7,9]</b>).<br>Agar Card <b>NEECHE (Bottom)</b> aaye -> Letter dekhein (<b>VOWEL [A,E,I,O,U]</b> ya <b>CONSONANT</b>).';
+                titleEl.textContent = 'COGNITIVE TASK SWITCH';
+                descEl.innerHTML = 'Card <b>UPAR (Top)</b> aaye -> Number dekhein (<b>EVEN [2,4,6,8]</b> ya <b>ODD [1,3,5,7,9]</b>).<br>Card <b>NEECHE (Bottom)</b> aaye -> Letter dekhein (<b>VOWEL [A,E,I,O,U]</b> ya <b>CONSONANT</b>).';
             } else if (mode === 'reverse') {
+                document.getElementById('active-game-title').textContent = 'NUMBER SPAN';
                 document.getElementById('label-1').textContent = 'Digits';
                 document.getElementById('label-2').textContent = 'Progress';
                 document.getElementById('label-3').textContent = 'Lives';
                 targetEl.textContent = '2 Dig'; timeEl.textContent = '0/2'; errorEl.textContent = '3 ❤️';
-                titleEl.textContent = '7. NUMBER SPAN (2 TO 10+ DIGITS)';
+                titleEl.textContent = 'NUMBER SPAN (2 TO 10+ DIGITS)';
                 descEl.innerHTML = 'Beginner <b>2 Numbers</b> se shuru hoga aur har level par +1 number badhega!<br>Neeche chunein: <b>Starting Order (Seedha)</b> ya <b>Reverse Order (Ulta)</b>.';
             } else if (mode === 'target') {
+                document.getElementById('active-game-title').textContent = 'TARGET HUNTER';
                 document.getElementById('label-1').textContent = 'Find Target';
                 document.getElementById('label-2').textContent = 'Time Left';
                 document.getElementById('label-3').textContent = 'Errors';
                 targetEl.textContent = '--'; timeEl.textContent = '60.0s'; errorEl.textContent = '0';
-                titleEl.textContent = '8. DYNAMIC TARGET HUNT';
+                titleEl.textContent = 'DYNAMIC TARGET HUNTER';
                 descEl.innerHTML = 'App aapko ek <b>Number ya Word (jaise 73, 9K, BUY)</b> bolega aur upar dikhayega.<br>Move hote huye circles ke beech us target ko dhoondh kar tap karein!';
             }
             updateBestDisplay();
@@ -886,47 +1327,25 @@
             initAudio();
             errors = 0; errorEl.textContent = '0';
             overlay.style.display = 'none';
-            exitBtn.style.display = 'block';
             isPlaying = true;
             startTime = performance.now();
 
-            if (currentMode === 'schulte') {
-                initSchulte();
-            } else if (currentMode === 'dot') {
-                motLevel = 1; motLives = 3; errorEl.textContent = '3 ❤️';
-                startMotRound();
-            } else if (currentMode === 'memory') {
-                memLevel = 1; memLives = 3; errorEl.textContent = '3 ❤️';
-                startMemoryRound();
-            } else if (currentMode === 'stroop') {
-                stroopScore = 0; stroopHits = 0; targetEl.textContent = '0';
-                nextStroopQuestion();
-                if (animId) cancelAnimationFrame(animId);
-                stroopLoop();
-            } else if (currentMode === 'nback') {
-                startNBackGame();
-            } else if (currentMode === 'switch') {
-                switchScore = 0; targetEl.textContent = '0';
-                nextSwitchCard();
-                if (animId) cancelAnimationFrame(animId);
-                switchLoop();
-            } else if (currentMode === 'reverse') {
-                revLength = 2; // Starts at Beginner 2 numbers!
-                revLives = 3; errorEl.textContent = '3 ❤️';
-                startRevRound();
-            } else if (currentMode === 'target') {
-                initTargetHunt();
-            }
+            if (currentMode === 'schulte') initSchulte();
+            else if (currentMode === 'dot') { motLevel = 1; motLives = 3; errorEl.textContent = '3 ❤️'; startMotRound(); }
+            else if (currentMode === 'memory') { memLevel = 1; memLives = 3; errorEl.textContent = '3 ❤️'; startMemoryRound(); }
+            else if (currentMode === 'stroop') { stroopScore = 0; stroopHits = 0; targetEl.textContent = '0'; nextStroopQuestion(); stroopLoop(); }
+            else if (currentMode === 'nback') startNBackGame();
+            else if (currentMode === 'switch') { switchScore = 0; targetEl.textContent = '0'; nextSwitchCard(); switchLoop(); }
+            else if (currentMode === 'reverse') { revLength = 2; revLives = 3; errorEl.textContent = '3 ❤️'; startRevRound(); }
+            else if (currentMode === 'target') initTargetHunt();
         }
 
-        // --- GAME 8: DYNAMIC TARGET HUNT ---
+        // --- GAME 8: TARGET HUNTER ---
         function generateHuntLabel(levelHits) {
             if (levelHits >= 4 && Math.random() < 0.45) {
                 const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
                 if (Math.random() < 0.5) {
-                    const n = Math.floor(Math.random() * 9) + 1;
-                    const c = chars[Math.floor(Math.random() * chars.length)];
-                    return `${n}${c}`;
+                    return `${Math.floor(Math.random() * 9) + 1}${chars[Math.floor(Math.random() * chars.length)]}`;
                 } else {
                     const words = ['BUY', 'PUT', 'WIN', 'MAX', 'PRO', 'TOP', 'ASK', 'BID'];
                     return words[Math.floor(Math.random() * words.length)];
@@ -939,7 +1358,6 @@
             const totalExpected = existingNodes.length + 1;
             const areaPerNode = (canvas.width * canvas.height) / (Math.max(18, totalExpected) * 3.4);
             const radius = Math.max(18, Math.min(27, Math.floor(Math.sqrt(areaPerNode) / 1.85)));
-
             let x, y, label, overlapping, attempts = 0;
             do {
                 overlapping = false;
@@ -947,40 +1365,19 @@
                 x = radius + Math.random() * (canvas.width - radius * 2);
                 y = radius + 45 + Math.random() * (canvas.height - radius * 2 - 45);
                 for (let other of existingNodes) {
-                    if (other.num === label || Math.hypot(x - other.x, y - other.y) < radius * 2.1) {
-                        overlapping = true;
-                        break;
-                    }
+                    if (other.num === label || Math.hypot(x - other.x, y - other.y) < radius * 2.1) { overlapping = true; break; }
                 }
                 attempts++;
             } while (overlapping && attempts < 200);
-
-            const angle = Math.random() * Math.PI * 2;
-            const baseSpeed = 0.85 + Math.random() * 0.65;
-            return {
-                num: label,
-                x, y,
-                vx: Math.cos(angle) * baseSpeed,
-                vy: Math.sin(angle) * baseSpeed,
-                r: radius,
-                hitFlash: 0
-            };
+            const angle = Math.random() * Math.PI * 2, baseSpeed = 0.85 + Math.random() * 0.65;
+            return { num: label, x, y, vx: Math.cos(angle) * baseSpeed, vy: Math.sin(angle) * baseSpeed, r: radius, hitFlash: 0 };
         }
 
         function initTargetHunt() {
-            resizeCanvas();
-            nodes = [];
-            speedMultiplier = 1;
-            targetHuntScore = 0;
-            targetHuntHits = 0;
-
-            for (let i = 0; i < 16; i++) {
-                nodes.push(spawnHuntNode(nodes, 0));
-            }
-
+            resizeCanvas(); nodes = []; speedMultiplier = 1; targetHuntScore = 0; targetHuntHits = 0;
+            for (let i = 0; i < 16; i++) nodes.push(spawnHuntNode(nodes, 0));
             motBanner.style.display = 'block';
             pickNewHuntTarget();
-            if (animId) cancelAnimationFrame(animId);
             targetHuntLoop();
         }
 
@@ -996,19 +1393,15 @@
 
         function targetHuntLoop() {
             if (!isPlaying || currentMode !== 'target') return;
-            const now = performance.now();
-            const remaining = Math.max(0, huntDuration - ((now - startTime) / 1000));
+            const remaining = Math.max(0, huntDuration - ((performance.now() - startTime) / 1000));
             timeEl.textContent = remaining.toFixed(1) + 's';
 
             for (let i = 0; i < nodes.length; i++) {
-                const n = nodes[i];
-                n.x += n.vx * speedMultiplier;
-                n.y += n.vy * speedMultiplier;
+                const n = nodes[i]; n.x += n.vx * speedMultiplier; n.y += n.vy * speedMultiplier;
                 if (n.x - n.r < 0) { n.x = n.r; n.vx *= -1; }
                 if (n.x + n.r > canvas.width) { n.x = canvas.width - n.r; n.vx *= -1; }
                 if (n.y - n.r < 45) { n.y = 45 + n.r; n.vy *= -1; }
                 if (n.y + n.r > canvas.height) { n.y = canvas.height - n.r; n.vy *= -1; }
-
                 for (let j = i + 1; j < nodes.length; j++) {
                     const m = nodes[j], dx = m.x - n.x, dy = m.y - n.y, dist = Math.hypot(dx, dy), minDist = n.r + m.r + 2;
                     if (dist < minDist && dist > 0) {
@@ -1018,46 +1411,28 @@
                     }
                 }
             }
-
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             if (flashTimer > 0) { ctx.fillStyle = flashColor; ctx.fillRect(0, 0, canvas.width, canvas.height); flashTimer--; }
-
             for (let n of nodes) {
-                ctx.beginPath();
-                ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-                if (n.hitFlash > 0) {
-                    ctx.fillStyle = '#10b981';
-                    ctx.strokeStyle = '#34d399';
-                    n.hitFlash--;
-                } else {
-                    ctx.fillStyle = '#1e293b';
-                    ctx.strokeStyle = '#475569';
-                }
-                ctx.fill();
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
+                ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+                if (n.hitFlash > 0) { ctx.fillStyle = '#10b981'; ctx.strokeStyle = '#34d399'; n.hitFlash--; }
+                else { ctx.fillStyle = '#1e293b'; ctx.strokeStyle = '#a855f7'; }
+                ctx.fill(); ctx.lineWidth = 2; ctx.stroke();
                 ctx.fillStyle = '#f8fafc';
                 const fontSize = String(n.num).length > 2 ? Math.floor(n.r * 0.58) : Math.floor(n.r * 0.74);
                 ctx.font = `bold ${fontSize}px sans-serif`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(n.num, n.x, n.y);
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(n.num, n.x, n.y);
             }
-
             if (remaining <= 0) { finishGame(); return; }
             animId = requestAnimationFrame(targetHuntLoop);
         }
 
-        // --- GAME 6: COGNITIVE TASK SWITCHING ---
+        // --- GAME 6: TASK SWITCHING ---
         function nextSwitchCard() {
             switchIsTop = Math.random() < 0.5;
             switchNum = Math.floor(Math.random() * 8) + 2;
             const isVowel = Math.random() < 0.5;
-            switchChar = isVowel
-                ? VOWELS[Math.floor(Math.random() * VOWELS.length)]
-                : CONSONANTS[Math.floor(Math.random() * CONSONANTS.length)];
-
+            switchChar = isVowel ? VOWELS[Math.floor(Math.random() * VOWELS.length)] : CONSONANTS[Math.floor(Math.random() * CONSONANTS.length)];
             const cardText = `${switchNum}${switchChar}`;
             document.getElementById('sw-card-top').textContent = switchIsTop ? cardText : '';
             document.getElementById('sw-card-bottom').textContent = switchIsTop ? '' : cardText;
@@ -1067,22 +1442,9 @@
 
         function handleSwitchTap(side) {
             if (!isPlaying || currentMode !== 'switch') return;
-            let correctSide = '';
-            if (switchIsTop) {
-                correctSide = (switchNum % 2 === 0) ? 'LEFT' : 'RIGHT';
-            } else {
-                correctSide = VOWELS.includes(switchChar) ? 'LEFT' : 'RIGHT';
-            }
-
-            if (side === correctSide) {
-                switchScore += 3;
-                playHitSound(Math.min(switchScore, 60), 60);
-            } else {
-                errors++;
-                switchScore = Math.max(0, switchScore - 2);
-                errorEl.textContent = errors;
-                playErrorSound();
-            }
+            const correctSide = switchIsTop ? ((switchNum % 2 === 0) ? 'LEFT' : 'RIGHT') : (VOWELS.includes(switchChar) ? 'LEFT' : 'RIGHT');
+            if (side === correctSide) { switchScore += 3; playHitSound(Math.min(switchScore, 60), 60); }
+            else { errors++; switchScore = Math.max(0, switchScore - 2); errorEl.textContent = errors; playErrorSound(); }
             targetEl.textContent = switchScore;
             nextSwitchCard();
         }
@@ -1095,39 +1457,29 @@
             animId = requestAnimationFrame(switchLoop);
         }
 
-        // --- GAME 7: STARTING / REVERSE SPAN (STARTS AT 2 NUMBERS!) ---
+        // --- GAME 7: STARTING / REVERSE SPAN ---
         function startRevRound() {
-            revAcceptInput = false;
-            revUserIdx = 0;
-            revSeq = [];
+            revAcceptInput = false; revUserIdx = 0; revSeq = [];
             for (let i = 0; i < revLength; i++) {
-                let d;
-                do { d = Math.floor(Math.random() * 9) + 1; } while (i > 0 && d === revSeq[i - 1]);
+                let d; do { d = Math.floor(Math.random() * 9) + 1; } while (i > 0 && d === revSeq[i - 1]);
                 revSeq.push(d);
             }
-            targetEl.textContent = revLength + ' Dig';
-            timeEl.textContent = `0/${revLength}`;
+            targetEl.textContent = revLength + ' Dig'; timeEl.textContent = `0/${revLength}`;
             document.getElementById('rev-status').textContent = `👀 Watch ${revLength} numbers...`;
             document.getElementById('rev-status').style.color = '#fbbf24';
             document.getElementById('rev-display').textContent = '-';
-
             let step = 0;
             function flashNextDigit() {
                 if (!isPlaying || currentMode !== 'reverse') return;
                 if (step < revLength) {
                     document.getElementById('rev-display').textContent = revSeq[step];
-                    playHitSound(step + 1, revLength);
-                    step++;
+                    playHitSound(step + 1, revLength); step++;
                     timerId = setTimeout(() => {
                         document.getElementById('rev-display').textContent = '';
                         timerId = setTimeout(flashNextDigit, 240);
                     }, 750);
                 } else {
-                    if (revDirection === 'forward') {
-                        document.getElementById('rev-status').textContent = '▶ Type in STARTING Order (Seedha)!';
-                    } else {
-                        document.getElementById('rev-status').textContent = '◀ Type in REVERSE Order (Ulta)!';
-                    }
+                    document.getElementById('rev-status').textContent = (revDirection === 'forward') ? '▶ Type in STARTING Order (Seedha)!' : '◀ Type in REVERSE Order (Ulta)!';
                     document.getElementById('rev-status').style.color = '#38bdf8';
                     document.getElementById('rev-display').textContent = '?';
                     revAcceptInput = true;
@@ -1138,56 +1490,35 @@
 
         function handleRevKey(num) {
             if (!isPlaying || currentMode !== 'reverse' || !revAcceptInput) return;
-
-            const expected = (revDirection === 'forward')
-                ? revSeq[revUserIdx]
-                : revSeq[revLength - 1 - revUserIdx];
-
+            const expected = (revDirection === 'forward') ? revSeq[revUserIdx] : revSeq[revLength - 1 - revUserIdx];
             if (num === expected) {
-                revUserIdx++;
-                timeEl.textContent = `${revUserIdx}/${revLength}`;
-
-                let enteredStr = '';
-                if (revDirection === 'forward') {
-                    enteredStr = revSeq.slice(0, revUserIdx).join('');
-                } else {
-                    enteredStr = revSeq.slice(revLength - revUserIdx).reverse().join('');
-                }
+                revUserIdx++; timeEl.textContent = `${revUserIdx}/${revLength}`;
+                const enteredStr = (revDirection === 'forward') ? revSeq.slice(0, revUserIdx).join('') : revSeq.slice(revLength - revUserIdx).reverse().join('');
                 document.getElementById('rev-display').textContent = enteredStr;
                 playHitSound(revUserIdx, revLength);
-
                 if (revUserIdx === revLength) {
                     revAcceptInput = false;
-                    document.getElementById('rev-status').textContent = `✅ Level Cleared! Next: ${revLength + 1} Numbers...`;
+                    document.getElementById('rev-status').textContent = `✅ Cleared! Next: ${revLength + 1} Numbers...`;
                     document.getElementById('rev-status').style.color = '#10b981';
-                    revLength++;
-                    timerId = setTimeout(startRevRound, 950);
+                    revLength++; timerId = setTimeout(startRevRound, 950);
                 }
             } else {
-                revAcceptInput = false;
-                playErrorSound();
-                revLives--;
-                errorEl.textContent = revLives + ' ❤️';
+                revAcceptInput = false; playErrorSound(); revLives--; errorEl.textContent = revLives + ' ❤️';
                 const correctAns = (revDirection === 'forward') ? revSeq.join('') : [...revSeq].reverse().join('');
-                document.getElementById('rev-status').textContent = `❌ Galat! Sahi answer tha: ${correctAns}`;
+                document.getElementById('rev-status').textContent = `❌ Galat! Sahi answer: ${correctAns}`;
                 document.getElementById('rev-status').style.color = '#f43f5e';
                 if (revLives <= 0) timerId = setTimeout(finishGame, 1300);
                 else timerId = setTimeout(startRevRound, 1500);
             }
         }
 
-        // --- GAME 5: AUDIO-VISUAL DUAL N-BACK ---
+        // --- GAME 5: DUAL N-BACK ---
         function startNBackGame() {
-            nbackPosHist = []; nbackAudHist = [];
-            nbackStep = 0; nbackScore = 0;
-            targetEl.textContent = '0';
-            const gridEl = document.getElementById('matrix-grid');
-            gridEl.innerHTML = '';
-            const cellSize = 68;
-            gridEl.style.gridTemplateColumns = `repeat(3, ${cellSize}px)`;
+            nbackPosHist = []; nbackAudHist = []; nbackStep = 0; nbackScore = 0; targetEl.textContent = '0';
+            const gridEl = document.getElementById('matrix-grid'); gridEl.innerHTML = '';
+            const cellSize = 68; gridEl.style.gridTemplateColumns = `repeat(3, ${cellSize}px)`;
             for (let i = 0; i < 9; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'm-cell';
+                const cell = document.createElement('div'); cell.className = 'm-cell';
                 cell.style.width = cellSize + 'px'; cell.style.height = cellSize + 'px';
                 gridEl.appendChild(cell);
             }
@@ -1200,31 +1531,20 @@
             if (nbackStep > nBackLevel) {
                 const prevPosMatch = nbackPosHist[nbackStep - 1] === nbackPosHist[nbackStep - 1 - nBackLevel];
                 const prevAudMatch = nbackAudHist[nbackStep - 1] === nbackAudHist[nbackStep - 1 - nBackLevel];
-                if ((prevPosMatch && !nbPosPressed) || (prevAudMatch && !nbAudPressed)) {
-                    errors++; errorEl.textContent = errors;
-                }
+                if ((prevPosMatch && !nbPosPressed) || (prevAudMatch && !nbAudPressed)) { errors++; errorEl.textContent = errors; }
             }
             if (nbackStep >= 22) { finishGame(); return; }
-
             nbPosPressed = false; nbAudPressed = false;
             document.getElementById('nb-pos-btn').style.background = '#1e293b';
             document.getElementById('nb-aud-btn').style.background = '#1e293b';
-            const cells = document.querySelectorAll('.m-cell');
-            cells.forEach(c => c.className = 'm-cell');
-
-            let nextPos = Math.floor(Math.random() * 9);
-            let nextAud = NBACK_LETTERS[Math.floor(Math.random() * NBACK_LETTERS.length)];
-
+            const cells = document.querySelectorAll('.m-cell'); cells.forEach(c => c.className = 'm-cell');
+            let nextPos = Math.floor(Math.random() * 9), nextAud = NBACK_LETTERS[Math.floor(Math.random() * NBACK_LETTERS.length)];
             if (nbackStep >= nBackLevel) {
                 if (Math.random() < 0.32) nextPos = nbackPosHist[nbackStep - nBackLevel];
                 if (Math.random() < 0.32) nextAud = nbackAudHist[nbackStep - nBackLevel];
             }
-
-            nbackPosHist.push(nextPos);
-            nbackAudHist.push(nextAud);
-            nbackStep++;
+            nbackPosHist.push(nextPos); nbackAudHist.push(nextAud); nbackStep++;
             timeEl.textContent = `${nbackStep}/22`;
-
             setTimeout(() => {
                 if (!isPlaying || currentMode !== 'nback') return;
                 if (cells[nextPos]) cells[nextPos].classList.add('lit');
@@ -1232,7 +1552,6 @@
                 speakText(nextAud);
                 setTimeout(() => { if (cells[nextPos]) cells[nextPos].classList.remove('lit'); }, 950);
             }, 150);
-
             timerId = setTimeout(runNBackStep, 2300);
         }
 
@@ -1242,34 +1561,24 @@
                 nbPosPressed = true;
                 const match = nbackPosHist[nbackStep - 1] === nbackPosHist[nbackStep - 1 - nBackLevel];
                 const btn = document.getElementById('nb-pos-btn');
-                if (match) {
-                    nbackScore += 5; btn.style.background = '#10b981'; playHitSound(nbackStep, 22);
-                } else {
-                    errors++; nbackScore = Math.max(0, nbackScore - 3);
-                    errorEl.textContent = errors; btn.style.background = '#f43f5e'; playErrorSound();
-                }
+                if (match) { nbackScore += 5; btn.style.background = '#10b981'; playHitSound(nbackStep, 22); }
+                else { errors++; nbackScore = Math.max(0, nbackScore - 3); errorEl.textContent = errors; btn.style.background = '#f43f5e'; playErrorSound(); }
                 targetEl.textContent = nbackScore;
             } else if (type === 'aud' && !nbAudPressed) {
                 nbAudPressed = true;
                 const match = nbackAudHist[nbackStep - 1] === nbackAudHist[nbackStep - 1 - nBackLevel];
                 const btn = document.getElementById('nb-aud-btn');
-                if (match) {
-                    nbackScore += 5; btn.style.background = '#10b981'; playHitSound(nbackStep, 22);
-                } else {
-                    errors++; nbackScore = Math.max(0, nbackScore - 3);
-                    errorEl.textContent = errors; btn.style.background = '#f43f5e'; playErrorSound();
-                }
+                if (match) { nbackScore += 5; btn.style.background = '#10b981'; playHitSound(nbackStep, 22); }
+                else { errors++; nbackScore = Math.max(0, nbackScore - 3); errorEl.textContent = errors; btn.style.background = '#f43f5e'; playErrorSound(); }
                 targetEl.textContent = nbackScore;
             }
         }
 
-        // --- GAME 4: STROOP + NO-GO BOMB (PROGRESSIVE BEGINNER TO VERY HARD) ---
+        // --- GAME 4: STROOP + NO-GO BOMB ---
         function nextStroopQuestion() {
             const tier = STROOP_TIERS[stroopTierIdx];
             const ruleEl = document.getElementById('stroop-rule');
             const wordEl = document.getElementById('stroop-word');
-
-            // Gradually reduce time as player gets more hits in the round
             const currentLimit = Math.max(tier.minTime, tier.baseTime - (stroopHits * tier.decay));
 
             if (Math.random() < 0.25) {
@@ -1282,28 +1591,20 @@
                 shotClockLimit = tier.holdTime;
                 return;
             }
-
             stroopIsNoGo = false;
             const wordObj = COLORS[Math.floor(Math.random() * COLORS.length)];
             let inkObj = COLORS[Math.floor(Math.random() * COLORS.length)];
-            if (Math.random() < 0.75 && inkObj.name === wordObj.name) {
-                inkObj = COLORS[(COLORS.indexOf(wordObj) + 1) % COLORS.length];
-            }
+            if (Math.random() < 0.75 && inkObj.name === wordObj.name) inkObj = COLORS[(COLORS.indexOf(wordObj) + 1) % COLORS.length];
             const askInk = Math.random() < 0.55;
-
             if (askInk) {
-                ruleEl.textContent = `🎨 [${tier.name} - ${(currentLimit/1000).toFixed(1)}s] TAP INK COLOR (RANG)`;
-                ruleEl.style.background = '#7c3aed';
-                stroopAnswer = inkObj.name;
+                ruleEl.textContent = `🎨 [${tier.name} - ${(currentLimit/1000).toFixed(1)}s] TAP INK COLOR`;
+                ruleEl.style.background = '#7c3aed'; stroopAnswer = inkObj.name;
             } else {
-                ruleEl.textContent = `📖 [${tier.name} - ${(currentLimit/1000).toFixed(1)}s] TAP WORD MEANING (SHABD)`;
-                ruleEl.style.background = '#0284c7';
-                stroopAnswer = wordObj.name;
+                ruleEl.textContent = `📖 [${tier.name} - ${(currentLimit/1000).toFixed(1)}s] TAP WORD MEANING`;
+                ruleEl.style.background = '#0284c7'; stroopAnswer = wordObj.name;
             }
-            wordEl.textContent = wordObj.name;
-            wordEl.style.color = inkObj.hex;
-            questionStartTime = performance.now();
-            shotClockLimit = currentLimit;
+            wordEl.textContent = wordObj.name; wordEl.style.color = inkObj.hex;
+            questionStartTime = performance.now(); shotClockLimit = currentLimit;
         }
 
         function handleStroop(choice) {
@@ -1311,52 +1612,27 @@
             if (stroopIsNoGo) {
                 errors++; stroopScore = Math.max(0, stroopScore - 5);
                 errorEl.textContent = errors; targetEl.textContent = stroopScore;
-                playErrorSound();
-                nextStroopQuestion();
-                return;
+                playErrorSound(); nextStroopQuestion(); return;
             }
-            if (choice === stroopAnswer) {
-                stroopHits++;
-                stroopScore += 3;
-                playHitSound(Math.min(stroopScore, 60), 60);
-            } else {
-                errors++;
-                stroopScore = Math.max(0, stroopScore - 2);
-                errorEl.textContent = errors;
-                playErrorSound();
-            }
-            targetEl.textContent = stroopScore;
-            nextStroopQuestion();
+            if (choice === stroopAnswer) { stroopHits++; stroopScore += 3; playHitSound(Math.min(stroopScore, 60), 60); }
+            else { errors++; stroopScore = Math.max(0, stroopScore - 2); errorEl.textContent = errors; playErrorSound(); }
+            targetEl.textContent = stroopScore; nextStroopQuestion();
         }
 
         function stroopLoop() {
             if (!isPlaying || currentMode !== 'stroop') return;
-            const now = performance.now();
-            const remaining = Math.max(0, 45 - ((now - startTime) / 1000));
+            const now = performance.now(), remaining = Math.max(0, 45 - ((now - startTime) / 1000));
             timeEl.textContent = remaining.toFixed(1) + 's';
-
             const qElapsed = now - questionStartTime;
             const pct = Math.max(0, 100 - (qElapsed / shotClockLimit) * 100);
             const bar = document.getElementById('shot-clock-bar');
             bar.style.width = pct + '%';
             bar.style.background = stroopIsNoGo ? '#f43f5e' : (pct < 35 ? '#fbbf24' : '#10b981');
-
             if (qElapsed >= shotClockLimit) {
-                if (stroopIsNoGo) {
-                    stroopHits++;
-                    stroopScore += 4;
-                    targetEl.textContent = stroopScore;
-                    playHitSound(40, 50);
-                } else {
-                    errors++;
-                    stroopScore = Math.max(0, stroopScore - 2);
-                    errorEl.textContent = errors;
-                    targetEl.textContent = stroopScore;
-                    playErrorSound();
-                }
+                if (stroopIsNoGo) { stroopHits++; stroopScore += 4; targetEl.textContent = stroopScore; playHitSound(40, 50); }
+                else { errors++; stroopScore = Math.max(0, stroopScore - 2); errorEl.textContent = errors; targetEl.textContent = stroopScore; playErrorSound(); }
                 nextStroopQuestion();
             }
-
             if (remaining <= 0) { finishGame(); return; }
             animId = requestAnimationFrame(stroopLoop);
         }
@@ -1367,7 +1643,6 @@
             const totalDots = Math.min(15, 8 + motLevel);
             const radius = Math.max(19, Math.min(26, Math.floor(Math.min(canvas.width, canvas.height) / 14)));
             const speed = 1.45 + (motLevel * 0.22);
-
             motTrackDuration = MOT_DURATIONS[Math.min(motLevel - 1, MOT_DURATIONS.length - 1)];
             if (motLevel > MOT_DURATIONS.length) motTrackDuration = 15000 + (motLevel - 5) * 3000;
 
@@ -1377,22 +1652,15 @@
                     overlapping = false;
                     x = radius + Math.random() * (canvas.width - radius * 2);
                     y = radius + 45 + Math.random() * (canvas.height - radius * 2 - 45);
-                    for (let other of nodes) {
-                        if (Math.hypot(x - other.x, y - other.y) < radius * 2.3) { overlapping = true; break; }
-                    }
+                    for (let other of nodes) { if (Math.hypot(x - other.x, y - other.y) < radius * 2.3) { overlapping = true; break; } }
                     attempts++;
                 } while (overlapping && attempts < 180);
                 const angle = Math.random() * Math.PI * 2;
                 nodes.push({ isTarget: i < 3, picked: false, wrongPick: false, x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r: radius });
             }
-
-            targetEl.textContent = `Lvl ${motLevel}`;
-            timeEl.textContent = `${(motTrackDuration / 1000).toFixed(0)}s Track`;
+            targetEl.textContent = `Lvl ${motLevel}`; timeEl.textContent = `${(motTrackDuration / 1000).toFixed(0)}s Track`;
             motPhase = 'memorize'; motPhaseStart = performance.now();
-            motBanner.style.display = 'block';
-            motBanner.textContent = '👀 MEMORIZE 3 RED DOTS (2.0s)';
-            motBanner.style.color = '#ef4444';
-            if (animId) cancelAnimationFrame(animId);
+            motBanner.style.display = 'block'; motBanner.textContent = '👀 MEMORIZE 3 RED DOTS (2.0s)'; motBanner.style.color = '#ef4444';
             motLoop();
         }
 
@@ -1408,12 +1676,10 @@
                 motBanner.textContent = `🔄 TRACK TARGETS: ${remTrack.toFixed(1)}s left`;
                 timeEl.textContent = `${remTrack.toFixed(1)}s`;
                 if (elapsed >= motTrackDuration) {
-                    motPhase = 'pick';
-                    motBanner.textContent = `👆 TAP THE 3 TARGET DOTS! (0/3)`;
+                    motPhase = 'pick'; motBanner.textContent = `👆 TAP THE 3 TARGET DOTS! (0/3)`;
                     motBanner.style.color = '#38bdf8'; timeEl.textContent = `0/3 Found`;
                 }
             }
-
             if (motPhase === 'track') {
                 for (let i = 0; i < nodes.length; i++) {
                     const n = nodes[i]; n.x += n.vx; n.y += n.vy;
@@ -1431,7 +1697,6 @@
                     }
                 }
             }
-
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             for (let n of nodes) {
                 ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
@@ -1451,23 +1716,19 @@
             const totalNums = SCHULTE_TIERS[schulteTierIdx];
             const areaPerNode = (canvas.width * canvas.height) / (totalNums * 3.4);
             const radius = Math.max(15, Math.min(28, Math.floor(Math.sqrt(areaPerNode) / 1.9)));
-
             for (let i = 1; i <= totalNums; i++) {
                 let x, y, overlapping, attempts = 0;
                 do {
                     overlapping = false;
                     x = radius + Math.random() * (canvas.width - radius * 2);
                     y = radius + Math.random() * (canvas.height - radius * 2);
-                    for (let other of nodes) {
-                        if (Math.hypot(x - other.x, y - other.y) < radius * 2.15) { overlapping = true; break; }
-                    }
+                    for (let other of nodes) { if (Math.hypot(x - other.x, y - other.y) < radius * 2.15) { overlapping = true; break; } }
                     attempts++;
                 } while (overlapping && attempts < 220);
                 const angle = Math.random() * Math.PI * 2, baseSpeed = 0.65 + Math.random() * 0.45;
                 nodes.push({ num: i, x, y, vx: Math.cos(angle) * baseSpeed, vy: Math.sin(angle) * baseSpeed, r: radius, hitFlash: 0 });
             }
             currentTarget = 1; penaltyTime = 0; targetEl.textContent = `1/${totalNums}`;
-            if (animId) cancelAnimationFrame(animId);
             schulteLoop();
         }
 
@@ -1494,7 +1755,7 @@
             for (let n of nodes) {
                 ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
                 if (n.hitFlash > 0) { ctx.fillStyle = '#10b981'; ctx.strokeStyle = '#34d399'; n.hitFlash--; }
-                else { ctx.fillStyle = '#1e293b'; ctx.strokeStyle = '#475569'; }
+                else { ctx.fillStyle = '#1e293b'; ctx.strokeStyle = '#c084fc'; }
                 ctx.fill(); ctx.lineWidth = 2; ctx.stroke();
                 ctx.fillStyle = '#f8fafc'; ctx.font = `bold ${Math.floor(n.r * 0.76)}px sans-serif`;
                 ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(n.num, n.x, n.y);
@@ -1510,21 +1771,16 @@
             targetEl.textContent = memLevel; timeEl.textContent = numTiles + ' tiles';
             document.getElementById('matrix-status').textContent = 'Memorize Pattern...';
             document.getElementById('matrix-status').style.color = '#fbbf24';
-
-            const gridEl = document.getElementById('matrix-grid');
-            gridEl.innerHTML = '';
+            const gridEl = document.getElementById('matrix-grid'); gridEl.innerHTML = '';
             const cellSize = Math.min(64, Math.floor((Math.min(window.innerWidth, window.innerHeight - 200) - 50) / memGridSize));
             gridEl.style.gridTemplateColumns = `repeat(${memGridSize}, ${cellSize}px)`;
-
-            const totalCells = memGridSize * memGridSize;
-            memTargets = [];
+            const totalCells = memGridSize * memGridSize; memTargets = [];
             while (memTargets.length < numTiles) {
                 const r = Math.floor(Math.random() * totalCells);
                 if (!memTargets.includes(r)) memTargets.push(r);
             }
             for (let i = 0; i < totalCells; i++) {
-                const cell = document.createElement('div');
-                cell.className = 'm-cell';
+                const cell = document.createElement('div'); cell.className = 'm-cell';
                 cell.style.width = cellSize + 'px'; cell.style.height = cellSize + 'px';
                 if (memTargets.includes(i)) cell.classList.add('lit');
                 cell.onclick = () => handleMemoryTap(i, cell);
@@ -1558,7 +1814,7 @@
             }
         }
 
-        // --- CANVAS INPUT HANDLER (POINTER EVENTS PREVENT DOUBLE-FIRE) ---
+        // --- CANVAS INPUT HANDLER ---
         function handleCanvasInput(e) {
             if (!isPlaying) return;
             const rect = canvas.getBoundingClientRect();
@@ -1572,10 +1828,7 @@
                     const n = nodes[i];
                     if (Math.hypot(x - n.x, y - n.y) <= n.r + 6) {
                         if (n.num === currentTarget) {
-                            playHitSound(currentTarget, maxNum);
-                            n.hitFlash = 10;
-                            currentTarget++;
-                            speedMultiplier *= 1.022;
+                            playHitSound(currentTarget, maxNum); n.hitFlash = 10; currentTarget++; speedMultiplier *= 1.022;
                             flashColor = 'rgba(16, 185, 129, 0.12)'; flashTimer = 3;
                             if (currentTarget > maxNum) finishGame();
                             else targetEl.textContent = `${currentTarget}/${maxNum}`;
@@ -1602,11 +1855,8 @@
                                 timerId = setTimeout(startMotRound, 1000);
                             }
                         } else {
-                            n.wrongPick = true; playErrorSound();
-                            motLives--; errorEl.textContent = motLives + ' ❤️';
-                            motPhase = 'reveal';
-                            motBanner.textContent = `❌ MISSED TARGET!`;
-                            motBanner.style.color = '#f43f5e';
+                            n.wrongPick = true; playErrorSound(); motLives--; errorEl.textContent = motLives + ' ❤️';
+                            motPhase = 'reveal'; motBanner.textContent = `❌ MISSED TARGET!`; motBanner.style.color = '#f43f5e';
                             if (motLives <= 0) timerId = setTimeout(finishGame, 1100);
                             else timerId = setTimeout(startMotRound, 1300);
                         }
@@ -1618,29 +1868,16 @@
                     const n = nodes[i];
                     if (Math.hypot(x - n.x, y - n.y) <= n.r + 7) {
                         if (String(n.num) === String(currentHuntTarget)) {
-                            targetHuntHits++;
-                            targetHuntScore += 10;
-                            n.hitFlash = 12;
-                            playHitSound(Math.min(targetHuntHits, 30), 30);
-                            speedMultiplier *= 1.035;
+                            targetHuntHits++; targetHuntScore += 10; n.hitFlash = 12;
+                            playHitSound(Math.min(targetHuntHits, 30), 30); speedMultiplier *= 1.035;
                             flashColor = 'rgba(16, 185, 129, 0.14)'; flashTimer = 4;
-
-                            let newLabel;
-                            do {
-                                newLabel = generateHuntLabel(targetHuntHits);
-                            } while (nodes.some(item => item.num === newLabel));
+                            let newLabel; do { newLabel = generateHuntLabel(targetHuntHits); } while (nodes.some(item => item.num === newLabel));
                             n.num = newLabel;
-
-                            if (targetHuntHits % 2 === 0 && nodes.length < 36) {
-                                nodes.push(spawnHuntNode(nodes, targetHuntHits));
-                            }
+                            if (targetHuntHits % 2 === 0 && nodes.length < 36) nodes.push(spawnHuntNode(nodes, targetHuntHits));
                             pickNewHuntTarget();
                         } else {
-                            playErrorSound();
-                            errors++;
-                            targetHuntScore = Math.max(0, targetHuntScore - 4);
-                            errorEl.textContent = errors;
-                            flashColor = 'rgba(244, 63, 94, 0.3)'; flashTimer = 8;
+                            playErrorSound(); errors++; targetHuntScore = Math.max(0, targetHuntScore - 4);
+                            errorEl.textContent = errors; flashColor = 'rgba(244, 63, 94, 0.3)'; flashTimer = 8;
                         }
                         break;
                     }
@@ -1654,6 +1891,7 @@
             titleEl.textContent = "SESSION COMPLETE";
             resultsEl.style.display = 'block';
 
+            let xpEarned = 60;
             try {
                 if (currentMode === 'schulte') {
                     const maxNum = SCHULTE_TIERS[schulteTierIdx];
@@ -1661,56 +1899,73 @@
                     const key = 'brain_best_time_' + maxNum;
                     const prev = localStorage.getItem(key);
                     if (!prev || parseFloat(finalTime) < parseFloat(prev)) localStorage.setItem(key, finalTime);
+                    xpEarned = 80 + (schulteTierIdx * 30);
+                    recordSession(`Float-N-Find (1-${maxNum})`, `${finalTime}s`, errors, xpEarned);
+
                     if (schulteTierIdx < SCHULTE_TIERS.length - 1) {
                         const nextTierNum = SCHULTE_TIERS[schulteTierIdx + 1];
-                        resultsEl.innerHTML = `Cleared <b>1-${maxNum}</b> in <b>${finalTime}s</b> (Errors: ${errors})<br><span style="color:#10b981">🔥 Unlocked Next Tier: 1 to ${nextTierNum}!</span>`;
+                        resultsEl.innerHTML = `Cleared <b>1-${maxNum}</b> in <b>${finalTime}s</b> (+${xpEarned} XP)<br><span style="color:#10b981">🔥 Unlocked Next Tier: 1 to ${nextTierNum}!</span>`;
                         setSchulteTier(schulteTierIdx + 1);
                     } else {
-                        resultsEl.innerHTML = `EXTREME 1-50 Cleared in <b>${finalTime}s</b> | Errors: <b>${errors}</b>`;
+                        resultsEl.innerHTML = `EXTREME 1-50 Cleared in <b>${finalTime}s</b> (+${xpEarned} XP)`;
                     }
                 } else if (currentMode === 'dot') {
                     const reached = motLevel - 1;
                     const prev = localStorage.getItem('brain_best_mot');
                     if (!prev || reached > parseInt(prev)) localStorage.setItem('brain_best_mot', reached);
-                    resultsEl.innerHTML = `Endurance MOT Cleared: <b>Level ${reached}</b>`;
+                    xpEarned = Math.max(40, reached * 35);
+                    recordSession('Focus Track (MOT)', `Level ${reached}`, 3 - motLives, xpEarned);
+                    resultsEl.innerHTML = `Focus Track Cleared: <b>Level ${reached}</b> (+${xpEarned} XP)`;
                 } else if (currentMode === 'memory') {
                     const reached = memLevel - 1;
                     const prev = localStorage.getItem('brain_best_mem');
                     if (!prev || reached > parseInt(prev)) localStorage.setItem('brain_best_mem', reached);
-                    resultsEl.innerHTML = `Memory Matrix Cleared: <b>Level ${reached}</b>`;
+                    xpEarned = Math.max(40, reached * 30);
+                    recordSession('Memory Matrix', `Level ${reached}`, 3 - memLives, xpEarned);
+                    resultsEl.innerHTML = `Memory Matrix Cleared: <b>Level ${reached}</b> (+${xpEarned} XP)`;
                 } else if (currentMode === 'stroop') {
                     const tierName = STROOP_TIERS[stroopTierIdx].name;
                     const key = 'brain_best_stroop_' + stroopTierIdx;
                     const prev = localStorage.getItem(key);
                     if (!prev || stroopScore > parseInt(prev)) localStorage.setItem(key, stroopScore);
+                    xpEarned = Math.max(40, stroopScore * 2);
+                    recordSession(`Impulse No-Go (${tierName})`, `${stroopScore} pts`, errors, xpEarned);
 
                     if (stroopScore >= 25 && stroopTierIdx < STROOP_TIERS.length - 1) {
                         const nextName = STROOP_TIERS[stroopTierIdx + 1].name;
-                        resultsEl.innerHTML = `[${tierName}] Score: <b>${stroopScore} pts</b> (Mistakes: ${errors})<br><span style="color:#10b981">🔥 Level Up! Next Round: ${nextName} Mode!</span>`;
+                        resultsEl.innerHTML = `[${tierName}] Score: <b>${stroopScore} pts</b> (+${xpEarned} XP)<br><span style="color:#10b981">🔥 Level Up! Next: ${nextName} Mode!</span>`;
                         setStroopTier(stroopTierIdx + 1);
                     } else {
-                        resultsEl.innerHTML = `[${tierName}] Score: <b>${stroopScore} pts</b> | Mistakes: <b>${errors}</b>`;
+                        resultsEl.innerHTML = `[${tierName}] Score: <b>${stroopScore} pts</b> (+${xpEarned} XP)`;
                     }
                 } else if (currentMode === 'nback') {
                     const key = 'brain_best_nback_' + nBackLevel;
                     const prev = localStorage.getItem(key);
-                    if (!prev || nbackScore > parseInt(prev)) localStorage.setItem('brain_best_nback_' + nBackLevel, nbackScore);
-                    resultsEl.innerHTML = `Dual ${nBackLevel}-Back Score: <b>${nbackScore} pts</b> | Mistakes: <b>${errors}</b>`;
+                    if (!prev || nbackScore > parseInt(prev)) localStorage.setItem(key, nbackScore);
+                    xpEarned = Math.max(50, nbackScore * 3);
+                    recordSession(`Dual ${nBackLevel}-Back`, `${nbackScore} pts`, errors, xpEarned);
+                    resultsEl.innerHTML = `Dual ${nBackLevel}-Back Score: <b>${nbackScore} pts</b> (+${xpEarned} XP)`;
                 } else if (currentMode === 'switch') {
                     const prev = localStorage.getItem('brain_best_switch');
                     if (!prev || switchScore > parseInt(prev)) localStorage.setItem('brain_best_switch', switchScore);
-                    resultsEl.innerHTML = `Task Switch Score: <b>${switchScore} pts</b> | Mistakes: <b>${errors}</b>`;
+                    xpEarned = Math.max(45, switchScore * 2);
+                    recordSession('Task Switching', `${switchScore} pts`, errors, xpEarned);
+                    resultsEl.innerHTML = `Task Switch Score: <b>${switchScore} pts</b> (+${xpEarned} XP)`;
                 } else if (currentMode === 'reverse') {
                     const reached = revLength - 1;
                     const key = 'brain_best_rev_' + revDirection;
                     const prev = localStorage.getItem(key);
                     if (!prev || reached > parseInt(prev)) localStorage.setItem(key, reached);
-                    const modeLabel = revDirection === 'forward' ? 'Starting Order' : 'Reverse Order';
-                    resultsEl.innerHTML = `Max ${modeLabel} Cleared: <b>${reached} Numbers</b>`;
+                    const modeLabel = revDirection === 'forward' ? 'Starting' : 'Reverse';
+                    xpEarned = Math.max(40, reached * 25);
+                    recordSession(`Span (${modeLabel})`, `${reached} Digits`, 3 - revLives, xpEarned);
+                    resultsEl.innerHTML = `Max ${modeLabel} Span: <b>${reached} Numbers</b> (+${xpEarned} XP)`;
                 } else if (currentMode === 'target') {
                     const prev = localStorage.getItem('brain_best_target');
                     if (!prev || targetHuntScore > parseInt(prev)) localStorage.setItem('brain_best_target', targetHuntScore);
-                    resultsEl.innerHTML = `Target Hunt Score: <b>${targetHuntScore} pts</b> (${targetHuntHits} Hits) | Mistakes: <b>${errors}</b>`;
+                    xpEarned = Math.max(50, targetHuntScore);
+                    recordSession('Target Hunter', `${targetHuntScore} pts`, errors, xpEarned);
+                    resultsEl.innerHTML = `Target Hunt Score: <b>${targetHuntScore} pts</b> (+${xpEarned} XP)`;
                 }
             } catch (e) {}
 
@@ -1719,20 +1974,15 @@
             overlay.style.display = 'flex';
         }
 
-        // Use pointerdown so mobile & desktop clicks never conflict or block
         canvas.addEventListener('pointerdown', handleCanvasInput);
+        refreshHomeDashboard();
 
-        // Clear any stuck old Service Worker caches so updates work immediately
         if ('caches' in window) {
-            caches.keys().then(names => {
-                for (let name of names) caches.delete(name);
-            });
+            caches.keys().then(names => { for (let name of names) caches.delete(name); });
         }
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                navigator.serviceWorker.register('./sw.js').then(reg => {
-                    reg.update();
-                }).catch(() => {});
+                navigator.serviceWorker.register('./sw.js').then(reg => reg.update()).catch(() => {});
             });
         }
     </script>
