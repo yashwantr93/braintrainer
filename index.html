@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Brain Train Pro v7.0</title>
+    <title>Brain Train Pro v8.0</title>
     <meta name="theme-color" content="#130924">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -65,7 +65,7 @@
             cursor: pointer;
         }
 
-        /* Top 3 Scoreboard Pills (Like Image) */
+        /* Top 3 Scoreboard Pills */
         .top-stats-row {
             display: grid;
             grid-template-columns: 1.35fr 0.9fr 1fr;
@@ -82,36 +82,19 @@
             gap: 7px;
             box-shadow: inset 0 1px 1px rgba(255,255,255,0.1);
         }
-        .pill-icon {
-            font-size: 16px;
-        }
-        .pill-info {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-        }
-        .pill-title {
-            font-size: 11px;
-            font-weight: 800;
-            color: #f1f5f9;
-            white-space: nowrap;
-        }
+        .pill-icon { font-size: 16px; }
+        .pill-info { display: flex; flex-direction: column; width: 100%; }
+        .pill-title { font-size: 11px; font-weight: 800; color: #f1f5f9; white-space: nowrap; }
         .mini-prog-bg {
-            width: 100%;
-            height: 5px;
-            background: #140c24;
-            border-radius: 4px;
-            margin-top: 4px;
-            overflow: hidden;
+            width: 100%; height: 5px; background: #140c24;
+            border-radius: 4px; margin-top: 4px; overflow: hidden;
         }
         .mini-prog-fill {
-            height: 100%;
-            width: 40%;
+            height: 100%; width: 0%;
             background: linear-gradient(90deg, #ec4899, #f59e0b);
             border-radius: 4px;
         }
 
-        /* Main Scrollable Content Area */
         #hub-content {
             flex: 1;
             overflow-y: auto;
@@ -145,7 +128,7 @@
         }
         .card-art {
             width: 100%;
-            height: 105px;
+            height: 100px;
             border-radius: 12px;
             position: relative;
             overflow: hidden;
@@ -155,11 +138,23 @@
             align-items: center;
             border: 1px solid rgba(255,255,255,0.08);
         }
+        .card-lvl-badge {
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            background: rgba(16, 185, 129, 0.9);
+            color: #052e16;
+            font-size: 9px;
+            font-weight: 900;
+            padding: 2px 7px;
+            border-radius: 8px;
+            z-index: 2;
+        }
         .card-best-badge {
             position: absolute;
             top: 6px;
             right: 6px;
-            background: rgba(15, 23, 42, 0.85);
+            background: rgba(15, 23, 42, 0.88);
             color: #38bdf8;
             border: 1px solid rgba(56, 189, 248, 0.4);
             font-size: 9px;
@@ -181,69 +176,32 @@
             margin-top: 2px;
         }
 
-        /* Custom Mini Art Styles for Cards */
+        /* Mini Art Backgrounds */
         .art-mot {
             background: #0d1322;
             background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
                               linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
             background-size: 20px 20px;
         }
-        .art-grid {
-            background: linear-gradient(135deg, #f97316 0%, #ec4899 55%, #a855f7 100%);
-        }
-        .art-matrix {
-            background: #141829;
-        }
-        .art-nogo {
-            background: radial-gradient(circle, #0f292a 0%, #09131c 100%);
-        }
-        .art-nback {
-            background: radial-gradient(circle, #1e1b4b 0%, #0f172a 100%);
-        }
-        .art-switch {
-            background: linear-gradient(180deg, rgba(37,99,235,0.25) 50%, rgba(16,185,129,0.25) 50%);
-        }
-        .art-span {
-            background: #131629;
-        }
-        .art-hunt {
-            background: radial-gradient(circle, #2e1065 0%, #090d16 100%);
-        }
+        .art-grid { background: linear-gradient(135deg, #f97316 0%, #ec4899 55%, #a855f7 100%); }
+        .art-matrix { background: #141829; }
+        .art-nogo { background: radial-gradient(circle, #0f292a 0%, #09131c 100%); }
+        .art-nback { background: radial-gradient(circle, #1e1b4b 0%, #0f172a 100%); }
+        .art-switch { background: linear-gradient(180deg, rgba(37,99,235,0.25) 50%, rgba(16,185,129,0.25) 50%); }
+        .art-span { background: #131629; }
+        .art-hunt { background: radial-gradient(circle, #2e1065 0%, #090d16 100%); }
 
-        .mini-dot {
-            width: 11px; height: 11px; border-radius: 50%; background: #fff; position: absolute;
-        }
-        .mini-dot.red {
-            background: #ef4444; box-shadow: 0 0 12px #ef4444; width: 13px; height: 13px;
-        }
-        .mini-tiles-wrap {
-            display: flex; flex-wrap: wrap; gap: 4px; padding: 10px; justify-content: center;
-        }
-        .mini-num-tile {
-            background: #fff; color: #0f172a; font-weight: 900; font-size: 10px;
-            padding: 3px 5px; border-radius: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        .mini-3x3 {
-            display: grid; grid-template-columns: repeat(4, 16px); gap: 4px;
-        }
-        .mini-cell {
-            width: 16px; height: 16px; background: #262b40; border-radius: 3px;
-        }
-        .mini-cell.lit {
-            background: #fde047; box-shadow: 0 0 8px #facc15;
-        }
-        .neon-tap-badge {
-            border: 2px solid #22c55e; color: #4ade80; padding: 4px 10px; border-radius: 8px;
-            font-size: 11px; font-weight: 900; box-shadow: 0 0 10px rgba(34,197,94,0.4);
-            transform: rotate(-8deg);
-        }
-        .neon-bomb-badge {
-            border: 2px solid #f97316; color: #fb923c; padding: 4px 10px; border-radius: 8px;
-            font-size: 11px; font-weight: 900; box-shadow: 0 0 10px rgba(249,115,22,0.4);
-            transform: rotate(8deg); margin-top: 8px;
-        }
+        .mini-dot { width: 11px; height: 11px; border-radius: 50%; background: #fff; position: absolute; }
+        .mini-dot.red { background: #ef4444; box-shadow: 0 0 12px #ef4444; width: 13px; height: 13px; }
+        .mini-tiles-wrap { display: flex; flex-wrap: wrap; gap: 4px; padding: 10px; justify-content: center; margin-top: 10px; }
+        .mini-num-tile { background: #fff; color: #0f172a; font-weight: 900; font-size: 10px; padding: 3px 5px; border-radius: 5px; }
+        .mini-3x3 { display: grid; grid-template-columns: repeat(4, 15px); gap: 4px; margin-top: 8px; }
+        .mini-cell { width: 15px; height: 15px; background: #262b40; border-radius: 3px; }
+        .mini-cell.lit { background: #fde047; box-shadow: 0 0 8px #facc15; }
+        .neon-tap-badge { border: 2px solid #22c55e; color: #4ade80; padding: 3px 8px; border-radius: 8px; font-size: 10px; font-weight: 900; transform: rotate(-6deg); margin-top: 8px; }
+        .neon-bomb-badge { border: 2px solid #f97316; color: #fb923c; padding: 3px 8px; border-radius: 8px; font-size: 10px; font-weight: 900; transform: rotate(6deg); margin-top: 6px; }
 
-        /* Progress (Track Record) & Leaderboard Panels */
+        /* Panels */
         .panel-box {
             background: rgba(24, 15, 44, 0.92);
             border: 1px solid rgba(192, 132, 252, 0.35);
@@ -252,49 +210,17 @@
             margin-bottom: 14px;
         }
         .panel-heading {
-            font-size: 15px;
-            font-weight: 900;
-            color: #e879f9;
-            margin-bottom: 10px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            font-size: 15px; font-weight: 900; color: #e879f9;
+            margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;
         }
-        .summary-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-        .sum-card {
-            background: rgba(15, 10, 30, 0.8);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 10px;
-            padding: 8px;
-            text-align: center;
-        }
+        .summary-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 12px; }
+        .sum-card { background: rgba(15, 10, 30, 0.8); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 8px; text-align: center; }
         .sum-val { font-size: 18px; font-weight: 900; color: #38bdf8; }
         .sum-lbl { font-size: 10px; color: #94a3b8; text-transform: uppercase; }
+        .log-row, .lb-row { display: flex; justify-content: space-between; align-items: center; padding: 9px 6px; border-bottom: 1px solid rgba(255,255,255,0.07); font-size: 12px; }
+        .rank-tag { font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 10px; background: #3b0764; color: #e9d5ff; }
 
-        .log-row, .lb-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 9px 6px;
-            border-bottom: 1px solid rgba(255,255,255,0.07);
-            font-size: 12px;
-        }
-        .log-row:last-child, .lb-row:last-child { border-bottom: none; }
-        .rank-tag {
-            font-size: 10px;
-            font-weight: 800;
-            padding: 2px 7px;
-            border-radius: 10px;
-            background: #3b0764;
-            color: #e9d5ff;
-        }
-
-        /* Bottom Navigation Bar + LEVEL Bar (Like Image) */
+        /* Bottom Dock */
         .bottom-dock {
             background: linear-gradient(180deg, #1b1136 0%, #100921 100%);
             border-top: 1px solid rgba(192, 132, 252, 0.3);
@@ -303,145 +229,45 @@
             flex-direction: column;
             align-items: center;
         }
-        .nav-icons-row {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            width: 100%;
-            margin-bottom: 6px;
-        }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: #94a3b8;
-            font-size: 11px;
-            font-weight: 700;
-            cursor: pointer;
-            padding: 4px 0;
-            position: relative;
-        }
-        .nav-item.active {
-            color: #facc15;
-        }
-        .nav-item.active::before {
-            content: '';
-            position: absolute;
-            top: -6px;
-            width: 36px;
-            height: 3px;
-            background: #f472b6;
-            border-radius: 3px;
-        }
+        .nav-icons-row { display: grid; grid-template-columns: repeat(4, 1fr); width: 100%; margin-bottom: 6px; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; color: #94a3b8; font-size: 11px; font-weight: 700; cursor: pointer; padding: 4px 0; position: relative; }
+        .nav-item.active { color: #facc15; }
+        .nav-item.active::before { content: ''; position: absolute; top: -6px; width: 36px; height: 3px; background: #f472b6; border-radius: 3px; }
         .nav-ico { font-size: 18px; margin-bottom: 2px; }
-        .level-footer {
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-        .level-title {
-            font-size: 15px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            color: #ffffff;
-            margin-bottom: 4px;
-        }
-        .level-bar-bg {
-            width: 65%;
-            height: 6px;
-            background: #261742;
-            border-radius: 6px;
-            overflow: hidden;
-        }
-        .level-bar-fill {
-            height: 100%;
-            width: 50%;
-            background: linear-gradient(90deg, #facc15, #f97316, #ec4899, #a855f7);
-            border-radius: 6px;
-        }
+        .level-footer { width: 100%; display: flex; flex-direction: column; align-items: center; }
+        .level-title { font-size: 15px; font-weight: 900; letter-spacing: 1px; color: #ffffff; margin-bottom: 4px; }
+        .level-bar-bg { width: 65%; height: 6px; background: #261742; border-radius: 6px; overflow: hidden; }
+        .level-bar-fill { height: 100%; width: 20%; background: linear-gradient(90deg, #facc15, #f97316, #ec4899, #a855f7); border-radius: 6px; }
 
         /* ================= GAME ARENA VIEW ================= */
-        #game-screen {
-            display: none;
-            flex-direction: column;
-            height: 100vh;
-            width: 100%;
-        }
+        #game-screen { display: none; flex-direction: column; height: 100vh; width: 100%; }
         #game-top-bar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #0f172a;
-            padding: 8px 12px;
-            border-bottom: 1px solid #1e293b;
-            z-index: 30;
+            display: flex; justify-content: space-between; align-items: center;
+            background: #0f172a; padding: 8px 12px; border-bottom: 1px solid #1e293b; z-index: 30;
         }
-        #active-game-title {
-            font-size: 14px;
-            font-weight: 900;
-            color: #e879f9;
-            letter-spacing: 0.5px;
-        }
+        #active-game-title { font-size: 14px; font-weight: 900; color: #e879f9; letter-spacing: 0.5px; }
         .home-exit-btn {
-            background: #dc2626;
-            color: #fff;
-            border: 1px solid #f87171;
-            padding: 6px 12px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 800;
-            cursor: pointer;
+            background: #dc2626; color: #fff; border: 1px solid #f87171;
+            padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 800; cursor: pointer;
         }
         #hud {
-            position: relative;
-            z-index: 25;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 6px 12px;
-            background-color: #1e293b;
-            border-bottom: 2px solid #334155;
-            height: 54px;
+            position: relative; z-index: 25; display: flex; justify-content: space-around;
+            align-items: center; padding: 6px 12px; background-color: #1e293b;
+            border-bottom: 2px solid #334155; height: 54px;
         }
         .stat-box { display: flex; flex-direction: column; align-items: center; }
         .stat-label { font-size: 10px; color: #94a3b8; text-transform: uppercase; }
         .stat-val { font-size: 17px; font-weight: 800; color: #38bdf8; }
-        #target-val { color: #f43f5e; font-size: 19px; }
+        #target-val { color: #f43f5e; font-size: 18px; }
 
-        #arena {
-            flex: 1;
-            position: relative;
-            width: 100%;
-            overflow: hidden;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+        #arena { flex: 1; position: relative; width: 100%; overflow: hidden; display: flex; justify-content: center; align-items: center; }
         canvas { display: block; width: 100%; height: 100%; }
         #mot-banner {
-            position: absolute;
-            top: 12px;
-            background: rgba(15, 23, 42, 0.92);
-            border: 1px solid #475569;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 800;
-            color: #fbbf24;
-            display: none;
-            pointer-events: none;
-            z-index: 5;
+            position: absolute; top: 12px; background: rgba(15, 23, 42, 0.92);
+            border: 1px solid #475569; padding: 6px 16px; border-radius: 20px;
+            font-size: 14px; font-weight: 800; color: #fbbf24; display: none; pointer-events: none; z-index: 5;
         }
-        #dom-game {
-            display: none;
-            width: 100%;
-            height: 100%;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 14px;
-            z-index: 10;
-        }
+        #dom-game { display: none; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; padding: 14px; z-index: 10; }
         #matrix-status { font-size: 16px; font-weight: 700; color: #fbbf24; margin-bottom: 10px; height: 24px; text-align: center; }
         #nback-audio-badge { display: none; font-size: 20px; font-weight: 900; color: #38bdf8; margin-bottom: 10px; height: 28px; }
         #matrix-grid { display: grid; gap: 10px; background: #1e293b; padding: 14px; border-radius: 14px; border: 2px solid #334155; }
@@ -474,29 +300,60 @@
         .rev-pad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; width: 100%; }
         .r-key { background: #1e293b; color: #f8fafc; border: 2px solid #475569; padding: 14px; font-size: 20px; font-weight: 800; border-radius: 10px; cursor: pointer; }
 
+        /* Play Store Style Level Complete / Start Overlay */
         #overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(11, 15, 25, 0.96);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 20;
-            padding: 20px;
-            text-align: center;
+            position: absolute; inset: 0; background: rgba(11, 15, 25, 0.96);
+            display: flex; flex-direction: column; justify-content: center;
+            align-items: center; z-index: 20; padding: 20px; text-align: center;
         }
-        h1 { font-size: 22px; margin-bottom: 8px; color: #f8fafc; }
-        p { font-size: 14px; color: #cbd5e1; max-width: 420px; margin-bottom: 16px; line-height: 1.5; }
-        .penalty-tag { color: #f43f5e; font-weight: bold; }
-        .bonus-tag { color: #10b981; font-weight: bold; }
-        .tier-selector-row { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; justify-content: center; }
-        .tier-btn { background: #1e293b; color: #94a3b8; border: 1px solid #475569; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; }
+        #stars-display {
+            font-size: 36px; margin-bottom: 6px; letter-spacing: 6px; display: none;
+            filter: drop-shadow(0 0 10px rgba(250, 204, 21, 0.6));
+        }
+        h1 { font-size: 23px; margin-bottom: 6px; color: #f8fafc; }
+        p { font-size: 13px; color: #cbd5e1; max-width: 400px; margin-bottom: 14px; line-height: 1.5; }
+
+        /* Play Store Level Stepper */
+        .level-stepper {
+            display: flex; align-items: center; gap: 14px;
+            background: #1e293b; border: 2px solid #475569;
+            padding: 8px 16px; border-radius: 14px; margin-bottom: 14px;
+        }
+        .step-arrow {
+            background: #334155; color: #f8fafc; border: none;
+            width: 34px; height: 34px; border-radius: 8px;
+            font-size: 16px; font-weight: 900; cursor: pointer;
+        }
+        .step-arrow:disabled { opacity: 0.35; cursor: not-allowed; }
+        .step-info { display: flex; flex-direction: column; min-width: 130px; }
+        .step-lvl-num { font-size: 18px; font-weight: 900; color: #facc15; }
+        .step-lvl-sub { font-size: 11px; color: #94a3b8; font-weight: 700; }
+
+        .tier-selector-row { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; justify-content: center; }
+        .tier-btn { background: #1e293b; color: #94a3b8; border: 1px solid #475569; padding: 7px 11px; border-radius: 8px; font-size: 11px; font-weight: 700; cursor: pointer; }
         .tier-btn.active { background: #10b981; color: #0b0f19; border-color: #34d399; }
-        .overlay-btn-row { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
-        .main-btn { background: linear-gradient(90deg, #2563eb, #7c3aed); color: white; border: none; padding: 14px 28px; font-size: 16px; font-weight: 800; border-radius: 12px; cursor: pointer; box-shadow: 0 4px 15px rgba(124, 58, 237, 0.4); }
-        .sec-btn { background: #1e293b; color: #cbd5e1; border: 1px solid #475569; padding: 14px 20px; font-size: 15px; font-weight: 800; border-radius: 12px; cursor: pointer; }
-        #results { margin-bottom: 16px; font-size: 15px; color: #38bdf8; line-height: 1.7; }
+
+        .overlay-btn-row { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 4px; }
+        .main-btn {
+            background: linear-gradient(90deg, #10b981, #059669);
+            color: white; border: none; padding: 14px 26px; font-size: 16px;
+            font-weight: 900; border-radius: 12px; cursor: pointer;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.35);
+        }
+        .retry-btn {
+            background: #2563eb; color: white; border: none; padding: 14px 20px;
+            font-size: 15px; font-weight: 800; border-radius: 12px; cursor: pointer;
+            display: none;
+        }
+        .sec-btn {
+            background: #1e293b; color: #cbd5e1; border: 1px solid #475569;
+            padding: 14px 18px; font-size: 14px; font-weight: 800; border-radius: 12px; cursor: pointer;
+        }
+        #results {
+            margin-bottom: 14px; font-size: 14px; color: #38bdf8;
+            line-height: 1.6; background: rgba(30, 41, 59, 0.75);
+            padding: 10px 18px; border-radius: 10px; border: 1px solid #334155;
+        }
     </style>
 </head>
 <body>
@@ -508,7 +365,6 @@
             <button type="button" class="sound-pill" id="home-sound-btn" onclick="toggleSound()">🔊 Sound: ON</button>
         </div>
 
-        <!-- Top 3 Scoreboard Pills -->
         <div class="top-stats-row">
             <div class="stat-pill" onclick="switchHubTab('progress')" style="cursor:pointer;">
                 <span class="pill-icon">📅</span>
@@ -531,50 +387,45 @@
             </div>
         </div>
 
-        <!-- Dynamic Hub Content (Games Grid / Track Record / Leaderboard / Guide) -->
         <div id="hub-content">
-
             <!-- TAB 1: 2-COLUMN GAMES GRID -->
             <div id="hub-tab-games" class="games-grid">
-                <!-- Card 1: Focus Track (MOT) -->
                 <div class="game-card" onclick="openGame('dot')">
                     <div class="card-art art-mot">
+                        <span class="card-lvl-badge" id="card-lvl-dot">LVL 1</span>
                         <span class="card-best-badge" id="card-best-dot">Best: --</span>
-                        <div class="mini-dot" style="top:22px; left:28px;"></div>
+                        <div class="mini-dot" style="top:28px; left:28px;"></div>
                         <div class="mini-dot" style="top:65px; left:35px;"></div>
-                        <div class="mini-dot" style="top:30px; right:30px;"></div>
-                        <div class="mini-dot" style="bottom:20px; right:25px;"></div>
-                        <div class="mini-dot red" style="top:35px; left:52%;"></div>
-                        <div class="mini-dot red" style="bottom:22px; left:42%;"></div>
+                        <div class="mini-dot" style="top:32px; right:30px;"></div>
+                        <div class="mini-dot red" style="top:38px; left:52%;"></div>
+                        <div class="mini-dot red" style="bottom:20px; left:42%;"></div>
                     </div>
                     <div class="card-title">FOCUS TRACK</div>
-                    <div class="card-sub">Track 3 Red Dots!</div>
+                    <div class="card-sub">Track Red Dots!</div>
                 </div>
 
-                <!-- Card 2: Float-N-Find (Crowded Grid) -->
                 <div class="game-card" onclick="openGame('schulte')">
                     <div class="card-art art-grid">
+                        <span class="card-lvl-badge" id="card-lvl-schulte">LVL 1</span>
                         <span class="card-best-badge" id="card-best-schulte">Best: --</span>
                         <div class="mini-tiles-wrap">
                             <span class="mini-num-tile" style="color:#ef4444;">1</span>
-                            <span class="mini-num-tile">33</span>
-                            <span class="mini-num-tile">24</span>
-                            <span class="mini-num-tile">16</span>
-                            <span class="mini-num-tile">6</span>
-                            <span class="mini-num-tile">29</span>
-                            <span class="mini-num-tile">12</span>
-                            <span class="mini-num-tile">35</span>
+                            <span class="mini-num-tile">14</span>
                             <span class="mini-num-tile">8</span>
+                            <span class="mini-num-tile">12</span>
+                            <span class="mini-num-tile">6</span>
                             <span class="mini-num-tile">19</span>
+                            <span class="mini-num-tile">3</span>
+                            <span class="mini-num-tile">15</span>
                         </div>
                     </div>
                     <div class="card-title">FLOAT-N-FIND</div>
-                    <div class="card-sub">Hit 1 to 50!</div>
+                    <div class="card-sub">Step-by-Step Grid!</div>
                 </div>
 
-                <!-- Card 3: Memory Matrix -->
                 <div class="game-card" onclick="openGame('memory')">
                     <div class="card-art art-matrix">
+                        <span class="card-lvl-badge" id="card-lvl-memory">LVL 1</span>
                         <span class="card-best-badge" id="card-best-memory">Best: --</span>
                         <div class="mini-3x3">
                             <div class="mini-cell"></div><div class="mini-cell lit"></div><div class="mini-cell"></div><div class="mini-cell lit"></div>
@@ -586,9 +437,9 @@
                     <div class="card-sub">Spot & Recall!</div>
                 </div>
 
-                <!-- Card 4: Reaction No-Go Bomb -->
                 <div class="game-card" onclick="openGame('stroop')">
                     <div class="card-art art-nogo">
+                        <span class="card-lvl-badge" id="card-lvl-stroop">LVL 1</span>
                         <span class="card-best-badge" id="card-best-stroop">Best: --</span>
                         <div style="display:flex; flex-direction:column; align-items:center;">
                             <div class="neon-tap-badge">TAP COLOR</div>
@@ -599,51 +450,51 @@
                     <div class="card-sub">Speed & Brake Test!</div>
                 </div>
 
-                <!-- Card 5: Target Hunt (Number Orbit) -->
                 <div class="game-card" onclick="openGame('target')">
                     <div class="card-art art-hunt">
+                        <span class="card-lvl-badge" id="card-lvl-target">LVL 1</span>
                         <span class="card-best-badge" id="card-best-target">Best: --</span>
-                        <div style="font-size:11px; color:#cbd5e1; line-height:1.4; font-weight:800;">
+                        <div style="font-size:11px; color:#cbd5e1; line-height:1.4; font-weight:800; margin-top:10px;">
                             12 &nbsp; <span style="color:#ef4444; font-size:15px;">73</span> &nbsp; 37<br>
-                            33 &nbsp; <span style="color:#38bdf8;">BUY</span> &nbsp; 26 &nbsp; 6<br>
-                            9K &nbsp; 18 &nbsp; 40 &nbsp; 21
+                            33 &nbsp; <span style="color:#38bdf8;">BUY</span> &nbsp; 26<br>
+                            9K &nbsp; 18 &nbsp; 40
                         </div>
                     </div>
                     <div class="card-title">TARGET HUNTER</div>
                     <div class="card-sub">Voice + Fast Finding!</div>
                 </div>
 
-                <!-- Card 6: Dual N-Back -->
                 <div class="game-card" onclick="openGame('nback')">
                     <div class="card-art art-nback">
+                        <span class="card-lvl-badge" id="card-lvl-nback">LVL 1</span>
                         <span class="card-best-badge" id="card-best-nback">Best: --</span>
-                        <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
-                            <span style="font-size:18px; font-weight:900; color:#38bdf8;">🔊 "K" + 👁️</span>
-                            <span style="font-size:10px; background:#2563eb; padding:3px 8px; border-radius:6px; font-weight:800;">2/3/4-BACK RAM</span>
+                        <div style="display:flex; flex-direction:column; align-items:center; gap:5px; margin-top:10px;">
+                            <span style="font-size:16px; font-weight:900; color:#38bdf8;">🔊 "K" + 👁️</span>
+                            <span style="font-size:9px; background:#2563eb; padding:3px 7px; border-radius:6px; font-weight:800;">DUAL N-BACK</span>
                         </div>
                     </div>
                     <div class="card-title">DUAL N-BACK</div>
                     <div class="card-sub">Audio + Visual RAM!</div>
                 </div>
 
-                <!-- Card 7: Task Switch -->
                 <div class="game-card" onclick="openGame('switch')">
                     <div class="card-art art-switch">
+                        <span class="card-lvl-badge" id="card-lvl-switch">LVL 1</span>
                         <span class="card-best-badge" id="card-best-switch">Best: --</span>
-                        <div style="display:flex; flex-direction:column; align-items:center; gap:4px;">
-                            <span style="font-size:16px; font-weight:900; color:#fff;">⬆️ 8B</span>
-                            <span style="font-size:16px; font-weight:900; color:#fde047;">⬇️ 3K</span>
+                        <div style="display:flex; flex-direction:column; align-items:center; gap:4px; margin-top:8px;">
+                            <span style="font-size:15px; font-weight:900; color:#fff;">⬆️ 8B</span>
+                            <span style="font-size:15px; font-weight:900; color:#fde047;">⬇️ 3K</span>
                         </div>
                     </div>
                     <div class="card-title">TASK SWITCH</div>
                     <div class="card-sub">Even/Odd vs Vowel!</div>
                 </div>
 
-                <!-- Card 8: Reverse & Starting Span -->
                 <div class="game-card" onclick="openGame('reverse')">
                     <div class="card-art art-span">
+                        <span class="card-lvl-badge" id="card-lvl-reverse">LVL 1</span>
                         <span class="card-best-badge" id="card-best-reverse">Best: --</span>
-                        <div style="font-size:18px; font-weight:900; color:#a855f7; letter-spacing:2px;">
+                        <div style="font-size:16px; font-weight:900; color:#a855f7; letter-spacing:1px; margin-top:10px;">
                             4 → 9 ⇄ 9 → 4
                         </div>
                     </div>
@@ -681,55 +532,45 @@
             <div id="hub-tab-leaderboard" style="display:none;">
                 <div class="panel-box">
                     <div class="panel-heading">
-                        <span>🏆 PERSONAL BEST SCOREBOARD</span>
+                        <span>🏆 LEVEL & SCOREBOARD</span>
                         <span class="rank-tag" id="lb-tier-badge">PRO TRADER</span>
                     </div>
                     <div id="scoreboard-list"></div>
                 </div>
             </div>
 
-            <!-- TAB 4: TRADER RULES & BRAIN GUIDE -->
+            <!-- TAB 4: PROTOCOL -->
             <div id="hub-tab-guide" style="display:none;">
                 <div class="panel-box">
-                    <div class="panel-heading"><span>⚡ TRADER WARMUP PROTOCOL</span></div>
+                    <div class="panel-heading"><span>⚡ PLAY STORE PROGRESSION SYSTEM</span></div>
                     <p style="font-size:13px; color:#cbd5e1; margin-bottom:10px;">
-                        Market open hone se 10 minute pehle roz <b>5 Sessions (Daily Progress 5/5)</b> complete karein:
+                        Har game <b>Level 1 (Easy)</b> se shuru hota hai. Jab aap ek level clear karenge, tabhi agla level unlock hoga:
                     </p>
-                    <div class="log-row"><span><b>1. Focus Track (MOT)</b></span><span style="color:#38bdf8;">Multi-chart tracking</span></div>
-                    <div class="log-row"><span><b>2. Float-N-Find</b></span><span style="color:#38bdf8;">Peripheral scanner</span></div>
-                    <div class="log-row"><span><b>3. Impulse No-Go</b></span><span style="color:#f43f5e;">Stop FOMO over-clicking</span></div>
-                    <div class="log-row"><span><b>4. Dual N-Back</b></span><span style="color:#10b981;">Working memory RAM</span></div>
-                    <div class="log-row"><span><b>5. Task Switch / Span</b></span><span style="color:#facc15;">Fast regime shifting</span></div>
+                    <div class="log-row"><span><b>🛑 No Auto-Start</b></span><span style="color:#10b981;">Jab aap click karenge tabhi agla level chalega</span></div>
+                    <div class="log-row"><span><b>📈 Smooth Speed</b></span><span style="color:#38bdf8;">Game ke beech mein speed achanak nahi badhegi</span></div>
+                    <div class="log-row"><span><b>⭐⭐⭐ Star Rating</b></span><span style="color:#facc15;">Kam galti = 3 Stars + Bonus XP</span></div>
                 </div>
             </div>
-
         </div>
 
-        <!-- Bottom Navigation Bar + LEVEL Bar -->
         <div class="bottom-dock">
             <div class="nav-icons-row">
                 <div class="nav-item active" id="nav-games" onclick="switchHubTab('games')">
-                    <span class="nav-ico">🎮</span>
-                    <span>Games</span>
+                    <span class="nav-ico">🎮</span><span>Games</span>
                 </div>
                 <div class="nav-item" id="nav-progress" onclick="switchHubTab('progress')">
-                    <span class="nav-ico">📊</span>
-                    <span>Progress</span>
+                    <span class="nav-ico">📊</span><span>Progress</span>
                 </div>
                 <div class="nav-item" id="nav-leaderboard" onclick="switchHubTab('leaderboard')">
-                    <span class="nav-ico">🏆</span>
-                    <span>Scoreboard</span>
+                    <span class="nav-ico">🏆</span><span>Scoreboard</span>
                 </div>
                 <div class="nav-item" id="nav-guide" onclick="switchHubTab('guide')">
-                    <span class="nav-ico">⚡</span>
-                    <span>Protocol</span>
+                    <span class="nav-ico">⚡</span><span>Info</span>
                 </div>
             </div>
             <div class="level-footer">
                 <div class="level-title" id="bottom-level-text">LEVEL 1</div>
-                <div class="level-bar-bg">
-                    <div class="level-bar-fill" id="bottom-level-bar"></div>
-                </div>
+                <div class="level-bar-bg"><div class="level-bar-fill" id="bottom-level-bar"></div></div>
             </div>
         </div>
     </div>
@@ -737,32 +578,32 @@
     <!-- ================= ACTIVE GAME ARENA SCREEN ================= -->
     <div id="game-screen">
         <div id="game-top-bar">
-            <span id="active-game-title">1. CROWDED GRID</span>
+            <span id="active-game-title">FLOAT-N-FIND</span>
             <button type="button" class="home-exit-btn" onclick="backToHome()">🏠 HOME</button>
         </div>
 
         <div id="hud">
             <div class="stat-box">
                 <span class="stat-label" id="label-1">Target</span>
-                <span class="stat-val" id="target-val">1/25</span>
+                <span class="stat-val" id="target-val">1/15</span>
             </div>
             <div class="stat-box">
-                <span class="stat-label" id="label-2">Time</span>
+                <span class="stat-label" id="label-2">Progress</span>
                 <span class="stat-val" id="time-val">0.0s</span>
             </div>
             <div class="stat-box">
-                <span class="stat-label" id="label-3">Errors</span>
+                <span class="stat-label" id="label-3">Mistakes</span>
                 <span class="stat-val" id="error-val">0</span>
             </div>
             <div class="stat-box">
-                <span class="stat-label">Best</span>
-                <span class="stat-val" id="best-val">--</span>
+                <span class="stat-label">Level</span>
+                <span class="stat-val" id="best-val">LVL 1</span>
             </div>
         </div>
 
         <div id="arena">
             <canvas id="gameCanvas"></canvas>
-            <div id="mot-banner">MEMORIZE 3 RED DOTS!</div>
+            <div id="mot-banner">MEMORIZE RED DOTS!</div>
 
             <div id="dom-game">
                 <div id="matrix-wrap" style="display:none; flex-direction:column; align-items:center;">
@@ -821,28 +662,27 @@
                 </div>
             </div>
 
+            <!-- PLAY STORE STYLE LEVEL OVERLAY (NO AUTO-START!) -->
             <div id="overlay">
-                <h1 id="title-text">1. CROWDED SCHULTE GRID</h1>
-                <p id="desc-text">Numbers tap karne ke baad gayab NAHI honge!</p>
+                <div id="stars-display">⭐⭐⭐</div>
+                <h1 id="title-text">FLOAT-N-FIND</h1>
+                <p id="desc-text">Dheere-dheere level par karein. Speed constant rahegi!</p>
 
-                <div id="grid-tier-select" class="tier-selector-row">
-                    <button type="button" class="tier-btn active" onclick="setSchulteTier(0)">Lvl 1 (25)</button>
-                    <button type="button" class="tier-btn" onclick="setSchulteTier(1)">Lvl 2 (35)</button>
-                    <button type="button" class="tier-btn" onclick="setSchulteTier(2)">Lvl 3 (40)</button>
-                    <button type="button" class="tier-btn" onclick="setSchulteTier(3)">Lvl 4 (50)</button>
+                <!-- Universal Level Stepper -->
+                <div class="level-stepper">
+                    <button type="button" class="step-arrow" id="lvl-prev-btn" onclick="changeSelectedLevel(-1)">◀</button>
+                    <div class="step-info">
+                        <span class="step-lvl-num" id="stepper-lvl-label">LEVEL 1</span>
+                        <span class="step-lvl-sub" id="stepper-lvl-desc">Easy • Slow Speed</span>
+                    </div>
+                    <button type="button" class="step-arrow" id="lvl-next-btn" onclick="changeSelectedLevel(1)">▶</button>
                 </div>
 
-                <div id="stroop-tier-select" class="tier-selector-row" style="display:none;">
-                    <button type="button" class="tier-btn active" onclick="setStroopTier(0)">Beginner (3.5s)</button>
-                    <button type="button" class="tier-btn" onclick="setStroopTier(1)">Mid (2.5s)</button>
-                    <button type="button" class="tier-btn" onclick="setStroopTier(2)">Hard (1.8s)</button>
-                    <button type="button" class="tier-btn" onclick="setStroopTier(3)">Very Hard (1.3s)</button>
-                </div>
-
+                <!-- Optional Mode Selectors for N-Back & Span -->
                 <div id="nback-tier-select" class="tier-selector-row" style="display:none;">
-                    <button type="button" class="tier-btn active" onclick="setNBackLevel(2)">2-Back (Normal)</button>
-                    <button type="button" class="tier-btn" onclick="setNBackLevel(3)">3-Back (Hard)</button>
-                    <button type="button" class="tier-btn" onclick="setNBackLevel(4)">4-Back (Extreme)</button>
+                    <button type="button" class="tier-btn active" onclick="setNBackLevel(2)">2-Back</button>
+                    <button type="button" class="tier-btn" onclick="setNBackLevel(3)">3-Back</button>
+                    <button type="button" class="tier-btn" onclick="setNBackLevel(4)">4-Back</button>
                 </div>
 
                 <div id="rev-mode-select" class="tier-selector-row" style="display:none;">
@@ -851,8 +691,10 @@
                 </div>
 
                 <div id="results" style="display:none;"></div>
+
                 <div class="overlay-btn-row">
-                    <button type="button" class="main-btn" id="start-btn" onclick="initGame()">START TRAINING</button>
+                    <button type="button" class="retry-btn" id="retry-btn" onclick="retrySameLevel()">🔄 REPLAY</button>
+                    <button type="button" class="main-btn" id="start-btn" onclick="startSelectedLevel()">▶ PLAY LEVEL 1</button>
                     <button type="button" class="sec-btn" onclick="backToHome()">🏠 HOME</button>
                 </div>
             </div>
@@ -877,7 +719,7 @@
             try {
                 window.speechSynthesis.cancel();
                 const utter = new SpeechSynthesisUtterance(String(text).split('').join(' '));
-                utter.rate = 1.25;
+                utter.rate = 1.2;
                 window.speechSynthesis.speak(utter);
             } catch (e) {}
         }
@@ -886,10 +728,10 @@
             try {
                 initAudio();
                 const now = audioCtx.currentTime, osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
-                const freq = 320 + (Math.min(step, maxSteps) / maxSteps) * 560;
+                const freq = 340 + (Math.min(step, maxSteps) / Math.max(1, maxSteps)) * 520;
                 osc.type = 'sine'; osc.frequency.setValueAtTime(freq, now);
-                osc.frequency.exponentialRampToValueAtTime(freq * 1.25, now + 0.08);
-                gain.gain.setValueAtTime(0.25, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+                osc.frequency.exponentialRampToValueAtTime(freq * 1.2, now + 0.08);
+                gain.gain.setValueAtTime(0.22, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
                 osc.connect(gain); gain.connect(audioCtx.destination);
                 osc.start(now); osc.stop(now + 0.08);
             } catch (e) {}
@@ -901,7 +743,7 @@
                 const now = audioCtx.currentTime, osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
                 osc.type = 'sawtooth'; osc.frequency.setValueAtTime(140, now);
                 osc.frequency.linearRampToValueAtTime(90, now + 0.22);
-                gain.gain.setValueAtTime(0.3, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+                gain.gain.setValueAtTime(0.28, now); gain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
                 osc.connect(gain); gain.connect(audioCtx.destination);
                 osc.start(now); osc.stop(now + 0.22);
             } catch (e) {}
@@ -920,7 +762,78 @@
             } catch (e) {}
         }
 
-        // --- XP, RANK, DAILY PROGRESS & TRACK RECORD ENGINE ---
+        // --- PLAY STORE LEVEL PROGRESSION STORAGE ---
+        const ALL_MODES = ['dot', 'schulte', 'memory', 'stroop', 'target', 'nback', 'switch', 'reverse'];
+        let selectedLevel = 1;
+        let lastPlayedLevel = 1;
+        let overlayUnlockTime = 0; // Prevents accidental ghost taps!
+
+        function getUnlockedLevel(mode) {
+            return parseInt(localStorage.getItem('brain_unlocked_lvl_' + mode) || '1');
+        }
+        function unlockNextLevel(mode, clearedLvl) {
+            const currentMax = getUnlockedLevel(mode);
+            if (clearedLvl >= currentMax) {
+                localStorage.setItem('brain_unlocked_lvl_' + mode, clearedLvl + 1);
+            }
+        }
+
+        // Gradual Difficulty Parameters per Level (Play Store Curve)
+        function getLevelConfig(mode, lvl) {
+            if (mode === 'schulte') {
+                // Starts at 12 numbers, very slow (0.38), adds +3 numbers and +0.05 speed per level
+                const count = Math.min(50, 12 + (lvl - 1) * 3);
+                const speed = Math.min(1.35, 0.38 + (lvl - 1) * 0.05);
+                return { count, speed, desc: `${count} Numbers • Speed ${speed.toFixed(2)}x` };
+            }
+            if (mode === 'dot') {
+                // Level 1: 2 Red dots out of 6, 4s track, very slow speed (0.85)
+                const targets = lvl <= 2 ? 2 : (lvl <= 7 ? 3 : 4);
+                const total = Math.min(15, 5 + lvl);
+                const trackSec = Math.min(18, 3.5 + (lvl * 0.8));
+                const speed = Math.min(2.1, 0.8 + (lvl * 0.08));
+                return { targets, total, trackMs: trackSec * 1000, speed, desc: `Track ${targets} Dots • ${trackSec.toFixed(1)}s` };
+            }
+            if (mode === 'memory') {
+                // Level 1: 3x3 grid, 3 tiles, 1.5s flash
+                const gridSize = lvl <= 3 ? 3 : (lvl <= 7 ? 4 : 5);
+                const tiles = Math.min(gridSize * gridSize - 2, 2 + lvl);
+                const flashMs = Math.max(550, 1500 - (lvl * 55));
+                return { gridSize, tiles, flashMs, desc: `${gridSize}x${gridSize} Grid • ${tiles} Tiles` };
+            }
+            if (mode === 'stroop') {
+                // Level 1: 8 cards, 3.8s per card (Beginner friendly, zero rush)
+                const totalCards = Math.min(25, 7 + lvl * 2);
+                const clockMs = Math.max(1150, 3900 - (lvl * 180));
+                const holdMs = Math.max(1000, 1750 - (lvl * 45));
+                return { totalCards, clockMs, holdMs, desc: `${totalCards} Cards • ${(clockMs/1000).toFixed(1)}s Timer` };
+            }
+            if (mode === 'target') {
+                // Level 1: Find 4 targets among 10 slow numbers
+                const quota = Math.min(15, 3 + lvl);
+                const nodesCount = Math.min(32, 9 + lvl * 2);
+                const speed = Math.min(1.6, 0.45 + (lvl * 0.06));
+                return { quota, nodesCount, speed, desc: `Find ${quota} Targets • ${nodesCount} Items` };
+            }
+            if (mode === 'nback') {
+                const steps = Math.min(25, 11 + lvl);
+                const stepMs = Math.max(1700, 2900 - (lvl * 80));
+                return { steps, stepMs, desc: `${steps} Steps • ${(stepMs/1000).toFixed(1)}s Pace` };
+            }
+            if (mode === 'switch') {
+                const totalCards = Math.min(25, 7 + lvl * 2);
+                return { totalCards, desc: `Clear ${totalCards} Switch Cards` };
+            }
+            if (mode === 'reverse') {
+                // Level 1 = 2 Numbers, Level 2 = 3 Numbers, Level 3 = 4 Numbers...
+                const digits = Math.min(10, 1 + lvl);
+                const flashMs = Math.max(500, 900 - (lvl * 30));
+                return { digits, flashMs, desc: `Recall ${digits} Numbers` };
+            }
+            return { desc: `Level ${lvl}` };
+        }
+
+        // --- XP, RANK & TRACK RECORD ENGINE ---
         function getTodayKey() {
             const d = new Date();
             return `${d.getFullYear()}-${d.getMonth()+1}-${d.getDate()}`;
@@ -970,12 +883,9 @@
                 const savedDate = localStorage.getItem('brain_daily_date');
                 const dailyCount = (savedDate === todayKey) ? parseInt(localStorage.getItem('brain_daily_count') || '0') : 0;
 
-                // Level & Progress Bar (500 XP per level)
                 const level = Math.floor(totalXp / 500) + 1;
                 const levelXp = totalXp % 500;
                 const levelPct = Math.min(100, Math.round((levelXp / 500) * 100));
-
-                // Rank # based on Level
                 const rankNum = Math.max(1, 10 - Math.floor(level / 2));
                 const tierNames = ['ROOKIE', 'SCALPER', 'SWING PRO', 'SNIPER', 'GRANDMASTER'];
                 const tierBadge = tierNames[Math.min(tierNames.length - 1, Math.floor((level - 1) / 2))];
@@ -989,32 +899,14 @@
                 document.getElementById('bottom-level-bar').style.width = `${Math.max(12, levelPct)}%`;
                 document.getElementById('lb-tier-badge').textContent = `${tierBadge} (LVL ${level})`;
 
-                // Card Badges
-                const bDot = localStorage.getItem('brain_best_mot');
-                document.getElementById('card-best-dot').textContent = bDot ? `Lvl ${bDot}` : 'New';
+                ALL_MODES.forEach(m => {
+                    const ulvl = getUnlockedLevel(m);
+                    const lvlBadge = document.getElementById('card-lvl-' + m);
+                    if (lvlBadge) lvlBadge.textContent = `LVL ${ulvl}`;
+                    const bestBadge = document.getElementById('card-best-' + m);
+                    if (bestBadge) bestBadge.textContent = ulvl > 1 ? `Cleared: ${ulvl - 1}` : 'Start Lvl 1';
+                });
 
-                const bGrid = localStorage.getItem('brain_best_time_25');
-                document.getElementById('card-best-schulte').textContent = bGrid ? `${bGrid}s` : 'New';
-
-                const bMem = localStorage.getItem('brain_best_mem');
-                document.getElementById('card-best-memory').textContent = bMem ? `Lvl ${bMem}` : 'New';
-
-                const bStroop = localStorage.getItem('brain_best_stroop_0');
-                document.getElementById('card-best-stroop').textContent = bStroop ? `${bStroop} pts` : 'New';
-
-                const bTarget = localStorage.getItem('brain_best_target');
-                document.getElementById('card-best-target').textContent = bTarget ? `${bTarget} pts` : 'New';
-
-                const bNback = localStorage.getItem('brain_best_nback_2');
-                document.getElementById('card-best-nback').textContent = bNback ? `${bNback} pts` : 'New';
-
-                const bSwitch = localStorage.getItem('brain_best_switch');
-                document.getElementById('card-best-switch').textContent = bSwitch ? `${bSwitch} pts` : 'New';
-
-                const bRev = localStorage.getItem('brain_best_rev_reverse');
-                document.getElementById('card-best-reverse').textContent = bRev ? `${bRev} Dig` : 'New';
-
-                // Populate Progress (Track Record) Tab
                 const history = JSON.parse(localStorage.getItem('brain_track_history') || '[]');
                 document.getElementById('tot-sessions-val').textContent = history.length;
                 document.getElementById('today-sessions-val').textContent = dailyCount;
@@ -1022,13 +914,13 @@
 
                 const histEl = document.getElementById('history-list');
                 if (history.length === 0) {
-                    histEl.innerHTML = `<div style="text-align:center; color:#94a3b8; padding:16px; font-size:13px;">Abhi tak koi session record nahi hua hai. Koi bhi game khel kar apna Track Record shuru karein!</div>`;
+                    histEl.innerHTML = `<div style="text-align:center; color:#94a3b8; padding:16px; font-size:13px;">Abhi tak koi level complete nahi hua hai. Level 1 se shuruat karein!</div>`;
                 } else {
                     histEl.innerHTML = history.map(item => `
                         <div class="log-row">
                             <div>
                                 <div style="font-weight:800; color:#f8fafc;">${item.game}</div>
-                                <div style="font-size:10px; color:#94a3b8;">${item.time} • Errors: ${item.err}</div>
+                                <div style="font-size:10px; color:#94a3b8;">${item.time} • Mistakes: ${item.err}</div>
                             </div>
                             <div style="text-align:right;">
                                 <div style="font-weight:800; color:#38bdf8;">${item.res}</div>
@@ -1038,26 +930,25 @@
                     `).join('');
                 }
 
-                // Populate Scoreboard (Leaderboard) Tab
-                const boardItems = [
-                    { name: '1. Focus Track (MOT)', val: bDot ? `Level ${bDot}` : '--' },
-                    { name: '2. Float-N-Find (1-25)', val: bGrid ? `${bGrid}s` : '--' },
-                    { name: '2b. Float-N-Find (1-50)', val: localStorage.getItem('brain_best_time_50') ? `${localStorage.getItem('brain_best_time_50')}s` : '--' },
-                    { name: '3. Memory Matrix', val: bMem ? `Level ${bMem}` : '--' },
-                    { name: '4. Impulse No-Go (Beg)', val: bStroop ? `${bStroop} pts` : '--' },
-                    { name: '4b. Impulse No-Go (Hard)', val: localStorage.getItem('brain_best_stroop_2') ? `${localStorage.getItem('brain_best_stroop_2')} pts` : '--' },
-                    { name: '5. Target Hunter', val: bTarget ? `${bTarget} pts` : '--' },
-                    { name: '6. Dual 2-Back RAM', val: bNback ? `${bNback} pts` : '--' },
-                    { name: '7. Task Switching', val: bSwitch ? `${bSwitch} pts` : '--' },
-                    { name: '8. Number Span (Reverse)', val: bRev ? `${bRev} Digits` : '--' },
-                    { name: '8b. Number Span (Starting)', val: localStorage.getItem('brain_best_rev_forward') ? `${localStorage.getItem('brain_best_rev_forward')} Digits` : '--' }
-                ];
-                document.getElementById('scoreboard-list').innerHTML = boardItems.map(b => `
-                    <div class="lb-row">
-                        <span style="font-weight:700; color:#e2e8f0;">${b.name}</span>
-                        <span style="font-weight:900; color:#facc15;">${b.val}</span>
-                    </div>
-                `).join('');
+                const modeTitles = {
+                    dot: '1. Focus Track (MOT)',
+                    schulte: '2. Float-N-Find Grid',
+                    memory: '3. Memory Matrix',
+                    stroop: '4. Impulse No-Go',
+                    target: '5. Target Hunter',
+                    nback: '6. Dual N-Back RAM',
+                    switch: '7. Task Switching',
+                    reverse: '8. Number Span'
+                };
+                document.getElementById('scoreboard-list').innerHTML = ALL_MODES.map(m => {
+                    const u = getUnlockedLevel(m);
+                    return `
+                        <div class="lb-row">
+                            <span style="font-weight:700; color:#e2e8f0;">${modeTitles[m]}</span>
+                            <span style="font-weight:900; color:#facc15;">Reached Level ${u}</span>
+                        </div>
+                    `;
+                }).join('');
             } catch (e) {}
         }
 
@@ -1094,8 +985,6 @@
         const revBox = document.getElementById('rev-box');
         const nbackControls = document.getElementById('nback-controls');
         const nbackAudioBadge = document.getElementById('nback-audio-badge');
-        const tierSelect = document.getElementById('grid-tier-select');
-        const stroopTierSelect = document.getElementById('stroop-tier-select');
         const nbackTierSelect = document.getElementById('nback-tier-select');
         const revModeSelect = document.getElementById('rev-mode-select');
         const targetEl = document.getElementById('target-val');
@@ -1104,30 +993,22 @@
         const bestEl = document.getElementById('best-val');
         const overlay = document.getElementById('overlay');
         const startBtn = document.getElementById('start-btn');
+        const retryBtn = document.getElementById('retry-btn');
+        const starsEl = document.getElementById('stars-display');
         const resultsEl = document.getElementById('results');
         const titleEl = document.getElementById('title-text');
         const descEl = document.getElementById('desc-text');
 
         let currentMode = 'schulte', isPlaying = false, animId = null, timerId = null;
-        let startTime = 0, errors = 0, nodes = [], currentTarget = 1, penaltyTime = 0, speedMultiplier = 1;
+        let startTime = 0, errors = 0, nodes = [], currentTarget = 1, penaltyTime = 0;
         let flashColor = null, flashTimer = 0;
 
-        const SCHULTE_TIERS = [25, 35, 40, 50];
-        let schulteTierIdx = 0;
+        // Mode States
+        let schulteMaxNum = 15;
+        let motPhase = 'memorize', motPhaseStart = 0, motTrackDuration = 4000, motFound = 0, motTargetCount = 2;
+        let memGridSize = 3, memTargets = [], memPicked = [], memAcceptInput = false;
 
-        const MOT_DURATIONS = [5000, 7000, 10000, 12000, 15000, 18000, 21000];
-        let motLevel = 1, motPhase = 'memorize', motPhaseStart = 0, motTrackDuration = 5000, motFound = 0, motLives = 3;
-
-        let memLevel = 1, memGridSize = 3, memTargets = [], memPicked = [], memLives = 3, memAcceptInput = false;
-
-        const STROOP_TIERS = [
-            { name: 'Beginner', baseTime: 3500, minTime: 2200, holdTime: 1700, decay: 30 },
-            { name: 'Mid', baseTime: 2500, minTime: 1600, holdTime: 1450, decay: 25 },
-            { name: 'Hard', baseTime: 1800, minTime: 1200, holdTime: 1250, decay: 20 },
-            { name: 'Very Hard', baseTime: 1300, minTime: 950, holdTime: 1050, decay: 15 }
-        ];
-        let stroopTierIdx = 0;
-        let stroopScore = 0, stroopHits = 0, stroopAnswer = '', stroopIsNoGo = false, questionStartTime = 0, shotClockLimit = 3500;
+        let stroopCardsLeft = 10, stroopTotalCards = 10, stroopAnswer = '', stroopIsNoGo = false, questionStartTime = 0, shotClockLimit = 3500;
         const COLORS = [
             { name: 'RED', hex: '#ef4444' },
             { name: 'BLUE', hex: '#3b82f6' },
@@ -1136,17 +1017,17 @@
         ];
 
         const NBACK_LETTERS = ['C', 'H', 'K', 'L', 'Q', 'R', 'S', 'T'];
-        let nBackLevel = 2, nbackPosHist = [], nbackAudHist = [], nbackStep = 0, nbackScore = 0;
+        let nBackLevel = 2, nbackPosHist = [], nbackAudHist = [], nbackStep = 0, nbackMaxSteps = 12, nbackStepMs = 2600, nbackScore = 0;
         let nbPosPressed = false, nbAudPressed = false;
 
-        let switchScore = 0, switchIsTop = true, switchNum = 2, switchChar = 'A';
+        let switchCardsLeft = 10, switchTotalCards = 10, switchIsTop = true, switchNum = 2, switchChar = 'A';
         const VOWELS = ['A', 'E', 'I', 'O', 'U'];
         const CONSONANTS = ['B', 'K', 'M', 'R', 'T'];
 
         let revDirection = 'reverse';
-        let revLength = 2, revSeq = [], revUserIdx = 0, revLives = 3, revAcceptInput = false;
+        let revLength = 2, revFlashMs = 850, revSeq = [], revUserIdx = 0, revAcceptInput = false;
 
-        let targetHuntScore = 0, targetHuntHits = 0, currentHuntTarget = '', huntDuration = 60;
+        let targetHuntHits = 0, targetHuntQuota = 5, currentHuntTarget = '';
 
         function resizeCanvas() {
             canvas.width = canvas.parentElement.clientWidth || window.innerWidth;
@@ -1164,74 +1045,48 @@
             motBanner.style.display = 'none';
         }
 
-        function setSchulteTier(idx) {
-            schulteTierIdx = idx;
-            document.querySelectorAll('#grid-tier-select .tier-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
-            targetEl.textContent = `1/${SCHULTE_TIERS[schulteTierIdx]}`;
-            updateBestDisplay();
-        }
-
-        function setStroopTier(idx) {
-            stroopTierIdx = idx;
-            document.querySelectorAll('#stroop-tier-select .tier-btn').forEach((b, i) => b.classList.toggle('active', i === idx));
-            updateBestDisplay();
-        }
-
         function setNBackLevel(n) {
             nBackLevel = n;
             document.querySelectorAll('#nback-tier-select .tier-btn').forEach(b => {
                 b.classList.toggle('active', b.textContent.startsWith(n + '-Back'));
             });
-            updateBestDisplay();
         }
 
         function setRevMode(dir) {
             revDirection = dir;
             document.getElementById('rev-btn-forward').classList.toggle('active', dir === 'forward');
             document.getElementById('rev-btn-reverse').classList.toggle('active', dir === 'reverse');
-            updateBestDisplay();
         }
 
-        function updateBestDisplay() {
-            try {
-                if (currentMode === 'schulte') {
-                    const maxNum = SCHULTE_TIERS[schulteTierIdx];
-                    const val = localStorage.getItem('brain_best_time_' + maxNum);
-                    bestEl.textContent = val ? val + 's' : '--';
-                    return;
-                }
-                if (currentMode === 'stroop') {
-                    const val = localStorage.getItem('brain_best_stroop_' + stroopTierIdx);
-                    bestEl.textContent = val ? val + ' pts' : '--';
-                    return;
-                }
-                if (currentMode === 'nback') {
-                    const val = localStorage.getItem('brain_best_nback_' + nBackLevel);
-                    bestEl.textContent = val ? val + ' pts' : '--';
-                    return;
-                }
-                if (currentMode === 'reverse') {
-                    const val = localStorage.getItem('brain_best_rev_' + revDirection);
-                    bestEl.textContent = val ? val + ' dig' : '--';
-                    return;
-                }
-                const keys = {
-                    dot: ['brain_best_mot', ' lvl'],
-                    memory: ['brain_best_mem', ' lvl'],
-                    switch: ['brain_best_switch', ' pts'],
-                    target: ['brain_best_target', ' pts']
-                };
-                const [k, unit] = keys[currentMode];
-                const val = localStorage.getItem(k);
-                bestEl.textContent = val ? val + unit : '--';
-            } catch (e) {
-                bestEl.textContent = '--';
-            }
+        function updateStepperUI() {
+            const maxUnlocked = getUnlockedLevel(currentMode);
+            if (selectedLevel > maxUnlocked) selectedLevel = maxUnlocked;
+            if (selectedLevel < 1) selectedLevel = 1;
+
+            const cfg = getLevelConfig(currentMode, selectedLevel);
+            document.getElementById('stepper-lvl-label').textContent = `LEVEL ${selectedLevel}`;
+            document.getElementById('stepper-lvl-desc').textContent = cfg.desc;
+            document.getElementById('lvl-prev-btn').disabled = (selectedLevel <= 1);
+            document.getElementById('lvl-next-btn').disabled = (selectedLevel >= maxUnlocked);
+            startBtn.textContent = `▶ PLAY LEVEL ${selectedLevel}`;
+            bestEl.textContent = `LVL ${selectedLevel}`;
+        }
+
+        function changeSelectedLevel(delta) {
+            if (performance.now() < overlayUnlockTime) return;
+            const maxUnlocked = getUnlockedLevel(currentMode);
+            selectedLevel = Math.max(1, Math.min(maxUnlocked, selectedLevel + delta));
+            retryBtn.style.display = 'none';
+            starsEl.style.display = 'none';
+            resultsEl.style.display = 'none';
+            updateStepperUI();
         }
 
         function switchMode(mode) {
             stopAllTimers();
             currentMode = mode;
+            selectedLevel = getUnlockedLevel(mode);
+            overlayUnlockTime = performance.now() + 250;
 
             const isCanvas = (mode === 'schulte' || mode === 'dot' || mode === 'target');
             canvas.style.display = isCanvas ? 'block' : 'none';
@@ -1243,164 +1098,144 @@
             switchBox.style.display = (mode === 'switch') ? 'flex' : 'none';
             revBox.style.display = (mode === 'reverse') ? 'flex' : 'none';
 
-            tierSelect.style.display = (mode === 'schulte') ? 'flex' : 'none';
-            stroopTierSelect.style.display = (mode === 'stroop') ? 'flex' : 'none';
             nbackTierSelect.style.display = (mode === 'nback') ? 'flex' : 'none';
             revModeSelect.style.display = (mode === 'reverse') ? 'flex' : 'none';
 
+            starsEl.style.display = 'none';
             resultsEl.style.display = 'none';
+            retryBtn.style.display = 'none';
             overlay.style.display = 'flex';
-            startBtn.textContent = "START TRAINING";
             errorEl.textContent = '0';
 
-            if (mode === 'schulte') {
-                const maxNum = SCHULTE_TIERS[schulteTierIdx];
-                document.getElementById('active-game-title').textContent = 'FLOAT-N-FIND GRID';
-                document.getElementById('label-1').textContent = 'Target';
-                document.getElementById('label-2').textContent = 'Time';
-                document.getElementById('label-3').textContent = 'Errors';
-                targetEl.textContent = `1/${maxNum}`; timeEl.textContent = '0.0s';
-                titleEl.textContent = 'FLOAT-N-FIND GRID';
-                descEl.innerHTML = 'Numbers tap karne ke baad <b>gayab NAHI honge!</b><br>Clear karte hi level <b>25 → 35 → 40 → 50</b> tak badhega.';
-            } else if (mode === 'dot') {
-                document.getElementById('active-game-title').textContent = 'FOCUS TRACK (MOT)';
-                document.getElementById('label-1').textContent = 'Level';
-                document.getElementById('label-2').textContent = 'Track Time';
-                document.getElementById('label-3').textContent = 'Lives';
-                targetEl.textContent = '1'; timeEl.textContent = '5.0s'; errorEl.textContent = '3 ❤️';
-                titleEl.textContent = 'FOCUS TRACK (MOT)';
-                descEl.innerHTML = '2 second ke liye <b>3 RED DOTS</b> dikhenge, phir <b>WHITE</b> hokar ghoomenge!<br>Har level par tracking time <b>5s → 7s → 10s → 15s+</b> badhega!';
-            } else if (mode === 'memory') {
-                document.getElementById('active-game-title').textContent = 'MEMORY MATRIX';
-                document.getElementById('label-1').textContent = 'Level';
-                document.getElementById('label-2').textContent = 'Tiles';
-                document.getElementById('label-3').textContent = 'Lives';
-                targetEl.textContent = '1'; timeEl.textContent = '3'; errorEl.textContent = '3 ❤️';
-                titleEl.textContent = 'MEMORY MATRIX';
-                descEl.innerHTML = 'Yellow tiles 1 second ke liye blink hongi.<br>Unki exact position yaad rakhein aur chhupne ke baad tap karein!';
-            } else if (mode === 'stroop') {
-                document.getElementById('active-game-title').textContent = 'IMPULSE NO-GO';
-                document.getElementById('label-1').textContent = 'Score';
-                document.getElementById('label-2').textContent = 'Time Left';
-                document.getElementById('label-3').textContent = 'Errors';
-                targetEl.textContent = '0'; timeEl.textContent = '45.0s';
-                titleEl.textContent = 'IMPULSE NO-GO BOMB';
-                descEl.innerHTML = '<b>Beginner (3.5s)</b> se shuru karein! Jaise-jaise aap sahi tap karenge, time kam hoga.<br><span class="penalty-tag">💣 Jab "BOMB / NO-GO" aaye toh haath rokein!</span>';
-            } else if (mode === 'nback') {
-                document.getElementById('active-game-title').textContent = 'DUAL N-BACK RAM';
-                document.getElementById('label-1').textContent = 'Score';
-                document.getElementById('label-2').textContent = 'Step';
-                document.getElementById('label-3').textContent = 'Errors';
-                targetEl.textContent = '0'; timeEl.textContent = '0/22';
-                titleEl.textContent = 'AUDIO-VISUAL DUAL N-BACK';
-                descEl.innerHTML = 'Har step par <b>Tile blink</b> hogi aur <b>Letter (C, K, T...) ki aawaz</b> aayegi.<br>Agar Position ya Audio <b>N steps pehle</b> se match kare toh button dabayein!';
-            } else if (mode === 'switch') {
-                document.getElementById('active-game-title').textContent = 'TASK SWITCHING';
-                document.getElementById('label-1').textContent = 'Score';
-                document.getElementById('label-2').textContent = 'Time Left';
-                document.getElementById('label-3').textContent = 'Errors';
-                targetEl.textContent = '0'; timeEl.textContent = '45.0s';
-                titleEl.textContent = 'COGNITIVE TASK SWITCH';
-                descEl.innerHTML = 'Card <b>UPAR (Top)</b> aaye -> Number dekhein (<b>EVEN [2,4,6,8]</b> ya <b>ODD [1,3,5,7,9]</b>).<br>Card <b>NEECHE (Bottom)</b> aaye -> Letter dekhein (<b>VOWEL [A,E,I,O,U]</b> ya <b>CONSONANT</b>).';
-            } else if (mode === 'reverse') {
-                document.getElementById('active-game-title').textContent = 'NUMBER SPAN';
-                document.getElementById('label-1').textContent = 'Digits';
-                document.getElementById('label-2').textContent = 'Progress';
-                document.getElementById('label-3').textContent = 'Lives';
-                targetEl.textContent = '2 Dig'; timeEl.textContent = '0/2'; errorEl.textContent = '3 ❤️';
-                titleEl.textContent = 'NUMBER SPAN (2 TO 10+ DIGITS)';
-                descEl.innerHTML = 'Beginner <b>2 Numbers</b> se shuru hoga aur har level par +1 number badhega!<br>Neeche chunein: <b>Starting Order (Seedha)</b> ya <b>Reverse Order (Ulta)</b>.';
-            } else if (mode === 'target') {
-                document.getElementById('active-game-title').textContent = 'TARGET HUNTER';
-                document.getElementById('label-1').textContent = 'Find Target';
-                document.getElementById('label-2').textContent = 'Time Left';
-                document.getElementById('label-3').textContent = 'Errors';
-                targetEl.textContent = '--'; timeEl.textContent = '60.0s'; errorEl.textContent = '0';
-                titleEl.textContent = 'DYNAMIC TARGET HUNTER';
-                descEl.innerHTML = 'App aapko ek <b>Number ya Word (jaise 73, 9K, BUY)</b> bolega aur upar dikhayega.<br>Move hote huye circles ke beech us target ko dhoondh kar tap karein!';
-            }
-            updateBestDisplay();
+            const titles = {
+                schulte: ['FLOAT-N-FIND GRID', 'Numbers ko sequence (1, 2, 3...) mein tap karein. Har level mein numbers aur speed dheere-dheere badhegi.'],
+                dot: ['FOCUS TRACK (MOT)', 'Shuru mein Red Dots ko yaad rakhein. White hone ke baad unhe track karein aur rukne par tap karein!'],
+                memory: ['MEMORY MATRIX', 'Yellow tiles ko yaad rakhein aur chhupne ke baad unhi tiles par tap karein!'],
+                stroop: ['IMPULSE NO-GO', 'Rule ke hisab se Rang ya Shabd chunein. Jab BOMB / NO-GO aaye toh haath rokein!'],
+                target: ['TARGET HUNTER', 'Upar diye gaye Target Number/Word ko ghoomte huye circles mein dhoondh kar tap karein!'],
+                nback: ['DUAL N-BACK RAM', 'Agar abhi wali Tile ya Audio Letter N-kadam pehle se match kare toh Match dabayein!'],
+                switch: ['TASK SWITCHING', 'Card Upar ho toh Number (Even/Odd) dekhein. Card Neeche ho toh Letter (Vowel/Consonant) dekhein!'],
+                reverse: ['NUMBER SPAN', 'Numbers ko dhyan se dekhein aur unhe Starting ya Reverse kram mein type karein!']
+            };
+
+            document.getElementById('active-game-title').textContent = titles[mode][0];
+            titleEl.textContent = titles[mode][0];
+            descEl.textContent = titles[mode][1];
+            updateStepperUI();
         }
 
-        function initGame() {
-            if (isPlaying) return;
+        function retrySameLevel() {
+            if (performance.now() < overlayUnlockTime) return;
+            selectedLevel = lastPlayedLevel;
+            updateStepperUI();
+            startSelectedLevel();
+        }
+
+        function startSelectedLevel() {
+            if (isPlaying || performance.now() < overlayUnlockTime) return;
             initAudio();
-            errors = 0; errorEl.textContent = '0';
+            lastPlayedLevel = selectedLevel;
+            errors = 0;
+            errorEl.textContent = '0';
+            bestEl.textContent = `LVL ${selectedLevel}`;
             overlay.style.display = 'none';
             isPlaying = true;
             startTime = performance.now();
 
             if (currentMode === 'schulte') initSchulte();
-            else if (currentMode === 'dot') { motLevel = 1; motLives = 3; errorEl.textContent = '3 ❤️'; startMotRound(); }
-            else if (currentMode === 'memory') { memLevel = 1; memLives = 3; errorEl.textContent = '3 ❤️'; startMemoryRound(); }
-            else if (currentMode === 'stroop') { stroopScore = 0; stroopHits = 0; targetEl.textContent = '0'; nextStroopQuestion(); stroopLoop(); }
+            else if (currentMode === 'dot') startMotRound();
+            else if (currentMode === 'memory') startMemoryRound();
+            else if (currentMode === 'stroop') startStroopLevel();
             else if (currentMode === 'nback') startNBackGame();
-            else if (currentMode === 'switch') { switchScore = 0; targetEl.textContent = '0'; nextSwitchCard(); switchLoop(); }
-            else if (currentMode === 'reverse') { revLength = 2; revLives = 3; errorEl.textContent = '3 ❤️'; startRevRound(); }
+            else if (currentMode === 'switch') startSwitchLevel();
+            else if (currentMode === 'reverse') startRevRound();
             else if (currentMode === 'target') initTargetHunt();
         }
 
-        // --- GAME 8: TARGET HUNTER ---
-        function generateHuntLabel(levelHits) {
-            if (levelHits >= 4 && Math.random() < 0.45) {
-                const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-                if (Math.random() < 0.5) {
-                    return `${Math.floor(Math.random() * 9) + 1}${chars[Math.floor(Math.random() * chars.length)]}`;
-                } else {
-                    const words = ['BUY', 'PUT', 'WIN', 'MAX', 'PRO', 'TOP', 'ASK', 'BID'];
-                    return words[Math.floor(Math.random() * words.length)];
-                }
+        // --- LEVEL COMPLETE / FAIL HANDLER (STOPS & WAITS FOR USER CLICK!) ---
+        function completeLevel(passed, summaryText, xpReward) {
+            stopAllTimers();
+            overlayUnlockTime = performance.now() + 500; // 500ms lock prevents accidental click-through!
+
+            resultsEl.style.display = 'block';
+            retryBtn.style.display = 'inline-block';
+            retryBtn.textContent = `🔄 REPLAY LVL ${lastPlayedLevel}`;
+
+            if (passed) {
+                playVictorySound();
+                const stars = errors === 0 ? '⭐⭐⭐' : (errors <= 2 ? '⭐⭐' : '⭐');
+                starsEl.textContent = stars;
+                starsEl.style.display = 'block';
+                titleEl.textContent = `LEVEL ${lastPlayedLevel} COMPLETE!`;
+
+                unlockNextLevel(currentMode, lastPlayedLevel);
+                recordSession(`${document.getElementById('active-game-title').textContent} (Lvl ${lastPlayedLevel})`, summaryText, errors, xpReward);
+
+                resultsEl.innerHTML = `${summaryText}<br><span style="color:#10b981; font-weight:800;">+${xpReward} XP Earned! Level ${lastPlayedLevel + 1} Unlocked!</span>`;
+                selectedLevel = lastPlayedLevel + 1;
+                updateStepperUI();
+                startBtn.textContent = `NEXT: LEVEL ${selectedLevel} ▶`;
+            } else {
+                playErrorSound();
+                starsEl.textContent = '❌';
+                starsEl.style.display = 'block';
+                titleEl.textContent = `LEVEL ${lastPlayedLevel} FAILED`;
+                resultsEl.innerHTML = `${summaryText}<br><span style="color:#f43f5e;">Koi baat nahi, ek baar phir koshish karein!</span>`;
+                selectedLevel = lastPlayedLevel;
+                updateStepperUI();
+                retryBtn.style.display = 'none';
+                startBtn.textContent = `🔄 TRY LEVEL ${lastPlayedLevel} AGAIN`;
             }
-            return String(Math.floor(Math.random() * 89) + 11);
+
+            overlay.style.display = 'flex';
         }
 
-        function spawnHuntNode(existingNodes, levelHits) {
-            const totalExpected = existingNodes.length + 1;
-            const areaPerNode = (canvas.width * canvas.height) / (Math.max(18, totalExpected) * 3.4);
-            const radius = Math.max(18, Math.min(27, Math.floor(Math.sqrt(areaPerNode) / 1.85)));
-            let x, y, label, overlapping, attempts = 0;
-            do {
-                overlapping = false;
-                label = generateHuntLabel(levelHits);
-                x = radius + Math.random() * (canvas.width - radius * 2);
-                y = radius + 45 + Math.random() * (canvas.height - radius * 2 - 45);
-                for (let other of existingNodes) {
-                    if (other.num === label || Math.hypot(x - other.x, y - other.y) < radius * 2.1) { overlapping = true; break; }
-                }
-                attempts++;
-            } while (overlapping && attempts < 200);
-            const angle = Math.random() * Math.PI * 2, baseSpeed = 0.85 + Math.random() * 0.65;
-            return { num: label, x, y, vx: Math.cos(angle) * baseSpeed, vy: Math.sin(angle) * baseSpeed, r: radius, hitFlash: 0 };
+        // --- GAME 1: FLOAT-N-FIND (CONSTANT SPEED PER LEVEL, NO IN-GAME SPIKE!) ---
+        function initSchulte() {
+            resizeCanvas();
+            nodes = [];
+            const cfg = getLevelConfig('schulte', selectedLevel);
+            schulteMaxNum = cfg.count;
+
+            const areaPerNode = (canvas.width * canvas.height) / (schulteMaxNum * 3.4);
+            const radius = Math.max(16, Math.min(28, Math.floor(Math.sqrt(areaPerNode) / 1.85)));
+
+            for (let i = 1; i <= schulteMaxNum; i++) {
+                let x, y, overlapping, attempts = 0;
+                do {
+                    overlapping = false;
+                    x = radius + Math.random() * (canvas.width - radius * 2);
+                    y = radius + Math.random() * (canvas.height - radius * 2);
+                    for (let other of nodes) {
+                        if (Math.hypot(x - other.x, y - other.y) < radius * 2.1) { overlapping = true; break; }
+                    }
+                    attempts++;
+                } while (overlapping && attempts < 220);
+
+                const angle = Math.random() * Math.PI * 2;
+                nodes.push({
+                    num: i, x, y,
+                    vx: Math.cos(angle) * cfg.speed,
+                    vy: Math.sin(angle) * cfg.speed,
+                    r: radius, hitFlash: 0
+                });
+            }
+            currentTarget = 1; penaltyTime = 0;
+            document.getElementById('label-1').textContent = 'Find';
+            document.getElementById('label-2').textContent = 'Time';
+            targetEl.textContent = `1/${schulteMaxNum}`;
+            schulteLoop();
         }
 
-        function initTargetHunt() {
-            resizeCanvas(); nodes = []; speedMultiplier = 1; targetHuntScore = 0; targetHuntHits = 0;
-            for (let i = 0; i < 16; i++) nodes.push(spawnHuntNode(nodes, 0));
-            motBanner.style.display = 'block';
-            pickNewHuntTarget();
-            targetHuntLoop();
-        }
-
-        function pickNewHuntTarget() {
-            if (nodes.length === 0) return;
-            const randomNode = nodes[Math.floor(Math.random() * nodes.length)];
-            currentHuntTarget = randomNode.num;
-            targetEl.textContent = currentHuntTarget;
-            motBanner.textContent = `🎯 FIND & TAP: "${currentHuntTarget}" (Score: ${targetHuntScore})`;
-            motBanner.style.color = '#38bdf8';
-            speakText(currentHuntTarget);
-        }
-
-        function targetHuntLoop() {
-            if (!isPlaying || currentMode !== 'target') return;
-            const remaining = Math.max(0, huntDuration - ((performance.now() - startTime) / 1000));
-            timeEl.textContent = remaining.toFixed(1) + 's';
-
+        function schulteLoop() {
+            if (!isPlaying || currentMode !== 'schulte') return;
+            timeEl.textContent = (((performance.now() - startTime) / 1000) + penaltyTime).toFixed(1) + 's';
             for (let i = 0; i < nodes.length; i++) {
-                const n = nodes[i]; n.x += n.vx * speedMultiplier; n.y += n.vy * speedMultiplier;
+                const n = nodes[i];
+                n.x += n.vx; n.y += n.vy; // Constant steady speed!
                 if (n.x - n.r < 0) { n.x = n.r; n.vx *= -1; }
                 if (n.x + n.r > canvas.width) { n.x = canvas.width - n.r; n.vx *= -1; }
-                if (n.y - n.r < 45) { n.y = 45 + n.r; n.vy *= -1; }
+                if (n.y - n.r < 0) { n.y = n.r; n.vy *= -1; }
                 if (n.y + n.r > canvas.height) { n.y = canvas.height - n.r; n.vy *= -1; }
                 for (let j = i + 1; j < nodes.length; j++) {
                     const m = nodes[j], dx = m.x - n.x, dy = m.y - n.y, dist = Math.hypot(dx, dy), minDist = n.r + m.r + 2;
@@ -1416,237 +1251,23 @@
             for (let n of nodes) {
                 ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
                 if (n.hitFlash > 0) { ctx.fillStyle = '#10b981'; ctx.strokeStyle = '#34d399'; n.hitFlash--; }
-                else { ctx.fillStyle = '#1e293b'; ctx.strokeStyle = '#a855f7'; }
+                else { ctx.fillStyle = '#1e293b'; ctx.strokeStyle = '#c084fc'; }
                 ctx.fill(); ctx.lineWidth = 2; ctx.stroke();
-                ctx.fillStyle = '#f8fafc';
-                const fontSize = String(n.num).length > 2 ? Math.floor(n.r * 0.58) : Math.floor(n.r * 0.74);
-                ctx.font = `bold ${fontSize}px sans-serif`;
+                ctx.fillStyle = '#f8fafc'; ctx.font = `bold ${Math.floor(n.r * 0.76)}px sans-serif`;
                 ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(n.num, n.x, n.y);
             }
-            if (remaining <= 0) { finishGame(); return; }
-            animId = requestAnimationFrame(targetHuntLoop);
+            animId = requestAnimationFrame(schulteLoop);
         }
 
-        // --- GAME 6: TASK SWITCHING ---
-        function nextSwitchCard() {
-            switchIsTop = Math.random() < 0.5;
-            switchNum = Math.floor(Math.random() * 8) + 2;
-            const isVowel = Math.random() < 0.5;
-            switchChar = isVowel ? VOWELS[Math.floor(Math.random() * VOWELS.length)] : CONSONANTS[Math.floor(Math.random() * CONSONANTS.length)];
-            const cardText = `${switchNum}${switchChar}`;
-            document.getElementById('sw-card-top').textContent = switchIsTop ? cardText : '';
-            document.getElementById('sw-card-bottom').textContent = switchIsTop ? '' : cardText;
-            document.getElementById('sw-top').style.background = switchIsTop ? 'rgba(37, 99, 235, 0.22)' : 'rgba(15, 23, 42, 0.4)';
-            document.getElementById('sw-bottom').style.background = !switchIsTop ? 'rgba(16, 185, 129, 0.22)' : 'rgba(15, 23, 42, 0.4)';
-        }
-
-        function handleSwitchTap(side) {
-            if (!isPlaying || currentMode !== 'switch') return;
-            const correctSide = switchIsTop ? ((switchNum % 2 === 0) ? 'LEFT' : 'RIGHT') : (VOWELS.includes(switchChar) ? 'LEFT' : 'RIGHT');
-            if (side === correctSide) { switchScore += 3; playHitSound(Math.min(switchScore, 60), 60); }
-            else { errors++; switchScore = Math.max(0, switchScore - 2); errorEl.textContent = errors; playErrorSound(); }
-            targetEl.textContent = switchScore;
-            nextSwitchCard();
-        }
-
-        function switchLoop() {
-            if (!isPlaying || currentMode !== 'switch') return;
-            const remaining = Math.max(0, 45 - ((performance.now() - startTime) / 1000));
-            timeEl.textContent = remaining.toFixed(1) + 's';
-            if (remaining <= 0) { finishGame(); return; }
-            animId = requestAnimationFrame(switchLoop);
-        }
-
-        // --- GAME 7: STARTING / REVERSE SPAN ---
-        function startRevRound() {
-            revAcceptInput = false; revUserIdx = 0; revSeq = [];
-            for (let i = 0; i < revLength; i++) {
-                let d; do { d = Math.floor(Math.random() * 9) + 1; } while (i > 0 && d === revSeq[i - 1]);
-                revSeq.push(d);
-            }
-            targetEl.textContent = revLength + ' Dig'; timeEl.textContent = `0/${revLength}`;
-            document.getElementById('rev-status').textContent = `👀 Watch ${revLength} numbers...`;
-            document.getElementById('rev-status').style.color = '#fbbf24';
-            document.getElementById('rev-display').textContent = '-';
-            let step = 0;
-            function flashNextDigit() {
-                if (!isPlaying || currentMode !== 'reverse') return;
-                if (step < revLength) {
-                    document.getElementById('rev-display').textContent = revSeq[step];
-                    playHitSound(step + 1, revLength); step++;
-                    timerId = setTimeout(() => {
-                        document.getElementById('rev-display').textContent = '';
-                        timerId = setTimeout(flashNextDigit, 240);
-                    }, 750);
-                } else {
-                    document.getElementById('rev-status').textContent = (revDirection === 'forward') ? '▶ Type in STARTING Order (Seedha)!' : '◀ Type in REVERSE Order (Ulta)!';
-                    document.getElementById('rev-status').style.color = '#38bdf8';
-                    document.getElementById('rev-display').textContent = '?';
-                    revAcceptInput = true;
-                }
-            }
-            timerId = setTimeout(flashNextDigit, 500);
-        }
-
-        function handleRevKey(num) {
-            if (!isPlaying || currentMode !== 'reverse' || !revAcceptInput) return;
-            const expected = (revDirection === 'forward') ? revSeq[revUserIdx] : revSeq[revLength - 1 - revUserIdx];
-            if (num === expected) {
-                revUserIdx++; timeEl.textContent = `${revUserIdx}/${revLength}`;
-                const enteredStr = (revDirection === 'forward') ? revSeq.slice(0, revUserIdx).join('') : revSeq.slice(revLength - revUserIdx).reverse().join('');
-                document.getElementById('rev-display').textContent = enteredStr;
-                playHitSound(revUserIdx, revLength);
-                if (revUserIdx === revLength) {
-                    revAcceptInput = false;
-                    document.getElementById('rev-status').textContent = `✅ Cleared! Next: ${revLength + 1} Numbers...`;
-                    document.getElementById('rev-status').style.color = '#10b981';
-                    revLength++; timerId = setTimeout(startRevRound, 950);
-                }
-            } else {
-                revAcceptInput = false; playErrorSound(); revLives--; errorEl.textContent = revLives + ' ❤️';
-                const correctAns = (revDirection === 'forward') ? revSeq.join('') : [...revSeq].reverse().join('');
-                document.getElementById('rev-status').textContent = `❌ Galat! Sahi answer: ${correctAns}`;
-                document.getElementById('rev-status').style.color = '#f43f5e';
-                if (revLives <= 0) timerId = setTimeout(finishGame, 1300);
-                else timerId = setTimeout(startRevRound, 1500);
-            }
-        }
-
-        // --- GAME 5: DUAL N-BACK ---
-        function startNBackGame() {
-            nbackPosHist = []; nbackAudHist = []; nbackStep = 0; nbackScore = 0; targetEl.textContent = '0';
-            const gridEl = document.getElementById('matrix-grid'); gridEl.innerHTML = '';
-            const cellSize = 68; gridEl.style.gridTemplateColumns = `repeat(3, ${cellSize}px)`;
-            for (let i = 0; i < 9; i++) {
-                const cell = document.createElement('div'); cell.className = 'm-cell';
-                cell.style.width = cellSize + 'px'; cell.style.height = cellSize + 'px';
-                gridEl.appendChild(cell);
-            }
-            document.getElementById('matrix-status').textContent = `Dual ${nBackLevel}-Back Active`;
-            runNBackStep();
-        }
-
-        function runNBackStep() {
-            if (!isPlaying || currentMode !== 'nback') return;
-            if (nbackStep > nBackLevel) {
-                const prevPosMatch = nbackPosHist[nbackStep - 1] === nbackPosHist[nbackStep - 1 - nBackLevel];
-                const prevAudMatch = nbackAudHist[nbackStep - 1] === nbackAudHist[nbackStep - 1 - nBackLevel];
-                if ((prevPosMatch && !nbPosPressed) || (prevAudMatch && !nbAudPressed)) { errors++; errorEl.textContent = errors; }
-            }
-            if (nbackStep >= 22) { finishGame(); return; }
-            nbPosPressed = false; nbAudPressed = false;
-            document.getElementById('nb-pos-btn').style.background = '#1e293b';
-            document.getElementById('nb-aud-btn').style.background = '#1e293b';
-            const cells = document.querySelectorAll('.m-cell'); cells.forEach(c => c.className = 'm-cell');
-            let nextPos = Math.floor(Math.random() * 9), nextAud = NBACK_LETTERS[Math.floor(Math.random() * NBACK_LETTERS.length)];
-            if (nbackStep >= nBackLevel) {
-                if (Math.random() < 0.32) nextPos = nbackPosHist[nbackStep - nBackLevel];
-                if (Math.random() < 0.32) nextAud = nbackAudHist[nbackStep - nBackLevel];
-            }
-            nbackPosHist.push(nextPos); nbackAudHist.push(nextAud); nbackStep++;
-            timeEl.textContent = `${nbackStep}/22`;
-            setTimeout(() => {
-                if (!isPlaying || currentMode !== 'nback') return;
-                if (cells[nextPos]) cells[nextPos].classList.add('lit');
-                nbackAudioBadge.textContent = `🔊 Audio: "${nextAud}"`;
-                speakText(nextAud);
-                setTimeout(() => { if (cells[nextPos]) cells[nextPos].classList.remove('lit'); }, 950);
-            }, 150);
-            timerId = setTimeout(runNBackStep, 2300);
-        }
-
-        function handleDualNBack(type) {
-            if (!isPlaying || currentMode !== 'nback' || nbackStep <= nBackLevel) return;
-            if (type === 'pos' && !nbPosPressed) {
-                nbPosPressed = true;
-                const match = nbackPosHist[nbackStep - 1] === nbackPosHist[nbackStep - 1 - nBackLevel];
-                const btn = document.getElementById('nb-pos-btn');
-                if (match) { nbackScore += 5; btn.style.background = '#10b981'; playHitSound(nbackStep, 22); }
-                else { errors++; nbackScore = Math.max(0, nbackScore - 3); errorEl.textContent = errors; btn.style.background = '#f43f5e'; playErrorSound(); }
-                targetEl.textContent = nbackScore;
-            } else if (type === 'aud' && !nbAudPressed) {
-                nbAudPressed = true;
-                const match = nbackAudHist[nbackStep - 1] === nbackAudHist[nbackStep - 1 - nBackLevel];
-                const btn = document.getElementById('nb-aud-btn');
-                if (match) { nbackScore += 5; btn.style.background = '#10b981'; playHitSound(nbackStep, 22); }
-                else { errors++; nbackScore = Math.max(0, nbackScore - 3); errorEl.textContent = errors; btn.style.background = '#f43f5e'; playErrorSound(); }
-                targetEl.textContent = nbackScore;
-            }
-        }
-
-        // --- GAME 4: STROOP + NO-GO BOMB ---
-        function nextStroopQuestion() {
-            const tier = STROOP_TIERS[stroopTierIdx];
-            const ruleEl = document.getElementById('stroop-rule');
-            const wordEl = document.getElementById('stroop-word');
-            const currentLimit = Math.max(tier.minTime, tier.baseTime - (stroopHits * tier.decay));
-
-            if (Math.random() < 0.25) {
-                stroopIsNoGo = true;
-                ruleEl.textContent = `🛑 [${tier.name}] NO-GO TRAP: DO NOT TAP!`;
-                ruleEl.style.background = '#dc2626';
-                wordEl.textContent = Math.random() < 0.5 ? '💣 BOMB' : '❌ NO-GO';
-                wordEl.style.color = '#f43f5e';
-                questionStartTime = performance.now();
-                shotClockLimit = tier.holdTime;
-                return;
-            }
-            stroopIsNoGo = false;
-            const wordObj = COLORS[Math.floor(Math.random() * COLORS.length)];
-            let inkObj = COLORS[Math.floor(Math.random() * COLORS.length)];
-            if (Math.random() < 0.75 && inkObj.name === wordObj.name) inkObj = COLORS[(COLORS.indexOf(wordObj) + 1) % COLORS.length];
-            const askInk = Math.random() < 0.55;
-            if (askInk) {
-                ruleEl.textContent = `🎨 [${tier.name} - ${(currentLimit/1000).toFixed(1)}s] TAP INK COLOR`;
-                ruleEl.style.background = '#7c3aed'; stroopAnswer = inkObj.name;
-            } else {
-                ruleEl.textContent = `📖 [${tier.name} - ${(currentLimit/1000).toFixed(1)}s] TAP WORD MEANING`;
-                ruleEl.style.background = '#0284c7'; stroopAnswer = wordObj.name;
-            }
-            wordEl.textContent = wordObj.name; wordEl.style.color = inkObj.hex;
-            questionStartTime = performance.now(); shotClockLimit = currentLimit;
-        }
-
-        function handleStroop(choice) {
-            if (!isPlaying || currentMode !== 'stroop') return;
-            if (stroopIsNoGo) {
-                errors++; stroopScore = Math.max(0, stroopScore - 5);
-                errorEl.textContent = errors; targetEl.textContent = stroopScore;
-                playErrorSound(); nextStroopQuestion(); return;
-            }
-            if (choice === stroopAnswer) { stroopHits++; stroopScore += 3; playHitSound(Math.min(stroopScore, 60), 60); }
-            else { errors++; stroopScore = Math.max(0, stroopScore - 2); errorEl.textContent = errors; playErrorSound(); }
-            targetEl.textContent = stroopScore; nextStroopQuestion();
-        }
-
-        function stroopLoop() {
-            if (!isPlaying || currentMode !== 'stroop') return;
-            const now = performance.now(), remaining = Math.max(0, 45 - ((now - startTime) / 1000));
-            timeEl.textContent = remaining.toFixed(1) + 's';
-            const qElapsed = now - questionStartTime;
-            const pct = Math.max(0, 100 - (qElapsed / shotClockLimit) * 100);
-            const bar = document.getElementById('shot-clock-bar');
-            bar.style.width = pct + '%';
-            bar.style.background = stroopIsNoGo ? '#f43f5e' : (pct < 35 ? '#fbbf24' : '#10b981');
-            if (qElapsed >= shotClockLimit) {
-                if (stroopIsNoGo) { stroopHits++; stroopScore += 4; targetEl.textContent = stroopScore; playHitSound(40, 50); }
-                else { errors++; stroopScore = Math.max(0, stroopScore - 2); errorEl.textContent = errors; targetEl.textContent = stroopScore; playErrorSound(); }
-                nextStroopQuestion();
-            }
-            if (remaining <= 0) { finishGame(); return; }
-            animId = requestAnimationFrame(stroopLoop);
-        }
-
-        // --- GAME 2: ENDURANCE MOT ---
+        // --- GAME 2: FOCUS TRACK (MOT) - STOPS AFTER EACH LEVEL! ---
         function startMotRound() {
             resizeCanvas(); nodes = []; motFound = 0;
-            const totalDots = Math.min(15, 8 + motLevel);
-            const radius = Math.max(19, Math.min(26, Math.floor(Math.min(canvas.width, canvas.height) / 14)));
-            const speed = 1.45 + (motLevel * 0.22);
-            motTrackDuration = MOT_DURATIONS[Math.min(motLevel - 1, MOT_DURATIONS.length - 1)];
-            if (motLevel > MOT_DURATIONS.length) motTrackDuration = 15000 + (motLevel - 5) * 3000;
+            const cfg = getLevelConfig('dot', selectedLevel);
+            motTargetCount = cfg.targets;
+            motTrackDuration = cfg.trackMs;
+            const radius = Math.max(20, Math.min(26, Math.floor(Math.min(canvas.width, canvas.height) / 14)));
 
-            for (let i = 0; i < totalDots; i++) {
+            for (let i = 0; i < cfg.total; i++) {
                 let x, y, overlapping, attempts = 0;
                 do {
                     overlapping = false;
@@ -1656,11 +1277,16 @@
                     attempts++;
                 } while (overlapping && attempts < 180);
                 const angle = Math.random() * Math.PI * 2;
-                nodes.push({ isTarget: i < 3, picked: false, wrongPick: false, x, y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, r: radius });
+                nodes.push({ isTarget: i < motTargetCount, picked: false, wrongPick: false, x, y, vx: Math.cos(angle) * cfg.speed, vy: Math.sin(angle) * cfg.speed, r: radius });
             }
-            targetEl.textContent = `Lvl ${motLevel}`; timeEl.textContent = `${(motTrackDuration / 1000).toFixed(0)}s Track`;
+            document.getElementById('label-1').textContent = 'Targets';
+            document.getElementById('label-2').textContent = 'Phase';
+            targetEl.textContent = `0/${motTargetCount}`;
+            timeEl.textContent = 'Watch';
             motPhase = 'memorize'; motPhaseStart = performance.now();
-            motBanner.style.display = 'block'; motBanner.textContent = '👀 MEMORIZE 3 RED DOTS (2.0s)'; motBanner.style.color = '#ef4444';
+            motBanner.style.display = 'block';
+            motBanner.textContent = `👀 MEMORIZE ${motTargetCount} RED DOTS!`;
+            motBanner.style.color = '#ef4444';
             motLoop();
         }
 
@@ -1668,16 +1294,17 @@
             if (!isPlaying || currentMode !== 'dot') return;
             const now = performance.now(), elapsed = now - motPhaseStart;
             if (motPhase === 'memorize') {
-                const remMem = Math.max(0, (2000 - elapsed) / 1000);
-                motBanner.textContent = `👀 MEMORIZE 3 RED DOTS (${remMem.toFixed(1)}s)`;
-                if (elapsed >= 2000) { motPhase = 'track'; motPhaseStart = now; motBanner.style.color = '#fbbf24'; }
+                const remMem = Math.max(0, (2200 - elapsed) / 1000);
+                motBanner.textContent = `👀 MEMORIZE ${motTargetCount} RED DOTS (${remMem.toFixed(1)}s)`;
+                if (elapsed >= 2200) { motPhase = 'track'; motPhaseStart = now; motBanner.style.color = '#fbbf24'; }
             } else if (motPhase === 'track') {
                 const remTrack = Math.max(0, (motTrackDuration - elapsed) / 1000);
-                motBanner.textContent = `🔄 TRACK TARGETS: ${remTrack.toFixed(1)}s left`;
+                motBanner.textContent = `🔄 TRACK DOTS: ${remTrack.toFixed(1)}s`;
                 timeEl.textContent = `${remTrack.toFixed(1)}s`;
                 if (elapsed >= motTrackDuration) {
-                    motPhase = 'pick'; motBanner.textContent = `👆 TAP THE 3 TARGET DOTS! (0/3)`;
-                    motBanner.style.color = '#38bdf8'; timeEl.textContent = `0/3 Found`;
+                    motPhase = 'pick';
+                    motBanner.textContent = `👆 TAP THE ${motTargetCount} TARGET DOTS!`;
+                    motBanner.style.color = '#38bdf8'; timeEl.textContent = 'Tap Now';
                 }
             }
             if (motPhase === 'track') {
@@ -1710,70 +1337,24 @@
             animId = requestAnimationFrame(motLoop);
         }
 
-        // --- GAME 1: CROWDED SCHULTE GRID ---
-        function initSchulte() {
-            resizeCanvas(); nodes = []; speedMultiplier = 1;
-            const totalNums = SCHULTE_TIERS[schulteTierIdx];
-            const areaPerNode = (canvas.width * canvas.height) / (totalNums * 3.4);
-            const radius = Math.max(15, Math.min(28, Math.floor(Math.sqrt(areaPerNode) / 1.9)));
-            for (let i = 1; i <= totalNums; i++) {
-                let x, y, overlapping, attempts = 0;
-                do {
-                    overlapping = false;
-                    x = radius + Math.random() * (canvas.width - radius * 2);
-                    y = radius + Math.random() * (canvas.height - radius * 2);
-                    for (let other of nodes) { if (Math.hypot(x - other.x, y - other.y) < radius * 2.15) { overlapping = true; break; } }
-                    attempts++;
-                } while (overlapping && attempts < 220);
-                const angle = Math.random() * Math.PI * 2, baseSpeed = 0.65 + Math.random() * 0.45;
-                nodes.push({ num: i, x, y, vx: Math.cos(angle) * baseSpeed, vy: Math.sin(angle) * baseSpeed, r: radius, hitFlash: 0 });
-            }
-            currentTarget = 1; penaltyTime = 0; targetEl.textContent = `1/${totalNums}`;
-            schulteLoop();
-        }
-
-        function schulteLoop() {
-            if (!isPlaying || currentMode !== 'schulte') return;
-            timeEl.textContent = (((performance.now() - startTime) / 1000) + penaltyTime).toFixed(1) + 's';
-            for (let i = 0; i < nodes.length; i++) {
-                const n = nodes[i]; n.x += n.vx * speedMultiplier; n.y += n.vy * speedMultiplier;
-                if (n.x - n.r < 0) { n.x = n.r; n.vx *= -1; }
-                if (n.x + n.r > canvas.width) { n.x = canvas.width - n.r; n.vx *= -1; }
-                if (n.y - n.r < 0) { n.y = n.r; n.vy *= -1; }
-                if (n.y + n.r > canvas.height) { n.y = canvas.height - n.r; n.vy *= -1; }
-                for (let j = i + 1; j < nodes.length; j++) {
-                    const m = nodes[j], dx = m.x - n.x, dy = m.y - n.y, dist = Math.hypot(dx, dy), minDist = n.r + m.r + 2;
-                    if (dist < minDist && dist > 0) {
-                        const overlap = (minDist - dist) / 2, nx = dx / dist, ny = dy / dist;
-                        n.x -= nx * overlap; n.y -= ny * overlap; m.x += nx * overlap; m.y += ny * overlap;
-                        const tvx = n.vx, tvy = n.vy; n.vx = m.vx; n.vy = m.vy; m.vx = tvx; m.vy = tvy;
-                    }
-                }
-            }
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            if (flashTimer > 0) { ctx.fillStyle = flashColor; ctx.fillRect(0, 0, canvas.width, canvas.height); flashTimer--; }
-            for (let n of nodes) {
-                ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-                if (n.hitFlash > 0) { ctx.fillStyle = '#10b981'; ctx.strokeStyle = '#34d399'; n.hitFlash--; }
-                else { ctx.fillStyle = '#1e293b'; ctx.strokeStyle = '#c084fc'; }
-                ctx.fill(); ctx.lineWidth = 2; ctx.stroke();
-                ctx.fillStyle = '#f8fafc'; ctx.font = `bold ${Math.floor(n.r * 0.76)}px sans-serif`;
-                ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(n.num, n.x, n.y);
-            }
-            animId = requestAnimationFrame(schulteLoop);
-        }
-
-        // --- GAME 3: MEMORY MATRIX ---
+        // --- GAME 3: MEMORY MATRIX - STOPS AFTER EACH LEVEL! ---
         function startMemoryRound() {
             memAcceptInput = false; memPicked = [];
-            memGridSize = memLevel <= 2 ? 3 : (memLevel <= 5 ? 4 : 5);
-            const numTiles = Math.min(memGridSize * memGridSize - 2, 2 + memLevel);
-            targetEl.textContent = memLevel; timeEl.textContent = numTiles + ' tiles';
-            document.getElementById('matrix-status').textContent = 'Memorize Pattern...';
+            const cfg = getLevelConfig('memory', selectedLevel);
+            memGridSize = cfg.gridSize;
+            const numTiles = cfg.tiles;
+
+            document.getElementById('label-1').textContent = 'Tiles';
+            document.getElementById('label-2').textContent = 'Grid';
+            targetEl.textContent = `0/${numTiles}`;
+            timeEl.textContent = `${memGridSize}x${memGridSize}`;
+            document.getElementById('matrix-status').textContent = '👀 Memorize Yellow Tiles...';
             document.getElementById('matrix-status').style.color = '#fbbf24';
+
             const gridEl = document.getElementById('matrix-grid'); gridEl.innerHTML = '';
             const cellSize = Math.min(64, Math.floor((Math.min(window.innerWidth, window.innerHeight - 200) - 50) / memGridSize));
             gridEl.style.gridTemplateColumns = `repeat(${memGridSize}, ${cellSize}px)`;
+
             const totalCells = memGridSize * memGridSize; memTargets = [];
             while (memTargets.length < numTiles) {
                 const r = Math.floor(Math.random() * totalCells);
@@ -1789,28 +1370,388 @@
             timerId = setTimeout(() => {
                 if (!isPlaying || currentMode !== 'memory') return;
                 document.querySelectorAll('.m-cell').forEach(c => c.classList.remove('lit'));
-                document.getElementById('matrix-status').textContent = 'Tap the tiles!';
+                document.getElementById('matrix-status').textContent = '👆 Tap the tiles you saw!';
                 document.getElementById('matrix-status').style.color = '#38bdf8';
                 memAcceptInput = true;
-            }, Math.max(600, 1150 - (memLevel * 45)));
+            }, cfg.flashMs);
         }
 
         function handleMemoryTap(idx, cellEl) {
             if (!memAcceptInput || memPicked.includes(idx)) return;
             if (memTargets.includes(idx)) {
                 memPicked.push(idx); cellEl.classList.add('correct');
+                targetEl.textContent = `${memPicked.length}/${memTargets.length}`;
                 playHitSound(memPicked.length, memTargets.length);
                 if (memPicked.length === memTargets.length) {
-                    memAcceptInput = false; memLevel++;
-                    timerId = setTimeout(startMemoryRound, 650);
+                    memAcceptInput = false;
+                    timerId = setTimeout(() => {
+                        completeLevel(true, `Recalled all ${memTargets.length} tiles!`, 50 + selectedLevel * 10);
+                    }, 400);
                 }
             } else {
-                memAcceptInput = false; cellEl.classList.add('wrong'); playErrorSound();
-                const allCells = document.querySelectorAll('.m-cell');
-                memTargets.forEach(t => allCells[t].classList.add('lit'));
-                memLives--; errorEl.textContent = memLives + ' ❤️';
-                if (memLives <= 0) timerId = setTimeout(finishGame, 900);
-                else timerId = setTimeout(startMemoryRound, 1100);
+                cellEl.classList.add('wrong'); playErrorSound();
+                errors++; errorEl.textContent = errors;
+                if (errors >= 2) {
+                    memAcceptInput = false;
+                    const allCells = document.querySelectorAll('.m-cell');
+                    memTargets.forEach(t => allCells[t].classList.add('lit'));
+                    timerId = setTimeout(() => {
+                        completeLevel(false, `Missed pattern on ${memGridSize}x${memGridSize} grid.`, 0);
+                    }, 900);
+                }
+            }
+        }
+
+        // --- GAME 4: IMPULSE NO-GO (STEADY LEVEL TIMER, NO RUSH!) ---
+        function startStroopLevel() {
+            const cfg = getLevelConfig('stroop', selectedLevel);
+            stroopTotalCards = cfg.totalCards;
+            stroopCardsLeft = cfg.totalCards;
+            document.getElementById('label-1').textContent = 'Cards Left';
+            document.getElementById('label-2').textContent = 'Pace';
+            targetEl.textContent = stroopCardsLeft;
+            timeEl.textContent = `${(cfg.clockMs/1000).toFixed(1)}s`;
+            nextStroopQuestion();
+            stroopLoop();
+        }
+
+        function nextStroopQuestion() {
+            if (stroopCardsLeft <= 0) {
+                completeLevel(errors <= 2, `Cleared ${stroopTotalCards} Cards (Mistakes: ${errors})`, 60 + selectedLevel * 10);
+                return;
+            }
+            const cfg = getLevelConfig('stroop', selectedLevel);
+            const ruleEl = document.getElementById('stroop-rule');
+            const wordEl = document.getElementById('stroop-word');
+
+            if (Math.random() < 0.25) {
+                stroopIsNoGo = true;
+                ruleEl.textContent = `🛑 NO-GO TRAP: DO NOT TAP!`;
+                ruleEl.style.background = '#dc2626';
+                wordEl.textContent = Math.random() < 0.5 ? '💣 BOMB' : '❌ NO-GO';
+                wordEl.style.color = '#f43f5e';
+                questionStartTime = performance.now();
+                shotClockLimit = cfg.holdMs;
+                return;
+            }
+            stroopIsNoGo = false;
+            const wordObj = COLORS[Math.floor(Math.random() * COLORS.length)];
+            let inkObj = COLORS[Math.floor(Math.random() * COLORS.length)];
+            if (Math.random() < 0.75 && inkObj.name === wordObj.name) inkObj = COLORS[(COLORS.indexOf(wordObj) + 1) % COLORS.length];
+            const askInk = Math.random() < 0.55;
+            if (askInk) {
+                ruleEl.textContent = `🎨 TAP INK COLOR (RANG)`;
+                ruleEl.style.background = '#7c3aed'; stroopAnswer = inkObj.name;
+            } else {
+                ruleEl.textContent = `📖 TAP WORD MEANING (SHABD)`;
+                ruleEl.style.background = '#0284c7'; stroopAnswer = wordObj.name;
+            }
+            wordEl.textContent = wordObj.name; wordEl.style.color = inkObj.hex;
+            questionStartTime = performance.now();
+            shotClockLimit = cfg.clockMs;
+        }
+
+        function handleStroop(choice) {
+            if (!isPlaying || currentMode !== 'stroop') return;
+            if (stroopIsNoGo) {
+                errors++; errorEl.textContent = errors; playErrorSound();
+                if (errors >= 3) { completeLevel(false, 'Tapped on a NO-GO Bomb!', 0); return; }
+                nextStroopQuestion(); return;
+            }
+            if (choice === stroopAnswer) {
+                stroopCardsLeft--; targetEl.textContent = stroopCardsLeft;
+                playHitSound(stroopTotalCards - stroopCardsLeft, stroopTotalCards);
+            } else {
+                errors++; errorEl.textContent = errors; playErrorSound();
+                if (errors >= 3) { completeLevel(false, 'Too many wrong taps (3 Mistakes)!', 0); return; }
+            }
+            nextStroopQuestion();
+        }
+
+        function stroopLoop() {
+            if (!isPlaying || currentMode !== 'stroop') return;
+            const qElapsed = performance.now() - questionStartTime;
+            const pct = Math.max(0, 100 - (qElapsed / shotClockLimit) * 100);
+            const bar = document.getElementById('shot-clock-bar');
+            bar.style.width = pct + '%';
+            bar.style.background = stroopIsNoGo ? '#f43f5e' : (pct < 35 ? '#fbbf24' : '#10b981');
+
+            if (qElapsed >= shotClockLimit) {
+                if (stroopIsNoGo) {
+                    stroopCardsLeft--; targetEl.textContent = stroopCardsLeft;
+                    playHitSound(stroopTotalCards - stroopCardsLeft, stroopTotalCards);
+                } else {
+                    errors++; errorEl.textContent = errors; playErrorSound();
+                    if (errors >= 3) { completeLevel(false, 'Time ran out too many times!', 0); return; }
+                }
+                nextStroopQuestion();
+            }
+            if (isPlaying) animId = requestAnimationFrame(stroopLoop);
+        }
+
+        // --- GAME 5: TARGET HUNTER (CONSTANT SPEED PER LEVEL, QUOTA BASED!) ---
+        function generateHuntLabel(lvl) {
+            if (lvl >= 3 && Math.random() < 0.45) {
+                const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+                if (Math.random() < 0.5) return `${Math.floor(Math.random() * 9) + 1}${chars[Math.floor(Math.random() * chars.length)]}`;
+                const words = ['BUY', 'PUT', 'WIN', 'MAX', 'PRO', 'TOP', 'ASK', 'BID'];
+                return words[Math.floor(Math.random() * words.length)];
+            }
+            return String(Math.floor(Math.random() * 89) + 11);
+        }
+
+        function initTargetHunt() {
+            resizeCanvas(); nodes = []; targetHuntHits = 0;
+            const cfg = getLevelConfig('target', selectedLevel);
+            targetHuntQuota = cfg.quota;
+
+            const areaPerNode = (canvas.width * canvas.height) / (cfg.nodesCount * 3.4);
+            const radius = Math.max(18, Math.min(27, Math.floor(Math.sqrt(areaPerNode) / 1.85)));
+
+            for (let i = 0; i < cfg.nodesCount; i++) {
+                let x, y, label, overlapping, attempts = 0;
+                do {
+                    overlapping = false;
+                    label = generateHuntLabel(selectedLevel);
+                    x = radius + Math.random() * (canvas.width - radius * 2);
+                    y = radius + 45 + Math.random() * (canvas.height - radius * 2 - 45);
+                    for (let other of nodes) {
+                        if (other.num === label || Math.hypot(x - other.x, y - other.y) < radius * 2.1) { overlapping = true; break; }
+                    }
+                    attempts++;
+                } while (overlapping && attempts < 200);
+                const angle = Math.random() * Math.PI * 2;
+                nodes.push({ num: label, x, y, vx: Math.cos(angle) * cfg.speed, vy: Math.sin(angle) * cfg.speed, r: radius, hitFlash: 0 });
+            }
+            document.getElementById('label-1').textContent = 'Target';
+            document.getElementById('label-2').textContent = 'Found';
+            timeEl.textContent = `0/${targetHuntQuota}`;
+            motBanner.style.display = 'block';
+            pickNewHuntTarget();
+            targetHuntLoop();
+        }
+
+        function pickNewHuntTarget() {
+            if (nodes.length === 0) return;
+            const randomNode = nodes[Math.floor(Math.random() * nodes.length)];
+            currentHuntTarget = randomNode.num;
+            targetEl.textContent = currentHuntTarget;
+            motBanner.textContent = `🎯 FIND & TAP: "${currentHuntTarget}" (${targetHuntHits}/${targetHuntQuota})`;
+            motBanner.style.color = '#38bdf8';
+            speakText(currentHuntTarget);
+        }
+
+        function targetHuntLoop() {
+            if (!isPlaying || currentMode !== 'target') return;
+            for (let i = 0; i < nodes.length; i++) {
+                const n = nodes[i]; n.x += n.vx; n.y += n.vy; // Steady speed!
+                if (n.x - n.r < 0) { n.x = n.r; n.vx *= -1; }
+                if (n.x + n.r > canvas.width) { n.x = canvas.width - n.r; n.vx *= -1; }
+                if (n.y - n.r < 45) { n.y = 45 + n.r; n.vy *= -1; }
+                if (n.y + n.r > canvas.height) { n.y = canvas.height - n.r; n.vy *= -1; }
+                for (let j = i + 1; j < nodes.length; j++) {
+                    const m = nodes[j], dx = m.x - n.x, dy = m.y - n.y, dist = Math.hypot(dx, dy), minDist = n.r + m.r + 2;
+                    if (dist < minDist && dist > 0) {
+                        const overlap = (minDist - dist) / 2, nx = dx / dist, ny = dy / dist;
+                        n.x -= nx * overlap; n.y -= ny * overlap; m.x += nx * overlap; m.y += ny * overlap;
+                        const tvx = n.vx, tvy = n.vy; n.vx = m.vx; n.vy = m.vy; m.vx = tvx; m.vy = tvy;
+                    }
+                }
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            if (flashTimer > 0) { ctx.fillStyle = flashColor; ctx.fillRect(0, 0, canvas.width, canvas.height); flashTimer--; }
+            for (let n of nodes) {
+                ctx.beginPath(); ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+                if (n.hitFlash > 0) { ctx.fillStyle = '#10b981'; ctx.strokeStyle = '#34d399'; n.hitFlash--; }
+                else { ctx.fillStyle = '#1e293b'; ctx.strokeStyle = '#a855f7'; }
+                ctx.fill(); ctx.lineWidth = 2; ctx.stroke();
+                ctx.fillStyle = '#f8fafc';
+                const fontSize = String(n.num).length > 2 ? Math.floor(n.r * 0.58) : Math.floor(n.r * 0.74);
+                ctx.font = `bold ${fontSize}px sans-serif`;
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText(n.num, n.x, n.y);
+            }
+            animId = requestAnimationFrame(targetHuntLoop);
+        }
+
+        // --- GAME 6: DUAL N-BACK ---
+        function startNBackGame() {
+            const cfg = getLevelConfig('nback', selectedLevel);
+            nbackMaxSteps = cfg.steps;
+            nbackStepMs = cfg.stepMs;
+            nbackPosHist = []; nbackAudHist = []; nbackStep = 0; nbackScore = 0;
+            document.getElementById('label-1').textContent = 'Score';
+            document.getElementById('label-2').textContent = 'Step';
+            targetEl.textContent = '0';
+            const gridEl = document.getElementById('matrix-grid'); gridEl.innerHTML = '';
+            const cellSize = 68; gridEl.style.gridTemplateColumns = `repeat(3, ${cellSize}px)`;
+            for (let i = 0; i < 9; i++) {
+                const cell = document.createElement('div'); cell.className = 'm-cell';
+                cell.style.width = cellSize + 'px'; cell.style.height = cellSize + 'px';
+                gridEl.appendChild(cell);
+            }
+            document.getElementById('matrix-status').textContent = `Dual ${nBackLevel}-Back • Level ${selectedLevel}`;
+            runNBackStep();
+        }
+
+        function runNBackStep() {
+            if (!isPlaying || currentMode !== 'nback') return;
+            if (nbackStep > nBackLevel) {
+                const prevPosMatch = nbackPosHist[nbackStep - 1] === nbackPosHist[nbackStep - 1 - nBackLevel];
+                const prevAudMatch = nbackAudHist[nbackStep - 1] === nbackAudHist[nbackStep - 1 - nBackLevel];
+                if ((prevPosMatch && !nbPosPressed) || (prevAudMatch && !nbAudPressed)) { errors++; errorEl.textContent = errors; }
+            }
+            if (nbackStep >= nbackMaxSteps) {
+                completeLevel(errors <= 4, `Completed ${nbackMaxSteps} Steps (Score: ${nbackScore})`, 70 + selectedLevel * 10);
+                return;
+            }
+            nbPosPressed = false; nbAudPressed = false;
+            document.getElementById('nb-pos-btn').style.background = '#1e293b';
+            document.getElementById('nb-aud-btn').style.background = '#1e293b';
+            const cells = document.querySelectorAll('.m-cell'); cells.forEach(c => c.className = 'm-cell');
+            let nextPos = Math.floor(Math.random() * 9), nextAud = NBACK_LETTERS[Math.floor(Math.random() * NBACK_LETTERS.length)];
+            if (nbackStep >= nBackLevel) {
+                if (Math.random() < 0.35) nextPos = nbackPosHist[nbackStep - nBackLevel];
+                if (Math.random() < 0.35) nextAud = nbackAudHist[nbackStep - nBackLevel];
+            }
+            nbackPosHist.push(nextPos); nbackAudHist.push(nextAud); nbackStep++;
+            timeEl.textContent = `${nbackStep}/${nbackMaxSteps}`;
+            setTimeout(() => {
+                if (!isPlaying || currentMode !== 'nback') return;
+                if (cells[nextPos]) cells[nextPos].classList.add('lit');
+                nbackAudioBadge.textContent = `🔊 Audio: "${nextAud}"`;
+                speakText(nextAud);
+                setTimeout(() => { if (cells[nextPos]) cells[nextPos].classList.remove('lit'); }, 900);
+            }, 150);
+            timerId = setTimeout(runNBackStep, nbackStepMs);
+        }
+
+        function handleDualNBack(type) {
+            if (!isPlaying || currentMode !== 'nback' || nbackStep <= nBackLevel) return;
+            if (type === 'pos' && !nbPosPressed) {
+                nbPosPressed = true;
+                const match = nbackPosHist[nbackStep - 1] === nbackPosHist[nbackStep - 1 - nBackLevel];
+                const btn = document.getElementById('nb-pos-btn');
+                if (match) { nbackScore += 5; btn.style.background = '#10b981'; playHitSound(nbackStep, nbackMaxSteps); }
+                else { errors++; errorEl.textContent = errors; btn.style.background = '#f43f5e'; playErrorSound(); }
+                targetEl.textContent = nbackScore;
+            } else if (type === 'aud' && !nbAudPressed) {
+                nbAudPressed = true;
+                const match = nbackAudHist[nbackStep - 1] === nbackAudHist[nbackStep - 1 - nBackLevel];
+                const btn = document.getElementById('nb-aud-btn');
+                if (match) { nbackScore += 5; btn.style.background = '#10b981'; playHitSound(nbackStep, nbackMaxSteps); }
+                else { errors++; errorEl.textContent = errors; btn.style.background = '#f43f5e'; playErrorSound(); }
+                targetEl.textContent = nbackScore;
+            }
+        }
+
+        // --- GAME 7: TASK SWITCHING (LEVEL QUOTA BASED!) ---
+        function startSwitchLevel() {
+            const cfg = getLevelConfig('switch', selectedLevel);
+            switchTotalCards = cfg.totalCards;
+            switchCardsLeft = cfg.totalCards;
+            document.getElementById('label-1').textContent = 'Cards Left';
+            document.getElementById('label-2').textContent = 'Time';
+            targetEl.textContent = switchCardsLeft;
+            nextSwitchCard();
+            switchLoop();
+        }
+
+        function nextSwitchCard() {
+            if (switchCardsLeft <= 0) {
+                const elapsed = ((performance.now() - startTime) / 1000).toFixed(1);
+                completeLevel(errors <= 2, `Switched ${switchTotalCards} Cards in ${elapsed}s`, 55 + selectedLevel * 10);
+                return;
+            }
+            switchIsTop = Math.random() < 0.5;
+            switchNum = Math.floor(Math.random() * 8) + 2;
+            const isVowel = Math.random() < 0.5;
+            switchChar = isVowel ? VOWELS[Math.floor(Math.random() * VOWELS.length)] : CONSONANTS[Math.floor(Math.random() * CONSONANTS.length)];
+            const cardText = `${switchNum}${switchChar}`;
+            document.getElementById('sw-card-top').textContent = switchIsTop ? cardText : '';
+            document.getElementById('sw-card-bottom').textContent = switchIsTop ? '' : cardText;
+            document.getElementById('sw-top').style.background = switchIsTop ? 'rgba(37, 99, 235, 0.22)' : 'rgba(15, 23, 42, 0.4)';
+            document.getElementById('sw-bottom').style.background = !switchIsTop ? 'rgba(16, 185, 129, 0.22)' : 'rgba(15, 23, 42, 0.4)';
+        }
+
+        function handleSwitchTap(side) {
+            if (!isPlaying || currentMode !== 'switch') return;
+            const correctSide = switchIsTop ? ((switchNum % 2 === 0) ? 'LEFT' : 'RIGHT') : (VOWELS.includes(switchChar) ? 'LEFT' : 'RIGHT');
+            if (side === correctSide) {
+                switchCardsLeft--; targetEl.textContent = switchCardsLeft;
+                playHitSound(switchTotalCards - switchCardsLeft, switchTotalCards);
+            } else {
+                errors++; errorEl.textContent = errors; playErrorSound();
+                if (errors >= 3) { completeLevel(false, '3 Switch Mistakes! Dhyan se Zone dekhein.', 0); return; }
+            }
+            nextSwitchCard();
+        }
+
+        function switchLoop() {
+            if (!isPlaying || currentMode !== 'switch') return;
+            timeEl.textContent = ((performance.now() - startTime) / 1000).toFixed(1) + 's';
+            animId = requestAnimationFrame(switchLoop);
+        }
+
+        // --- GAME 8: NUMBER SPAN (STOPS AFTER EACH LEVEL!) ---
+        function startRevRound() {
+            revAcceptInput = false; revUserIdx = 0; revSeq = [];
+            const cfg = getLevelConfig('reverse', selectedLevel);
+            revLength = cfg.digits;
+            revFlashMs = cfg.flashMs;
+
+            for (let i = 0; i < revLength; i++) {
+                let d; do { d = Math.floor(Math.random() * 9) + 1; } while (i > 0 && d === revSeq[i - 1]);
+                revSeq.push(d);
+            }
+            document.getElementById('label-1').textContent = 'Digits';
+            document.getElementById('label-2').textContent = 'Typed';
+            targetEl.textContent = revLength + ' Dig';
+            timeEl.textContent = `0/${revLength}`;
+            document.getElementById('rev-status').textContent = `👀 Watch ${revLength} numbers...`;
+            document.getElementById('rev-status').style.color = '#fbbf24';
+            document.getElementById('rev-display').textContent = '-';
+            let step = 0;
+            function flashNextDigit() {
+                if (!isPlaying || currentMode !== 'reverse') return;
+                if (step < revLength) {
+                    document.getElementById('rev-display').textContent = revSeq[step];
+                    playHitSound(step + 1, revLength); step++;
+                    timerId = setTimeout(() => {
+                        document.getElementById('rev-display').textContent = '';
+                        timerId = setTimeout(flashNextDigit, 250);
+                    }, revFlashMs);
+                } else {
+                    document.getElementById('rev-status').textContent = (revDirection === 'forward') ? '▶ Type in STARTING Order (Seedha)!' : '◀ Type in REVERSE Order (Ulta)!';
+                    document.getElementById('rev-status').style.color = '#38bdf8';
+                    document.getElementById('rev-display').textContent = '?';
+                    revAcceptInput = true;
+                }
+            }
+            timerId = setTimeout(flashNextDigit, 500);
+        }
+
+        function handleRevKey(num) {
+            if (!isPlaying || currentMode !== 'reverse' || !revAcceptInput) return;
+            const expected = (revDirection === 'forward') ? revSeq[revUserIdx] : revSeq[revLength - 1 - revUserIdx];
+            if (num === expected) {
+                revUserIdx++; timeEl.textContent = `${revUserIdx}/${revLength}`;
+                const enteredStr = (revDirection === 'forward') ? revSeq.slice(0, revUserIdx).join('') : revSeq.slice(revLength - revUserIdx).reverse().join('');
+                document.getElementById('rev-display').textContent = enteredStr;
+                playHitSound(revUserIdx, revLength);
+                if (revUserIdx === revLength) {
+                    revAcceptInput = false;
+                    timerId = setTimeout(() => {
+                        completeLevel(true, `Recalled ${revLength} Digits (${revDirection})`, 50 + selectedLevel * 10);
+                    }, 450);
+                }
+            } else {
+                revAcceptInput = false; playErrorSound(); errors++; errorEl.textContent = errors;
+                const correctAns = (revDirection === 'forward') ? revSeq.join('') : [...revSeq].reverse().join('');
+                document.getElementById('rev-status').textContent = `❌ Sahi sequence tha: ${correctAns}`;
+                document.getElementById('rev-status').style.color = '#f43f5e';
+                timerId = setTimeout(() => {
+                    completeLevel(false, `Mistake! Correct was: ${correctAns}`, 0);
+                }, 1100);
             }
         }
 
@@ -1823,15 +1764,19 @@
             const x = cx - rect.left, y = cy - rect.top;
 
             if (currentMode === 'schulte') {
-                const maxNum = SCHULTE_TIERS[schulteTierIdx];
                 for (let i = nodes.length - 1; i >= 0; i--) {
                     const n = nodes[i];
                     if (Math.hypot(x - n.x, y - n.y) <= n.r + 6) {
                         if (n.num === currentTarget) {
-                            playHitSound(currentTarget, maxNum); n.hitFlash = 10; currentTarget++; speedMultiplier *= 1.022;
+                            playHitSound(currentTarget, schulteMaxNum);
+                            n.hitFlash = 10; currentTarget++;
                             flashColor = 'rgba(16, 185, 129, 0.12)'; flashTimer = 3;
-                            if (currentTarget > maxNum) finishGame();
-                            else targetEl.textContent = `${currentTarget}/${maxNum}`;
+                            if (currentTarget > schulteMaxNum) {
+                                const finalTime = (((performance.now() - startTime) / 1000) + penaltyTime).toFixed(1);
+                                completeLevel(true, `Cleared 1-${schulteMaxNum} in ${finalTime}s`, 65 + selectedLevel * 10);
+                            } else {
+                                targetEl.textContent = `${currentTarget}/${schulteMaxNum}`;
+                            }
                         } else {
                             playErrorSound(); errors++; penaltyTime += 2.0; errorEl.textContent = errors;
                             flashColor = 'rgba(244, 63, 94, 0.3)'; flashTimer = 8;
@@ -1845,20 +1790,20 @@
                     if (Math.hypot(x - n.x, y - n.y) <= n.r + 8) {
                         if (n.isTarget) {
                             n.picked = true; motFound++;
-                            motBanner.textContent = `👆 TAP THE 3 TARGET DOTS! (${motFound}/3)`;
-                            timeEl.textContent = `${motFound}/3 Found`;
-                            playHitSound(motFound, 3);
-                            if (motFound === 3) {
-                                motLevel++; motPhase = 'wait';
-                                motBanner.textContent = `✅ CLEARED! NEXT: ${(MOT_DURATIONS[Math.min(motLevel-1, MOT_DURATIONS.length-1)]/1000)}s TRACK`;
-                                motBanner.style.color = '#10b981';
-                                timerId = setTimeout(startMotRound, 1000);
+                            targetEl.textContent = `${motFound}/${motTargetCount}`;
+                            playHitSound(motFound, motTargetCount);
+                            if (motFound === motTargetCount) {
+                                motPhase = 'wait';
+                                timerId = setTimeout(() => {
+                                    completeLevel(true, `Tracked all ${motTargetCount} Red Dots!`, 60 + selectedLevel * 10);
+                                }, 450);
                             }
                         } else {
-                            n.wrongPick = true; playErrorSound(); motLives--; errorEl.textContent = motLives + ' ❤️';
-                            motPhase = 'reveal'; motBanner.textContent = `❌ MISSED TARGET!`; motBanner.style.color = '#f43f5e';
-                            if (motLives <= 0) timerId = setTimeout(finishGame, 1100);
-                            else timerId = setTimeout(startMotRound, 1300);
+                            n.wrongPick = true; playErrorSound(); errors++; errorEl.textContent = errors;
+                            motPhase = 'reveal';
+                            timerId = setTimeout(() => {
+                                completeLevel(false, `Tapped a wrong dot!`, 0);
+                            }, 1000);
                         }
                         break;
                     }
@@ -1868,110 +1813,33 @@
                     const n = nodes[i];
                     if (Math.hypot(x - n.x, y - n.y) <= n.r + 7) {
                         if (String(n.num) === String(currentHuntTarget)) {
-                            targetHuntHits++; targetHuntScore += 10; n.hitFlash = 12;
-                            playHitSound(Math.min(targetHuntHits, 30), 30); speedMultiplier *= 1.035;
+                            targetHuntHits++; n.hitFlash = 12;
+                            timeEl.textContent = `${targetHuntHits}/${targetHuntQuota}`;
+                            playHitSound(targetHuntHits, targetHuntQuota);
                             flashColor = 'rgba(16, 185, 129, 0.14)'; flashTimer = 4;
-                            let newLabel; do { newLabel = generateHuntLabel(targetHuntHits); } while (nodes.some(item => item.num === newLabel));
+
+                            if (targetHuntHits >= targetHuntQuota) {
+                                const elapsed = ((performance.now() - startTime) / 1000).toFixed(1);
+                                completeLevel(true, `Found ${targetHuntQuota} Targets in ${elapsed}s`, 60 + selectedLevel * 10);
+                                return;
+                            }
+
+                            let newLabel;
+                            do { newLabel = generateHuntLabel(selectedLevel); } while (nodes.some(item => item.num === newLabel));
                             n.num = newLabel;
-                            if (targetHuntHits % 2 === 0 && nodes.length < 36) nodes.push(spawnHuntNode(nodes, targetHuntHits));
                             pickNewHuntTarget();
                         } else {
-                            playErrorSound(); errors++; targetHuntScore = Math.max(0, targetHuntScore - 4);
-                            errorEl.textContent = errors; flashColor = 'rgba(244, 63, 94, 0.3)'; flashTimer = 8;
+                            playErrorSound(); errors++; errorEl.textContent = errors;
+                            flashColor = 'rgba(244, 63, 94, 0.3)'; flashTimer = 8;
+                            if (errors >= 3) {
+                                completeLevel(false, '3 Wrong Target Taps!', 0);
+                                return;
+                            }
                         }
                         break;
                     }
                 }
             }
-        }
-
-        function finishGame() {
-            stopAllTimers();
-            playVictorySound();
-            titleEl.textContent = "SESSION COMPLETE";
-            resultsEl.style.display = 'block';
-
-            let xpEarned = 60;
-            try {
-                if (currentMode === 'schulte') {
-                    const maxNum = SCHULTE_TIERS[schulteTierIdx];
-                    const finalTime = (((performance.now() - startTime) / 1000) + penaltyTime).toFixed(2);
-                    const key = 'brain_best_time_' + maxNum;
-                    const prev = localStorage.getItem(key);
-                    if (!prev || parseFloat(finalTime) < parseFloat(prev)) localStorage.setItem(key, finalTime);
-                    xpEarned = 80 + (schulteTierIdx * 30);
-                    recordSession(`Float-N-Find (1-${maxNum})`, `${finalTime}s`, errors, xpEarned);
-
-                    if (schulteTierIdx < SCHULTE_TIERS.length - 1) {
-                        const nextTierNum = SCHULTE_TIERS[schulteTierIdx + 1];
-                        resultsEl.innerHTML = `Cleared <b>1-${maxNum}</b> in <b>${finalTime}s</b> (+${xpEarned} XP)<br><span style="color:#10b981">🔥 Unlocked Next Tier: 1 to ${nextTierNum}!</span>`;
-                        setSchulteTier(schulteTierIdx + 1);
-                    } else {
-                        resultsEl.innerHTML = `EXTREME 1-50 Cleared in <b>${finalTime}s</b> (+${xpEarned} XP)`;
-                    }
-                } else if (currentMode === 'dot') {
-                    const reached = motLevel - 1;
-                    const prev = localStorage.getItem('brain_best_mot');
-                    if (!prev || reached > parseInt(prev)) localStorage.setItem('brain_best_mot', reached);
-                    xpEarned = Math.max(40, reached * 35);
-                    recordSession('Focus Track (MOT)', `Level ${reached}`, 3 - motLives, xpEarned);
-                    resultsEl.innerHTML = `Focus Track Cleared: <b>Level ${reached}</b> (+${xpEarned} XP)`;
-                } else if (currentMode === 'memory') {
-                    const reached = memLevel - 1;
-                    const prev = localStorage.getItem('brain_best_mem');
-                    if (!prev || reached > parseInt(prev)) localStorage.setItem('brain_best_mem', reached);
-                    xpEarned = Math.max(40, reached * 30);
-                    recordSession('Memory Matrix', `Level ${reached}`, 3 - memLives, xpEarned);
-                    resultsEl.innerHTML = `Memory Matrix Cleared: <b>Level ${reached}</b> (+${xpEarned} XP)`;
-                } else if (currentMode === 'stroop') {
-                    const tierName = STROOP_TIERS[stroopTierIdx].name;
-                    const key = 'brain_best_stroop_' + stroopTierIdx;
-                    const prev = localStorage.getItem(key);
-                    if (!prev || stroopScore > parseInt(prev)) localStorage.setItem(key, stroopScore);
-                    xpEarned = Math.max(40, stroopScore * 2);
-                    recordSession(`Impulse No-Go (${tierName})`, `${stroopScore} pts`, errors, xpEarned);
-
-                    if (stroopScore >= 25 && stroopTierIdx < STROOP_TIERS.length - 1) {
-                        const nextName = STROOP_TIERS[stroopTierIdx + 1].name;
-                        resultsEl.innerHTML = `[${tierName}] Score: <b>${stroopScore} pts</b> (+${xpEarned} XP)<br><span style="color:#10b981">🔥 Level Up! Next: ${nextName} Mode!</span>`;
-                        setStroopTier(stroopTierIdx + 1);
-                    } else {
-                        resultsEl.innerHTML = `[${tierName}] Score: <b>${stroopScore} pts</b> (+${xpEarned} XP)`;
-                    }
-                } else if (currentMode === 'nback') {
-                    const key = 'brain_best_nback_' + nBackLevel;
-                    const prev = localStorage.getItem(key);
-                    if (!prev || nbackScore > parseInt(prev)) localStorage.setItem(key, nbackScore);
-                    xpEarned = Math.max(50, nbackScore * 3);
-                    recordSession(`Dual ${nBackLevel}-Back`, `${nbackScore} pts`, errors, xpEarned);
-                    resultsEl.innerHTML = `Dual ${nBackLevel}-Back Score: <b>${nbackScore} pts</b> (+${xpEarned} XP)`;
-                } else if (currentMode === 'switch') {
-                    const prev = localStorage.getItem('brain_best_switch');
-                    if (!prev || switchScore > parseInt(prev)) localStorage.setItem('brain_best_switch', switchScore);
-                    xpEarned = Math.max(45, switchScore * 2);
-                    recordSession('Task Switching', `${switchScore} pts`, errors, xpEarned);
-                    resultsEl.innerHTML = `Task Switch Score: <b>${switchScore} pts</b> (+${xpEarned} XP)`;
-                } else if (currentMode === 'reverse') {
-                    const reached = revLength - 1;
-                    const key = 'brain_best_rev_' + revDirection;
-                    const prev = localStorage.getItem(key);
-                    if (!prev || reached > parseInt(prev)) localStorage.setItem(key, reached);
-                    const modeLabel = revDirection === 'forward' ? 'Starting' : 'Reverse';
-                    xpEarned = Math.max(40, reached * 25);
-                    recordSession(`Span (${modeLabel})`, `${reached} Digits`, 3 - revLives, xpEarned);
-                    resultsEl.innerHTML = `Max ${modeLabel} Span: <b>${reached} Numbers</b> (+${xpEarned} XP)`;
-                } else if (currentMode === 'target') {
-                    const prev = localStorage.getItem('brain_best_target');
-                    if (!prev || targetHuntScore > parseInt(prev)) localStorage.setItem('brain_best_target', targetHuntScore);
-                    xpEarned = Math.max(50, targetHuntScore);
-                    recordSession('Target Hunter', `${targetHuntScore} pts`, errors, xpEarned);
-                    resultsEl.innerHTML = `Target Hunt Score: <b>${targetHuntScore} pts</b> (+${xpEarned} XP)`;
-                }
-            } catch (e) {}
-
-            updateBestDisplay();
-            startBtn.textContent = "PLAY NEXT ROUND";
-            overlay.style.display = 'flex';
         }
 
         canvas.addEventListener('pointerdown', handleCanvasInput);
